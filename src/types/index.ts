@@ -181,6 +181,8 @@ export interface IAppContext {
   isHydrated: boolean;
   rpcUrls: RpcUrlsContextType;
   setRpcUrls: (rpcUrls: RpcUrlsContextType) => void;
+  jsonFiles: Record<string, any>;
+  setJsonFiles: (jsonFiles: Record<string, any>) => void;
 }
 
 
@@ -298,4 +300,66 @@ export interface RPCLog {
   blockHash: string;
   logIndex: string; // hex
   removed: boolean;
+}
+
+// ==================== Artifacts TYPES ====================
+
+export type ABI =
+  | FunctionABI
+  | ConstructorABI
+  | FallbackABI
+  | ReceiveABI
+  | EventABI
+  | ErrorABI;
+
+export interface ABIParameter {
+  name: string;
+  type: string;
+  indexed?: boolean;         // Only used for events
+  components?: ABIParameter[]; // For tuples / structs
+}
+
+export interface EventParameter extends ABIParameter {
+  indexed: boolean;
+}
+
+export interface BaseABI {
+  type: string;
+}
+
+export interface FunctionABI extends BaseABI {
+  type: "function";
+  name: string;
+  inputs: ABIParameter[];
+  outputs: ABIParameter[];
+  stateMutability: "pure" | "view" | "nonpayable" | "payable";
+}
+
+export interface ConstructorABI extends BaseABI {
+  type: "constructor";
+  inputs: ABIParameter[];
+  stateMutability: "nonpayable" | "payable";
+}
+
+export interface FallbackABI extends BaseABI {
+  type: "fallback";
+  stateMutability: "nonpayable" | "payable";
+}
+
+export interface ReceiveABI extends BaseABI {
+  type: "receive";
+  stateMutability: "payable";
+}
+
+export interface EventABI extends BaseABI {
+  type: "event";
+  name: string;
+  inputs: EventParameter[];
+  anonymous: boolean;
+}
+
+export interface ErrorABI extends BaseABI {
+  type: "error";
+  name: string;
+  inputs: ABIParameter[];
 }

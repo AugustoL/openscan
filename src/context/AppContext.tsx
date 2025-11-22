@@ -3,6 +3,7 @@ import { useAccount } from 'wagmi';
 import { useWagmiConnection } from '../hooks/useWagmiConnection';
 import { IAppContext, RpcUrlsContextType } from '../types';
 import { getEffectiveRpcUrls, saveRpcUrlsToStorage } from '../utils/rpcStorage';
+import { loadJsonFilesFromStorage, saveJsonFilesToStorage } from '../utils/artifactsStorage';
 
 // Alias exported for use across the app where a shorter/consistent name is preferred
 export type tRpcUrlsContextType = RpcUrlsContextType;
@@ -13,6 +14,8 @@ export const AppContext = createContext<IAppContext>({
   isHydrated: false,
   rpcUrls: getEffectiveRpcUrls(),
   setRpcUrls: () => {},
+  jsonFiles: loadJsonFilesFromStorage(),
+  setJsonFiles: () => {},
 });
 
 export const AppContextProvider = ({ children }: { children: ReactNode }) => {
@@ -20,6 +23,7 @@ export const AppContextProvider = ({ children }: { children: ReactNode }) => {
   const [resourcesLoaded, setResourcesLoaded] = useState<boolean>(false);
   const [isHydrated, setIsHydrated] = useState<boolean>(false);
   const [rpcUrls, setRpcUrlsState] = useState<RpcUrlsContextType>(() => getEffectiveRpcUrls());
+  const [jsonFiles, setJsonFilesState] = useState<Record<string, any>>(() => loadJsonFilesFromStorage());
 
   const setRpcUrls = (next: RpcUrlsContextType) => {
     setRpcUrlsState(next);
@@ -27,6 +31,15 @@ export const AppContextProvider = ({ children }: { children: ReactNode }) => {
       saveRpcUrlsToStorage(next as Record<number, string[]>);
     } catch (err) {
       console.warn('Failed to persist rpc urls', err);
+    }
+  };
+
+  const setJsonFiles = (next: Record<string, any>) => {
+    setJsonFilesState(next);
+    try {
+      saveJsonFilesToStorage(next);
+    } catch (err) {
+      console.warn('Failed to persist json files', err);
     }
   };
 
@@ -94,12 +107,14 @@ export const AppContextProvider = ({ children }: { children: ReactNode }) => {
   }, [isFullyConnected, address]);
 
   return (
-    <AppContext.Provider value={{ 
-      appReady, 
-      resourcesLoaded, 
+    <AppContext.Provider value={{
+      appReady,
+      resourcesLoaded,
       isHydrated,
       rpcUrls,
-      setRpcUrls
+      setRpcUrls,
+      jsonFiles,
+      setJsonFiles
     }}>
       {children}
     </AppContext.Provider>

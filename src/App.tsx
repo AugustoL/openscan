@@ -33,10 +33,11 @@ import {
   LazyTxs,
   LazyTx,
   LazyAddress,
-  LazyMempool
-  , LazySettings,
+  LazyMempool, 
+  LazySettings,
   LazyDevTools,
-  LazyAbout
+  LazyAbout,
+  LazyArtifacts
 } from './components/LazyComponents';
 import { NotificationProvider } from './context/NotificationContext';
 import { SettingsProvider, useTheme } from './context/SettingsContext';
@@ -66,6 +67,8 @@ function AppContent() {
             <Route path="/" element={<LazyHome />} />
             <Route path="settings" element={<LazySettings />} />
             <Route path="about" element={<LazyAbout />} />
+            <Route path="hardhatartifacts" element={<LazyArtifacts />} />
+            <Route path="devtools" element={<LazyDevTools />} />
             <Route path=":chainId" element={<LazyChain />} />
             <Route path=":chainId/blocks" element={<LazyBlocks />} />
             <Route path=":chainId/block/:filter" element={<LazyBlock />} />
@@ -74,8 +77,6 @@ function AppContent() {
             <Route path=":chainId/address/:address" element={<LazyAddress />} />
             <Route path=":chainId/mempool" element={<LazyMempool />} />
             <Route path=":chainId/mempool/:filter" element={<LazyTx />} />
-            <Route path="devtools" element={<LazyDevTools />} />
-
             <Route path="*" element={<Navigate to="/" replace />} />
 
           </Routes>
