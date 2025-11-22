@@ -42,7 +42,16 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 5px 18px;
+  padding: 12px 20px;
+  background: #10b981;
+  border: 1px solid #059669;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(16, 185, 129, 0.2);
+  transition: box-shadow 0.2s ease;
+}
+
+.navbar-inner:hover {
+  box-shadow: 0 6px 24px rgba(16, 185, 129, 0.15);
 }
 
 .navbar ul {
@@ -62,6 +71,17 @@ body {
   text-decoration: none;
   padding: 8px 14px;
   display: inline-block;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 600;
+  color: #ffffff;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.navbar a:hover {
+  background: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  transform: translateY(-1px);
 }
 
 .navbar-toggle-btn {
@@ -72,6 +92,18 @@ body {
   justify-content: center;
   width: 40px;
   height: 36px;
+  border-radius: 8px;
+  background: transparent;
+  border: 1px solid transparent;
+  color: #ffffff;
+  transition: all 0.2s ease;
+}
+
+.navbar-toggle-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.3);
+  color: #ffffff;
+  transform: translateY(-1px);
 }
 
 /* Card body padding */
@@ -1418,12 +1450,15 @@ body {
 
 /* Footer */
 .app-footer {
-  padding: 12px 24px;
+  padding: 16px 24px;
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
   z-index: 100;
+  background: #10b981;
+  border-top: 2px solid #059669;
+  box-shadow: 0 -4px 20px rgba(16, 185, 129, 0.2);
 }
 
 .footer-content {
@@ -1441,18 +1476,45 @@ body {
 
 .footer-link {
   text-decoration: none;
-  padding: 4px 8px;
+  padding: 6px 12px;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 600;
+  color: #ffffff;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.footer-link:hover {
+  background: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  transform: translateY(-1px);
 }
 
 .footer-version {
   display: flex;
   align-items: center;
   gap: 8px;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.9rem;
+}
+
+.version-label {
+  color: #ffffff;
+  font-weight: 600;
 }
 
 .commit-link {
   text-decoration: none;
-  padding: 2px 6px;
+  padding: 4px 8px;
+  color: #ffffff;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  font-weight: 500;
+}
+
+.commit-link:hover {
+  background: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
 }
 
 /* No Contracts Message */
@@ -1517,24 +1579,13 @@ body {
 }
 
 
-/* Navbar */
+/* Navbar - styles moved to top of file (line 41) */
 .navbar {
   max-width: 1200px;
   margin: 10px auto 0;
   padding: 0 24px;
 }
 
-.navbar-inner {
-  background: rgba(30, 30, 30, 0.8);
-  border: 1px solid var(--border-color);
-  box-shadow: var(--shadow-soft);
-  backdrop-filter: blur(18px);
-  border-radius: var(--radius-sm);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 5px 18px
-}
 
 .navbar ul {
   list-style: none;
@@ -2888,7 +2939,7 @@ body {
 }
 
 .light-theme .navbar-inner {
-  background: rgba(240, 240, 240, 0.9);
+  background: rgba(16, 185, 129, 0.95);
 }
 
 .light-theme .table-wrapper::-webkit-scrollbar-thumb {
