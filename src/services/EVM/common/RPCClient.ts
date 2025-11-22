@@ -1,4 +1,4 @@
-// src/services/rpc/RPCClient.ts
+// src/services/EVM/common/RPCClient.ts
 export interface RPCRequest {
   jsonrpc: '2.0';
   id: number;

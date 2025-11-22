@@ -1,6 +1,6 @@
-// src/services/transformers/blockTransformer.ts
-import type { RPCBlock } from '../../types';
-import type { Block } from '../../types';
+// src/services/EVM/L1/adapters/block.ts
+import type { RPCBlock } from '../../../../types';
+import type { Block } from '../../../../types';
 
 export class BlockAdapter {
   static fromRPCBlock(rpcBlock: RPCBlock, chainId: number): Block {
@@ -24,9 +24,9 @@ export class BlockAdapter {
       receiptsRoot: rpcBlock.receiptsRoot,
       transactionsRoot: rpcBlock.transactionsRoot,
       uncles: rpcBlock.uncles,
-      mixHash: "", // TODO
+      mixHash: "",
       sha3Uncles: rpcBlock.sha3Uncles,
-      totalDifficulty: "", // TODO
+      totalDifficulty: "",
     };
   }
 }

@@ -1,12 +1,12 @@
 // src/services/DataService.ts
-import { RPCClient } from './RPCClient';
+import { RPCClient } from './EVM/common/RPCClient';
 import { getRPCUrls } from '../config/rpcConfig';
-import { BlockFetcher } from './fetchers/mainnet/block';
-import { TransactionFetcher } from './fetchers/mainnet/transaction';
-import { AddressFetcher } from './fetchers/mainnet/address';
-import { BlockAdapter } from './adapters/block';
-import { TransactionAdapter } from './adapters/transaction';
-import { AddressAdapter } from './adapters/address';
+import { BlockFetcher } from './EVM/L1/fetchers/mainnet/block';
+import { TransactionFetcher } from './EVM/L1/fetchers/mainnet/transaction';
+import { AddressFetcher } from './EVM/L1/fetchers/mainnet/address';
+import { BlockAdapter } from './EVM/L1/adapters/block';
+import { TransactionAdapter } from './EVM/L1/adapters/transaction';
+import { AddressAdapter } from './EVM/L1/adapters/address';
 import type { Block, Transaction, Address } from '../types';
 
 interface CacheEntry<T> {
