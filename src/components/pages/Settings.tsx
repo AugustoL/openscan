@@ -156,6 +156,33 @@ const Settings: React.FC = () => {
                   onBlur={(e) => e.target.style.borderColor = 'rgba(16, 185, 129, 0.2)'}
                 />
                 
+                {/* Help text for localhost network */}
+                {chain.id === 31337 && (
+                  <div style={{
+                    fontSize: '0.8rem',
+                    color: '#6b7280',
+                    marginTop: '4px',
+                    textAlign: 'left'
+                  }}>
+                    💡 Need to access your local network remotely?{' '}
+                    <a
+                      href="https://dashboard.ngrok.com/get-started/setup"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{
+                        color: '#10b981',
+                        textDecoration: 'none',
+                        fontWeight: '600',
+                        borderBottom: '1px solid #10b981'
+                      }}
+                      onMouseEnter={(e) => e.currentTarget.style.color = '#059669'}
+                      onMouseLeave={(e) => e.currentTarget.style.color = '#10b981'}
+                    >
+                      Learn how to set up a tunnel with ngrok
+                    </a>
+                  </div>
+                )}
+                
                 {/* Display current RPC list as tags */}
                 {rpcUrls[chain.id as keyof RpcUrlsContextType] && 
                  Array.isArray(rpcUrls[chain.id as keyof RpcUrlsContextType]) && 

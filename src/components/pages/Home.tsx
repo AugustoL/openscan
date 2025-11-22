@@ -95,7 +95,7 @@ const NetworkCard: React.FC<NetworkCardProps> = ({ to, name, description, icon, 
             fontSize: '0.95rem',
             color: '#0da978ff',
             lineHeight: '1.5',
-            textAlign: centered ? 'center' : 'left',
+            textAlign: 'center',
           }}
         >
           {description}

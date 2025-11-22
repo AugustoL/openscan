@@ -9,6 +9,14 @@ const packageJson = require('./package.json');
 const isProd = process.env.NODE_ENV === 'production';
 const isGhPages = process.env.GITHUB_PAGES === 'true';
 
+// Get git commit hash
+let commitHash = 'development';
+try {
+  commitHash = execSync('git rev-parse HEAD').toString().trim();
+} catch (error) {
+  console.warn('Could not get git commit hash:', error.message);
+}
+
 module.exports = {
   entry: path.resolve(__dirname, 'src', 'index.tsx'),
   output: {
@@ -104,7 +112,7 @@ module.exports = {
     new DotenvWebpackPlugin(),
     ...(process.env.NODE_ENV !== 'production' ? [new webpack.HotModuleReplacementPlugin()] : []),
     new webpack.DefinePlugin({
-      'process.env.REACT_APP_COMMIT_HASH': JSON.stringify(process.env.REACT_APP_COMMIT_HASH),
+      'process.env.REACT_APP_COMMIT_HASH': JSON.stringify(process.env.REACT_APP_COMMIT_HASH || commitHash),
       'process.env.REACT_APP_GITHUB_REPO': JSON.stringify(process.env.REACT_APP_GITHUB_REPO || 'https://github.com/AugustoL/openscan'),
       'process.env.REACT_APP_VERSION': JSON.stringify(process.env.REACT_APP_VERSION || packageJson.version)
     })

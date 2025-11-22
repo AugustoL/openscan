@@ -13,6 +13,7 @@ const Address = lazy(() => import('./pages/Address'));
 const Mempool = lazy(() => import('./pages/Mempool'));
 const Settings = lazy(() => import('./pages/Settings'));
 const DevTools = lazy(() => import('./pages/DevTools'));
+const About = lazy(() => import('./pages/About'));
 
 // Higher-order component to wrap lazy components with Suspense
 export const withSuspense = (Component: React.ComponentType<any>) => {
@@ -37,6 +38,7 @@ export const LazyAddress = withSuspense(Address);
 export const LazyMempool = withSuspense(Mempool);
 export const LazySettings = withSuspense(Settings);
 export const LazyDevTools = withSuspense(DevTools);
+export const LazyAbout = withSuspense(About);
 // Default exports for backward compatibility
 export {
   Home,

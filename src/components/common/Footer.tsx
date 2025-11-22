@@ -17,14 +17,14 @@ const Footer: React.FC<FooterProps> = ({ className = '' }) => {
   const appVersion = process.env.REACT_APP_VERSION || '0.1.0';
   
   // Get the GitHub repository URL from package.json or environment
-  const repoUrl = process.env.REACT_APP_GITHUB_REPO || 'https://github.com/AugustoL/erc20Loan';
+  const repoUrl = process.env.REACT_APP_GITHUB_REPO || 'https://github.com/AugustoL/openscan';
   
   return (
     <footer className={`app-footer ${className}`}>
       <div className="footer-content">
         <div className="footer-left">
-          <Link to="/api" className="footer-link">
-            API & Docs
+          <Link to="https://trustlessness.eth.limo/l" className="footer-link">
+            we support trustlessness
           </Link>
         </div>
         <div className="footer-version">
