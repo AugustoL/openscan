@@ -14,7 +14,7 @@ const NetworkStatsDisplay: React.FC<NetworkStatsDisplayProps> = ({
 }) => {
   if (loading) {
     return (
-      <div style={{ maxWidth: '1200px', margin: '40px auto 0', padding: '0 24px' }}>
+      <div style={{ maxWidth: '1400px', margin: '40px auto 0', padding: '0 24px' }}>
         <div className="block-display-card">
           <div style={{ textAlign: 'center', padding: '20px', color: '#10b981' }}>
             Loading network statistics...
@@ -26,7 +26,7 @@ const NetworkStatsDisplay: React.FC<NetworkStatsDisplayProps> = ({
 
   if (error) {
     return (
-      <div style={{ maxWidth: '1200px', margin: '40px auto 0', padding: '0 24px' }}>
+      <div style={{ maxWidth: '1400px', margin: '40px auto 0', padding: '0 24px' }}>
         <div className="block-display-card">
           <div style={{ textAlign: 'center', padding: '20px', color: '#ef4444' }}>
             Error loading network stats: {error}
@@ -60,7 +60,7 @@ const NetworkStatsDisplay: React.FC<NetworkStatsDisplayProps> = ({
   };
 
   return (
-    <div style={{ maxWidth: '1200px', margin: '40px auto 0', padding: '0 24px' }}>
+    <div style={{ maxWidth: '1400px', margin: '40px auto 0', padding: '0 24px' }}>
       <div className="block-display-card">
         <h2
           style={{

@@ -90,7 +90,7 @@ const DevTools: React.FC = () => {
 
   return (
     <div style={{ 
-      maxWidth: '1200px', 
+      maxWidth: '1400px', 
       margin: '0 auto', 
       padding: '32px 24px',
       fontFamily: 'Outfit, sans-serif'

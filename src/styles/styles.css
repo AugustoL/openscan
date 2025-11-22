@@ -33,7 +33,7 @@ body {
 
 /* Navbar */
 .navbar {
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 10px auto 0;
   padding: 0 24px;
 }
@@ -1462,7 +1462,7 @@ body {
 }
 
 .footer-content {
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
@@ -1581,7 +1581,7 @@ body {
 
 /* Navbar - styles moved to top of file (line 41) */
 .navbar {
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 10px auto 0;
   padding: 0 24px;
 }
@@ -4366,7 +4366,7 @@ code {
 }
 
 .footer-content {
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
   display: flex;
   justify-content: space-between;

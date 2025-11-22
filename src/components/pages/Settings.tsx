@@ -42,7 +42,7 @@ const Settings: React.FC = () => {
 
   return (
     <div style={{ 
-      maxWidth: '900px', 
+      maxWidth: '1400px', 
       margin: '0 auto', 
       padding: '32px 24px',
       fontFamily: 'Outfit, sans-serif',
