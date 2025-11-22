@@ -37,7 +37,7 @@ const mockTransaction: Transaction = {
   value: '1500000000000000000', // 1.5 ETH
   gas: '21000',
   gasPrice: '50000000000', // 50 Gwei
-  input: '0x',
+  data: '0x',
   nonce: '42',
   transactionIndex: '5',
   type: '2',
@@ -71,7 +71,8 @@ const mockAddress: Address = {
     '0x0': '0x000000000000000000000000000000000000000000000000000000000000007b',
     '0x1': '0x0000000000000000000000001234567890abcdef1234567890abcdef12345678',
     '0x2': '0x48656c6c6f20576f726c64210000000000000000000000000000000000000000'
-  }
+  },
+  address: ''
 };
 
 const mockAddressHash = '0xUserAddress1234567890abcdef1234567890ab';
