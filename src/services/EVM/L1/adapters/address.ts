@@ -1,5 +1,5 @@
-// src/services/transformers/addressTransformer.ts
-import type { Address } from '../../types';
+// src/services/EVM/L1/adapters/address.ts
+import type { Address } from '../../../../types';
 
 export class AddressAdapter {
   static fromRawData(

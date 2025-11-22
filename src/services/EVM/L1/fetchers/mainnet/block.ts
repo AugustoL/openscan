@@ -1,6 +1,6 @@
-// src/services/fetchers/mainnet/blockFetcher.ts
-import { RPCClient } from '../../RPCClient';
-import type { RPCBlock } from '../../../types';
+// src/services/EVM/L1/fetchers/mainnet/block.ts
+import { RPCClient } from '../../../common/RPCClient';
+import type { RPCBlock } from '../../../../../types';
 
 export class BlockFetcher {
   constructor(private rpcClient: RPCClient, private chainId: number) {}
