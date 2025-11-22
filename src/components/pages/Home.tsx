@@ -37,7 +37,7 @@ const mockTransaction: Transaction = {
   value: '1500000000000000000', // 1.5 ETH
   gas: '21000',
   gasPrice: '50000000000', // 50 Gwei
-  input: '0x',
+  data: '0x',
   nonce: '42',
   transactionIndex: '5',
   type: '2',
@@ -64,6 +64,7 @@ const mockReceipt: TransactionReceipt = {
 };
 
 const mockAddress: Address = {
+  address: '0xUserAddress1234567890abcdef1234567890ab',
   balance: '5250000000000000000', // 5.25 ETH
   code: '0x',
   txCount: '127',
