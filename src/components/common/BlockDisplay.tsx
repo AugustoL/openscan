@@ -30,18 +30,179 @@ const BlockDisplay: React.FC<BlockDisplayProps> = ({ block, chainId }) => {
         <div className="block-display-card">
             <div className="block-display-header">
                 <span className="block-label">Block:</span>
-                <span className="block-number">{Number(block.number).toString()}</span>
+                <span className="block-number">{Number(block.number).toLocaleString()}</span>
             </div>
 
-            <div className="block-display-grid">
-                <div className="block-detail-item">
-                    <span className="detail-label">Hash</span>
-                    <span className="detail-value" title={block.hash}>{truncate(block.hash, 10, 8)}</span>
+            {/* Basic Info */}
+            <div style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+                gap: '12px',
+                marginBottom: '16px'
+            }}>
+                <div style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    padding: '8px 12px',
+                    background: 'rgba(16, 185, 129, 0.04)',
+                    borderRadius: '8px',
+                    borderLeft: '3px solid #10b981'
+                }}>
+                    <span style={{ 
+                        fontSize: '0.85rem',
+                        color: '#10b981',
+                        fontWeight: '600',
+                        fontFamily: 'Outfit, sans-serif'
+                    }}>Timestamp</span>
+                    <span style={{ 
+                        fontWeight: '500',
+                        color: 'var(--text-color, #1f2937)',
+                        fontFamily: 'Outfit, sans-serif',
+                        fontSize: '0.95rem'
+                    }}>{formatTime(block.timestamp)}</span>
                 </div>
 
-                <div className="block-detail-item">
-                    <span className="detail-label">Parent Hash</span>
-                    <span className="detail-value" title={block.parentHash}>
+                <div style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    padding: '8px 12px',
+                    background: 'rgba(16, 185, 129, 0.04)',
+                    borderRadius: '8px',
+                    borderLeft: '3px solid #10b981'
+                }}>
+                    <span style={{ 
+                        fontSize: '0.85rem',
+                        color: '#10b981',
+                        fontWeight: '600',
+                        fontFamily: 'Outfit, sans-serif'
+                    }}>Transactions</span>
+                    <span style={{ 
+                        fontWeight: '600',
+                        color: '#059669',
+                        fontFamily: 'Outfit, sans-serif',
+                        fontSize: '0.95rem'
+                    }}>{block.transactions ? block.transactions.length : 0}</span>
+                </div>
+
+                <div style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    padding: '8px 12px',
+                    background: 'rgba(16, 185, 129, 0.04)',
+                    borderRadius: '8px',
+                    borderLeft: '3px solid #10b981'
+                }}>
+                    <span style={{ 
+                        fontSize: '0.85rem',
+                        color: '#10b981',
+                        fontWeight: '600',
+                        fontFamily: 'Outfit, sans-serif'
+                    }}>Uncles</span>
+                    <span style={{ 
+                        fontWeight: '500',
+                        color: 'var(--text-color, #1f2937)',
+                        fontFamily: 'Outfit, sans-serif',
+                        fontSize: '0.95rem'
+                    }}>{block.uncles ? block.uncles.length : 0}</span>
+                </div>
+
+                <div style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    padding: '8px 12px',
+                    background: 'rgba(16, 185, 129, 0.04)',
+                    borderRadius: '8px',
+                    borderLeft: '3px solid #10b981'
+                }}>
+                    <span style={{ 
+                        fontSize: '0.85rem',
+                        color: '#10b981',
+                        fontWeight: '600',
+                        fontFamily: 'Outfit, sans-serif'
+                    }}>Size</span>
+                    <span style={{ 
+                        fontWeight: '500',
+                        color: 'var(--text-color, #1f2937)',
+                        fontFamily: 'Outfit, sans-serif',
+                        fontSize: '0.95rem'
+                    }}>{Number(block.size).toLocaleString()} bytes</span>
+                </div>
+
+                <div style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    padding: '8px 12px',
+                    background: 'rgba(16, 185, 129, 0.04)',
+                    borderRadius: '8px',
+                    borderLeft: '3px solid #10b981'
+                }}>
+                    <span style={{ 
+                        fontSize: '0.85rem',
+                        color: '#10b981',
+                        fontWeight: '600',
+                        fontFamily: 'Outfit, sans-serif'
+                    }}>Nonce</span>
+                    <span style={{ 
+                        fontWeight: '500',
+                        color: 'var(--text-color, #1f2937)',
+                        fontFamily: 'Outfit, sans-serif',
+                        fontSize: '0.95rem'
+                    }}>{block.nonce}</span>
+                </div>
+            </div>
+
+            {/* Hashes */}
+            <div style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
+                gap: '12px',
+                marginBottom: '16px'
+            }}>
+                <div style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '4px',
+                    padding: '10px 12px',
+                    background: 'rgba(16, 185, 129, 0.04)',
+                    borderRadius: '8px',
+                    borderLeft: '3px solid #10b981'
+                }}>
+                    <span style={{ 
+                        fontSize: '0.85rem',
+                        color: '#10b981',
+                        fontWeight: '600',
+                        fontFamily: 'Outfit, sans-serif'
+                    }}>Hash</span>
+                    <span style={{ 
+                        fontWeight: '500',
+                        color: 'var(--text-color, #1f2937)',
+                        fontFamily: 'Outfit, sans-serif',
+                        fontSize: '0.9rem',
+                        wordBreak: 'break-all'
+                    }} title={block.hash}>{truncate(block.hash, 10, 8)}</span>
+                </div>
+
+                <div style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '4px',
+                    padding: '10px 12px',
+                    background: 'rgba(16, 185, 129, 0.04)',
+                    borderRadius: '8px',
+                    borderLeft: '3px solid #10b981'
+                }}>
+                    <span style={{ 
+                        fontSize: '0.85rem',
+                        color: '#10b981',
+                        fontWeight: '600',
+                        fontFamily: 'Outfit, sans-serif'
+                    }}>Parent Hash</span>
+                    <span style={{ 
+                        fontWeight: '500',
+                        color: 'var(--text-color, #1f2937)',
+                        fontFamily: 'Outfit, sans-serif',
+                        fontSize: '0.9rem'
+                    }}>
                         {chainId && block.parentHash !== '0x0000000000000000000000000000000000000000000000000000000000000000' ? (
                             <Link 
                                 to={`/${chainId}/block/${Number(block.number) - 1}`}
@@ -59,14 +220,27 @@ const BlockDisplay: React.FC<BlockDisplayProps> = ({ block, chainId }) => {
                     </span>
                 </div>
 
-                <div className="block-detail-item">
-                    <span className="detail-label">Timestamp</span>
-                    <span className="detail-value">{formatTime(block.timestamp)}</span>
-                </div>
-
-                <div className="block-detail-item">
-                    <span className="detail-label">Miner</span>
-                    <span className="detail-value" title={block.miner}>
+                <div style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '4px',
+                    padding: '10px 12px',
+                    background: 'rgba(16, 185, 129, 0.04)',
+                    borderRadius: '8px',
+                    borderLeft: '3px solid #10b981'
+                }}>
+                    <span style={{ 
+                        fontSize: '0.85rem',
+                        color: '#10b981',
+                        fontWeight: '600',
+                        fontFamily: 'Outfit, sans-serif'
+                    }}>Miner</span>
+                    <span style={{ 
+                        fontWeight: '500',
+                        color: 'var(--text-color, #1f2937)',
+                        fontFamily: 'Outfit, sans-serif',
+                        fontSize: '0.9rem'
+                    }} title={block.miner}>
                         {chainId ? (
                             <Link 
                                 to={`/${chainId}/address/${block.miner}`}
@@ -83,76 +257,225 @@ const BlockDisplay: React.FC<BlockDisplayProps> = ({ block, chainId }) => {
                         )}
                     </span>
                 </div>
+            </div>
 
-                <div className="block-detail-item">
-                    <span className="detail-label">Transactions</span>
-                    <span className="detail-value">{block.transactions ? block.transactions.length : 0}</span>
-                </div>
-
-                <div className="block-detail-item">
-                    <span className="detail-label">Uncles</span>
-                    <span className="detail-value">{block.uncles ? block.uncles.length : 0}</span>
-                </div>
-
-                <div className="block-detail-item">
-                    <span className="detail-label">Gas Used</span>
-                    <span className="detail-value">
+            {/* Gas Details */}
+            <div style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+                gap: '12px',
+                marginBottom: '16px'
+            }}>
+                <div style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    padding: '8px 12px',
+                    background: 'rgba(16, 185, 129, 0.04)',
+                    borderRadius: '8px',
+                    borderLeft: '3px solid #10b981'
+                }}>
+                    <span style={{ 
+                        fontSize: '0.85rem',
+                        color: '#10b981',
+                        fontWeight: '600',
+                        fontFamily: 'Outfit, sans-serif'
+                    }}>Gas Used</span>
+                    <span style={{ 
+                        fontWeight: '500',
+                        color: 'var(--text-color, #1f2937)',
+                        fontFamily: 'Outfit, sans-serif',
+                        fontSize: '0.95rem'
+                    }}>
                         {Number(block.gasUsed).toLocaleString()}
-                        <span style={{ color: '#6b7280', marginLeft: '4px' }}>
-                            ({((Number(block.gasUsed) / Number(block.gasLimit)) * 100).toFixed(2)}%)
+                        <span style={{ color: '#6b7280', marginLeft: '4px', fontSize: '0.85rem' }}>
+                            ({((Number(block.gasUsed) / Number(block.gasLimit)) * 100).toFixed(1)}%)
                         </span>
                     </span>
                 </div>
 
-                <div className="block-detail-item">
-                    <span className="detail-label">Gas Limit</span>
-                    <span className="detail-value">{Number(block.gasLimit).toLocaleString()}</span>
+                <div style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    padding: '8px 12px',
+                    background: 'rgba(16, 185, 129, 0.04)',
+                    borderRadius: '8px',
+                    borderLeft: '3px solid #10b981'
+                }}>
+                    <span style={{ 
+                        fontSize: '0.85rem',
+                        color: '#10b981',
+                        fontWeight: '600',
+                        fontFamily: 'Outfit, sans-serif'
+                    }}>Gas Limit</span>
+                    <span style={{ 
+                        fontWeight: '500',
+                        color: 'var(--text-color, #1f2937)',
+                        fontFamily: 'Outfit, sans-serif',
+                        fontSize: '0.95rem'
+                    }}>{Number(block.gasLimit).toLocaleString()}</span>
                 </div>
-
-                <div className="block-detail-item">
-                    <span className="detail-label">Difficulty</span>
-                    <span className="detail-value">{Number(block.difficulty).toLocaleString()}</span>
-                </div>
-
-                <div className="block-detail-item">
-                    <span className="detail-label">Total Difficulty</span>
-                    <span className="detail-value">{Number(block.totalDifficulty).toLocaleString()}</span>
-                </div>
-
-                <div className="block-detail-item">
-                    <span className="detail-label">Size</span>
-                    <span className="detail-value">{Number(block.size).toLocaleString()} bytes</span>
-                </div>
-
-                <div className="block-detail-item">
-                    <span className="detail-label">Nonce</span>
-                    <span className="detail-value" title={block.nonce}>{block.nonce}</span>
-                </div>
-
-                <div className="block-detail-item">
-                    <span className="detail-label">State Root</span>
-                    <span className="detail-value" title={block.stateRoot}>{truncate(block.stateRoot, 10, 8)}</span>
-                </div>
-
-                <div className="block-detail-item">
-                    <span className="detail-label">Transactions Root</span>
-                    <span className="detail-value" title={block.transactionsRoot}>{truncate(block.transactionsRoot, 10, 8)}</span>
-                </div>
-
-                <div className="block-detail-item">
-                    <span className="detail-label">Receipts Root</span>
-                    <span className="detail-value" title={block.receiptsRoot}>{truncate(block.receiptsRoot, 10, 8)}</span>
-                </div>
-
-                {block.extraData && block.extraData !== '0x' && (
-                    <div className="block-detail-item">
-                        <span className="detail-label">Extra Data</span>
-                        <span className="detail-value" title={block.extraData}>
-                            {block.extraData.length > 20 ? truncate(block.extraData, 10, 8) : block.extraData}
-                        </span>
-                    </div>
-                )}
             </div>
+
+            {/* Difficulty */}
+            <div style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+                gap: '12px',
+                marginBottom: '16px'
+            }}>
+                <div style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    padding: '8px 12px',
+                    background: 'rgba(16, 185, 129, 0.04)',
+                    borderRadius: '8px',
+                    borderLeft: '3px solid #10b981'
+                }}>
+                    <span style={{ 
+                        fontSize: '0.85rem',
+                        color: '#10b981',
+                        fontWeight: '600',
+                        fontFamily: 'Outfit, sans-serif'
+                    }}>Difficulty</span>
+                    <span style={{ 
+                        fontWeight: '500',
+                        color: 'var(--text-color, #1f2937)',
+                        fontFamily: 'Outfit, sans-serif',
+                        fontSize: '0.95rem'
+                    }}>{Number(block.difficulty).toLocaleString()}</span>
+                </div>
+
+                <div style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    padding: '8px 12px',
+                    background: 'rgba(16, 185, 129, 0.04)',
+                    borderRadius: '8px',
+                    borderLeft: '3px solid #10b981'
+                }}>
+                    <span style={{ 
+                        fontSize: '0.85rem',
+                        color: '#10b981',
+                        fontWeight: '600',
+                        fontFamily: 'Outfit, sans-serif'
+                    }}>Total Difficulty</span>
+                    <span style={{ 
+                        fontWeight: '500',
+                        color: 'var(--text-color, #1f2937)',
+                        fontFamily: 'Outfit, sans-serif',
+                        fontSize: '0.95rem'
+                    }}>{Number(block.totalDifficulty).toLocaleString()}</span>
+                </div>
+            </div>
+
+            {/* Merkle Roots */}
+            <div style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
+                gap: '12px',
+                marginBottom: block.extraData && block.extraData !== '0x' ? '16px' : '0'
+            }}>
+                <div style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '4px',
+                    padding: '10px 12px',
+                    background: 'rgba(16, 185, 129, 0.04)',
+                    borderRadius: '8px',
+                    borderLeft: '3px solid #10b981'
+                }}>
+                    <span style={{ 
+                        fontSize: '0.85rem',
+                        color: '#10b981',
+                        fontWeight: '600',
+                        fontFamily: 'Outfit, sans-serif'
+                    }}>State Root</span>
+                    <span style={{ 
+                        fontWeight: '500',
+                        color: 'var(--text-color, #1f2937)',
+                        fontFamily: 'Outfit, sans-serif',
+                        fontSize: '0.9rem',
+                        wordBreak: 'break-all'
+                    }} title={block.stateRoot}>{truncate(block.stateRoot, 10, 8)}</span>
+                </div>
+
+                <div style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '4px',
+                    padding: '10px 12px',
+                    background: 'rgba(16, 185, 129, 0.04)',
+                    borderRadius: '8px',
+                    borderLeft: '3px solid #10b981'
+                }}>
+                    <span style={{ 
+                        fontSize: '0.85rem',
+                        color: '#10b981',
+                        fontWeight: '600',
+                        fontFamily: 'Outfit, sans-serif'
+                    }}>Transactions Root</span>
+                    <span style={{ 
+                        fontWeight: '500',
+                        color: 'var(--text-color, #1f2937)',
+                        fontFamily: 'Outfit, sans-serif',
+                        fontSize: '0.9rem',
+                        wordBreak: 'break-all'
+                    }} title={block.transactionsRoot}>{truncate(block.transactionsRoot, 10, 8)}</span>
+                </div>
+
+                <div style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '4px',
+                    padding: '10px 12px',
+                    background: 'rgba(16, 185, 129, 0.04)',
+                    borderRadius: '8px',
+                    borderLeft: '3px solid #10b981'
+                }}>
+                    <span style={{ 
+                        fontSize: '0.85rem',
+                        color: '#10b981',
+                        fontWeight: '600',
+                        fontFamily: 'Outfit, sans-serif'
+                    }}>Receipts Root</span>
+                    <span style={{ 
+                        fontWeight: '500',
+                        color: 'var(--text-color, #1f2937)',
+                        fontFamily: 'Outfit, sans-serif',
+                        fontSize: '0.9rem',
+                        wordBreak: 'break-all'
+                    }} title={block.receiptsRoot}>{truncate(block.receiptsRoot, 10, 8)}</span>
+                </div>
+            </div>
+
+            {/* Extra Data */}
+            {block.extraData && block.extraData !== '0x' && (
+                <div style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '4px',
+                    padding: '10px 12px',
+                    background: 'rgba(16, 185, 129, 0.04)',
+                    borderRadius: '8px',
+                    borderLeft: '3px solid #10b981'
+                }}>
+                    <span style={{ 
+                        fontSize: '0.85rem',
+                        color: '#10b981',
+                        fontWeight: '600',
+                        fontFamily: 'Outfit, sans-serif'
+                    }}>Extra Data</span>
+                    <span style={{ 
+                        fontWeight: '500',
+                        color: 'var(--text-color, #1f2937)',
+                        fontFamily: 'Outfit, sans-serif',
+                        fontSize: '0.9rem',
+                        wordBreak: 'break-all'
+                    }} title={block.extraData}>
+                        {block.extraData.length > 20 ? truncate(block.extraData, 10, 8) : block.extraData}
+                    </span>
+                </div>
+            )}
         </div>
     );
 };

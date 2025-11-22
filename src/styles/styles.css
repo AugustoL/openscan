@@ -4658,7 +4658,7 @@ code {
 
 /* Block Display Component */
 .block-display-card {
-  background: var(--bg-color, #fff);
+  background: #ffffff;
   border: 1px solid #10b981;
   border-radius: 16px;
   padding: 20px;
@@ -4775,26 +4775,6 @@ code {
 
   .block-detail-item {
     padding: 10px;
-  }
-}
-
-/* Dark mode support for Block Display */
-@media (prefers-color-scheme: dark) {
-  .block-display-card {
-    background: #1e1e1e;
-    border-color: #059669;
-  }
-
-  .block-detail-item {
-    background: rgba(16, 185, 129, 0.06);
-  }
-
-  .block-detail-item:hover {
-    background: rgba(16, 185, 129, 0.12);
-  }
-
-  .detail-value {
-    color: #f3f4f6;
   }
 }
 

@@ -13,6 +13,7 @@ export default function Tx() {
   
   const dataService = useDataService(numericChainId);
   const [transaction, setTransaction] = useState<Transaction | null>(null);
+  const [currentBlockNumber, setCurrentBlockNumber] = useState<number | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -26,11 +27,15 @@ export default function Tx() {
     setLoading(true);
     setError(null);
     
-    dataService
-      .getTransaction(txHash)
-      .then(fetchedTransaction => {
+    Promise.all([
+      dataService.getTransaction(txHash),
+      dataService.getLatestBlockNumber()
+    ])
+      .then(([fetchedTransaction, latestBlock]) => {
         console.log('Fetched transaction:', fetchedTransaction);
+        console.log('Latest block number:', latestBlock);
         setTransaction(fetchedTransaction);
+        setCurrentBlockNumber(latestBlock);
       })
       .catch((err) => {
         console.error('Error fetching transaction:', err);
@@ -61,7 +66,11 @@ export default function Tx() {
     <div style={{ padding: '20px', maxWidth: '1400px', margin: '0 auto' }}>     
       {transaction ? (
         <>
-          <TransactionDisplay transaction={transaction} chainId={chainId} />
+          <TransactionDisplay 
+            transaction={transaction} 
+            chainId={chainId}
+            currentBlockNumber={currentBlockNumber || undefined}
+          />
         </>
       ) : (
         <p>Transaction not found</p>
