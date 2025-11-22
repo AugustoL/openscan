@@ -37,6 +37,7 @@ import {
   LazyTx,
   LazyAddress,
   LazyMempool
+  , LazySettings
 } from './components/LazyComponents';
 import { NotificationProvider } from './context/NotificationContext';
 import { SettingsProvider, useTheme } from './context/SettingsContext';
@@ -69,6 +70,7 @@ function AppContent() {
             <NotificationDisplay />
             <Routes>
               <Route path="/" element={<LazyHome />} />
+              <Route path="settings" element={<LazySettings />} />
               <Route path=":chainId" element={<LazyChain />} />
               <Route path=":chainId/blocks" element={<LazyBlocks />} />
               <Route path=":chainId/block/:filter" element={<LazyBlock />} />

@@ -144,7 +144,28 @@ export interface IAppContext {
   appReady: boolean;
   resourcesLoaded: boolean;
   isHydrated: boolean;
+  rpcUrls: RpcUrlsContextType;
+  setRpcUrls: (rpcUrls: RpcUrlsContextType) => void;
 }
+
+
+/**
+ * RPC URLs context type
+ */
+
+export type RPCUrls = string[]
+
+export type supportedChainsIds = 
+1 | // mainnet
+11155111 | // sepolia testnet
+31337 | // local node (hardhat, anvil, aztec)
+677868 // aztec sandobx
+
+export type RpcUrlsContextType = Record<supportedChainsIds, RPCUrls>;
+
+// ==================== HOOK CONFIGURATION TYPES ====================
+
+
 
 // ==================== SETTINGS TYPES ====================
 
