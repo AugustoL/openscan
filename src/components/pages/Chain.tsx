@@ -1,12 +1,12 @@
-import { useParams } from 'react-router-dom';
+import SearchBox from '../common/SearchBox';
 
-export default function Chain() {
-  const { chainId } = useParams<{ chainId?: string }>();
-
+export default function Home() {
   return (
-    <div>
-      <h1>Chain</h1>
-      <p>chainId: {chainId ?? 'none'}</p>
+    <div className="home-container">
+      <div className="home-content">
+        <h1 className="home-title">OPENSCAN</h1>
+        <SearchBox />
+      </div>
     </div>
   );
-}
+};

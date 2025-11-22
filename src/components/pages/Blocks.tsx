@@ -2,6 +2,7 @@ import { useParams, Link } from 'react-router-dom';
 import { useDataService } from '../../hooks/useDataService';
 import { useEffect, useState } from 'react';
 import { Block } from '../../types';
+import Loader from '../common/Loader';
 
 export default function Blocks() {
   const { chainId } = useParams<{ chainId?: string }>();
@@ -53,7 +54,7 @@ export default function Blocks() {
     return (
       <div style={{ padding: '20px', maxWidth: '1400px', margin: '0 auto' }}>
         <h1 style={{ fontFamily: 'Outfit, sans-serif', fontSize: '2rem', color: '#059669', marginBottom: '1rem' }}>Latest Blocks</h1>
-        <p style={{ color: '#6b7280' }}>Loading...</p>
+        <Loader text="Loading blocks..." />
       </div>
     );
   }
@@ -158,7 +159,7 @@ export default function Blocks() {
                       fontSize: '1.1rem'
                     }}
                   >
-                    {block.number}
+                    {Number(block.number).toLocaleString()}
                   </Link>
                 </td>
                 <td style={{ 

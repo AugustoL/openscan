@@ -1,10 +1,17 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { useAccount } from 'wagmi';
 
 const Navbar = () => {
   const { address } = useAccount();
   const navigate = useNavigate();
+  const location = useLocation();
+  
+  // Extract chainId from the pathname (e.g., /1/blocks -> 1)
+  const pathSegments = location.pathname.split('/').filter(Boolean);
+  const chainId = pathSegments[0] && !isNaN(Number(pathSegments[0])) ? pathSegments[0] : undefined;
+  
+  console.log('Navbar chainId from URL:', chainId, 'pathname:', location.pathname);
 
   const goToSettings = () => {
     navigate('/settings');
@@ -14,9 +21,13 @@ const Navbar = () => {
     <nav className="navbar">
       <div className="navbar-inner">
         <ul>
-          <li><Link to="/1/">Home</Link></li>
-          <li><Link to="/1/blocks">BLOCKS</Link></li>
-          <li><Link to="/1/txs">TRANSACTIONS</Link></li>
+          <li><Link to="/">Home</Link></li>
+          {chainId && (
+            <>
+              <li><Link to={`/${chainId}/blocks`}>BLOCKS</Link></li>
+              <li><Link to={`/${chainId}/txs`}>TRANSACTIONS</Link></li>
+            </>
+          )}
         </ul>
         <ul>
           <li>

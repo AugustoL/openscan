@@ -71,7 +71,7 @@ function AppContent() {
             <Routes>
               <Route path="/" element={<LazyHome />} />
               <Route path="settings" element={<LazySettings />} />
-              <Route path=":chainId" element={<LazyHome />} />
+              <Route path=":chainId" element={<LazyChain />} />
               <Route path=":chainId/blocks" element={<LazyBlocks />} />
               <Route path=":chainId/block/:filter" element={<LazyBlock />} />
               <Route path=":chainId/txs" element={<LazyTxs />} />

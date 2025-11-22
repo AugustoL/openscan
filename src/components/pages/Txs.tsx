@@ -2,6 +2,7 @@ import { useParams, Link } from 'react-router-dom';
 import { useDataService } from '../../hooks/useDataService';
 import { useEffect, useState } from 'react';
 import { Transaction } from '../../types';
+import Loader from '../common/Loader';
 
 export default function Txs() {
   const { chainId } = useParams<{ chainId?: string }>();
@@ -62,7 +63,7 @@ export default function Txs() {
     return (
       <div style={{ padding: '20px', maxWidth: '1400px', margin: '0 auto' }}>
         <h1 style={{ fontFamily: 'Outfit, sans-serif', fontSize: '2rem', color: '#059669', marginBottom: '1rem' }}>Latest Transactions</h1>
-        <p style={{ color: '#6b7280' }}>Loading transactions from the last 10 blocks...</p>
+        <Loader text="Loading transactions from the last 10 blocks..." />
       </div>
     );
   }
