@@ -69,7 +69,7 @@ export default function Blocks() {
   }
 
   return (
-    <div style={{ padding: '20px', maxWidth: '1400px', margin: '0 auto' }}>
+    <div style={{ padding: '20px', maxWidth: '1400px', margin: '0 auto', textAlign: 'center' }}>
       <h1 style={{ fontFamily: 'Outfit, sans-serif', fontSize: '2rem', color: '#059669', marginBottom: '0.5rem' }}>Latest Blocks</h1>
       <p style={{ color: '#6b7280', marginBottom: '1.5rem' }}>Showing {blocks.length} most recent blocks</p>
       
@@ -150,7 +150,7 @@ export default function Blocks() {
               }}>
                 <td>
                   <Link 
-                    to={`/${chainId}/block/${block.number}`}
+                    to={`/${chainId}/block/${Number(block.number).toString()}`}
                     style={{ 
                       color: '#10b981', 
                       fontWeight: '700',
@@ -184,7 +184,17 @@ export default function Blocks() {
                   color: 'var(--text-color, #1f2937)',
                   fontWeight: '500'
                 }} title={block.miner}>
-                  {truncate(block.miner)}
+                  <Link 
+                    to={`/${chainId}/address/${block.miner}`}
+                    style={{ 
+                      color: '#10b981', 
+                      fontWeight: '600',
+                      textDecoration: 'none',
+                      fontFamily: 'Outfit, sans-serif'
+                    }}
+                  >
+                    {truncate(block.miner)}
+                  </Link>
                 </td>
                 <td style={{ 
                   fontSize: '0.95rem',

@@ -61,7 +61,7 @@ export default function Txs() {
 
   if (loading) {
     return (
-      <div style={{ padding: '20px', maxWidth: '1400px', margin: '0 auto' }}>
+      <div style={{ padding: '20px', maxWidth: '1400px', margin: '0 auto', textAlign: 'center' }}>
         <h1 style={{ fontFamily: 'Outfit, sans-serif', fontSize: '2rem', color: '#059669', marginBottom: '1rem' }}>Latest Transactions</h1>
         <Loader text="Loading transactions from the last 10 blocks..." />
       </div>
@@ -70,7 +70,7 @@ export default function Txs() {
 
   if (error) {
     return (
-      <div style={{ padding: '20px', maxWidth: '1400px', margin: '0 auto' }}>
+      <div style={{ padding: '20px', maxWidth: '1400px', margin: '0 auto', textAlign: 'center' }}>
         <h1 style={{ fontFamily: 'Outfit, sans-serif', fontSize: '2rem', color: '#059669', marginBottom: '1rem' }}>Latest Transactions</h1>
         <p style={{ color: 'red' }}>Error: {error}</p>
       </div>
@@ -78,7 +78,7 @@ export default function Txs() {
   }
 
   return (
-    <div style={{ padding: '20px', maxWidth: '1400px', margin: '0 auto' }}>
+    <div style={{ padding: '20px', maxWidth: '1400px', margin: '0 auto', textAlign: 'center' }}>
       <h1 style={{ fontFamily: 'Outfit, sans-serif', fontSize: '2rem', color: '#059669', marginBottom: '0.5rem' }}>Latest Transactions</h1>
       <p style={{ color: '#6b7280', marginBottom: '1.5rem' }}>
         Showing {transactions.length} transactions from the last 10 blocks
@@ -199,7 +199,17 @@ export default function Txs() {
                     color: 'var(--text-color, #1f2937)',
                     fontWeight: '500'
                   }} title={transaction.from}>
-                    {truncate(transaction.from)}
+                    <Link 
+                      to={`/${chainId}/address/${transaction.from}`}
+                      style={{ 
+                        color: '#10b981', 
+                        fontWeight: '600',
+                        textDecoration: 'none',
+                        fontFamily: 'Outfit, sans-serif'
+                      }}
+                    >
+                      {truncate(transaction.from)}
+                    </Link>
                   </td>
                   <td style={{ 
                     fontSize: '0.9rem', 
@@ -207,7 +217,21 @@ export default function Txs() {
                     color: 'var(--text-color, #1f2937)',
                     fontWeight: '500'
                   }} title={transaction.to}>
-                    {truncate(transaction.to)}
+                    {transaction.to ? (
+                      <Link 
+                        to={`/${chainId}/address/${transaction.to}`}
+                        style={{ 
+                          color: '#10b981', 
+                          fontWeight: '600',
+                          textDecoration: 'none',
+                          fontFamily: 'Outfit, sans-serif'
+                        }}
+                      >
+                        {truncate(transaction.to)}
+                      </Link>
+                    ) : (
+                      <span style={{ color: '#6b7280', fontStyle: 'italic' }}>Contract Creation</span>
+                    )}
                   </td>
                   <td style={{ 
                     fontWeight: '600', 

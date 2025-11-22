@@ -64,7 +64,7 @@ export default function Block() {
     <div style={{ padding: '20px', maxWidth: '1400px', margin: '0 auto' }}>     
       {block ? (
         <>
-          <BlockDisplay block={block} />
+          <BlockDisplay block={block} chainId={chainId} />
         </>
       ) : (
         <p>Block not found</p>

@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Transaction } from '../../types';
 
 interface TransactionDisplayProps {
     transaction: Transaction;
+    chainId?: string;
 }
 
-const TransactionDisplay: React.FC<TransactionDisplayProps> = ({ transaction }) => {
+const TransactionDisplay: React.FC<TransactionDisplayProps> = ({ transaction, chainId }) => {
     const [showRawData, setShowRawData] = useState(false);
     const [showLogs, setShowLogs] = useState(false);
 
@@ -71,13 +73,45 @@ const TransactionDisplay: React.FC<TransactionDisplayProps> = ({ transaction }) 
 
                 <div className="block-detail-item">
                     <span className="detail-label">From</span>
-                    <span className="detail-value" title={transaction.from}>{truncate(transaction.from, 10, 8)}</span>
+                    <span className="detail-value" title={transaction.from}>
+                        {chainId ? (
+                            <Link 
+                                to={`/${chainId}/address/${transaction.from}`}
+                                style={{ 
+                                    color: '#10b981', 
+                                    fontWeight: '600',
+                                    textDecoration: 'none'
+                                }}
+                            >
+                                {truncate(transaction.from, 10, 8)}
+                            </Link>
+                        ) : (
+                            truncate(transaction.from, 10, 8)
+                        )}
+                    </span>
                 </div>
 
                 <div className="block-detail-item">
                     <span className="detail-label">To</span>
                     <span className="detail-value" title={transaction.to}>
-                        {transaction.to ? truncate(transaction.to, 10, 8) : 'Contract Creation'}
+                        {transaction.to ? (
+                            chainId ? (
+                                <Link 
+                                    to={`/${chainId}/address/${transaction.to}`}
+                                    style={{ 
+                                        color: '#10b981', 
+                                        fontWeight: '600',
+                                        textDecoration: 'none'
+                                    }}
+                                >
+                                    {truncate(transaction.to, 10, 8)}
+                                </Link>
+                            ) : (
+                                truncate(transaction.to, 10, 8)
+                            )
+                        ) : (
+                            'Contract Creation'
+                        )}
                     </span>
                 </div>
 
@@ -144,7 +178,20 @@ const TransactionDisplay: React.FC<TransactionDisplayProps> = ({ transaction }) 
                     <div className="block-detail-item">
                         <span className="detail-label">Contract Address</span>
                         <span className="detail-value" title={transaction.receipt.contractAddress}>
-                            {truncate(transaction.receipt.contractAddress, 10, 8)}
+                            {chainId ? (
+                                <Link 
+                                    to={`/${chainId}/address/${transaction.receipt.contractAddress}`}
+                                    style={{ 
+                                        color: '#10b981', 
+                                        fontWeight: '600',
+                                        textDecoration: 'none'
+                                    }}
+                                >
+                                    {truncate(transaction.receipt.contractAddress, 10, 8)}
+                                </Link>
+                            ) : (
+                                truncate(transaction.receipt.contractAddress, 10, 8)
+                            )}
                         </span>
                     </div>
                 )}
@@ -238,7 +285,21 @@ const TransactionDisplay: React.FC<TransactionDisplayProps> = ({ transaction }) 
                                     }}>
                                         <div>
                                             <span style={{ fontWeight: '600', color: '#6b7280' }}>Address: </span>
-                                            <span style={{ fontFamily: 'monospace' }}>{log.address}</span>
+                                            {chainId ? (
+                                                <Link 
+                                                    to={`/${chainId}/address/${log.address}`}
+                                                    style={{ 
+                                                        color: '#10b981', 
+                                                        fontWeight: '600',
+                                                        textDecoration: 'none',
+                                                        fontFamily: 'monospace'
+                                                    }}
+                                                >
+                                                    {log.address}
+                                                </Link>
+                                            ) : (
+                                                <span style={{ fontFamily: 'monospace' }}>{log.address}</span>
+                                            )}
                                         </div>
                                         {log.topics && log.topics.length > 0 && (
                                             <div>

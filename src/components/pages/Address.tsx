@@ -3,6 +3,7 @@ import { useDataService } from '../../hooks/useDataService';
 import { useEffect, useState } from 'react';
 import { Address as AddressType } from '../../types';
 import AddressDisplay from '../common/AddressDisplay';
+import Loader from '../common/Loader';
 
 export default function Address() {
   const { chainId, address } = useParams<{ chainId?: string; address?: string }>();
@@ -39,7 +40,7 @@ export default function Address() {
     return (
       <div style={{ padding: '20px', maxWidth: '1400px', margin: '0 auto' }}>
         <h1 style={{ fontFamily: 'Outfit, sans-serif', fontSize: '2rem', color: '#059669', marginBottom: '1rem' }}>Address</h1>
-        <p style={{ color: '#6b7280' }}>Loading...</p>
+        <Loader text="Loading address data..." />
       </div>
     );
   }
