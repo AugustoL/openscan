@@ -1,6 +1,12 @@
+import SearchBox from '../common/SearchBox';
 
 export default function Home() {
   return (
-    <h1>OPENSCAN</h1>
+    <div className="home-container">
+      <div className="home-content">
+        <h1 className="home-title">OPENSCAN</h1>
+        <SearchBox />
+      </div>
+    </div>
   );
 };
