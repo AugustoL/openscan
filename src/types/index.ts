@@ -7,7 +7,8 @@ export interface NetworkStats {
   currentGasPrice: string
   isSyncing: boolean
   hashRate: string
-  currentBlockNumber: string
+  currentBlockNumber: string,
+  metadata: any
 }
 
 export interface Block {

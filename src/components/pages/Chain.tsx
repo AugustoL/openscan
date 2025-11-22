@@ -41,7 +41,7 @@ export default function Home() {
         <SearchBox />
         {loading && <Loader text="Loading network stats..." />}
         {error && <p style={{ color: 'red' }}>Error: {error}</p>}
-        {networkStats && <NetworkStatsDisplay networkStats={networkStats} />}
+        {networkStats && <NetworkStatsDisplay networkStats={networkStats} chainId={numericChainId} />}
       </div>
     </div>
   );
