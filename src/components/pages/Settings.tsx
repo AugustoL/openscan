@@ -1,11 +1,11 @@
 import React, { useContext, useState } from 'react';
 import { AppContext } from '../../context/AppContext';
-import type { RpcUrlsContextType } from '../../types';
+import type { RpcUrlsContextType, RPCUrls } from '../../types';
 
 const Settings: React.FC = () => {
   const { rpcUrls, setRpcUrls } = useContext(AppContext);
 
-  const [localRpc, setLocalRpc] = useState<RpcUrlsContextType>({ ...rpcUrls });
+const [localRpc, setLocalRpc] = useState<Record<number, string | RPCUrls>>({ ...rpcUrls });
 
   const updateField = (key: keyof RpcUrlsContextType, value: string) => {
     setLocalRpc(prev => ({ ...prev, [key]: value }));
