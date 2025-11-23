@@ -1,4 +1,5 @@
 import React, { useState, useCallback, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { AppContext } from '../../context/AppContext';
 import { useZipJsonReader } from '../../hooks/useZipJsonReader';
 
@@ -7,6 +8,7 @@ const Artifacts: React.FC = () => {
   const [isDragging, setIsDragging] = useState(false);
   const { jsonFiles, setJsonFiles } = useContext(AppContext);
   const { processZip, loading, error } = useZipJsonReader();
+  const navigate = useNavigate();
 
   const handleDragEnter = useCallback((e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
@@ -313,13 +315,18 @@ const Artifacts: React.FC = () => {
                   boxShadow: '0 1px 3px rgba(0,0,0,0.03)'
                 }}
               >
-                <div style={{
-                  fontWeight: 600,
-                  marginBottom: 8,
-                  color: '#10b981',
-                  wordBreak: 'break-all',
-                  fontSize: '0.85rem'
-                }}>
+                <div
+                  onClick={() => navigate(`/31337/address/${path}`)}
+                  style={{
+                    fontWeight: 600,
+                    marginBottom: 8,
+                    color: '#10b981',
+                    wordBreak: 'break-all',
+                    fontSize: '0.85rem',
+                    cursor: 'pointer',
+                    textDecoration: 'underline'
+                  }}
+                >
                   {path}
                 </div>
                 <details>

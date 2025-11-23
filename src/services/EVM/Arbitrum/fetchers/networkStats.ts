@@ -20,7 +20,6 @@ export class NetworkStatsFetcher {
     return {
       currentGasPrice: gasPrice,
       isSyncing,
-      hashRate: "0x0",
       currentBlockNumber: blockNumber,
       metadata: metadata
     };
@@ -35,9 +34,6 @@ export class NetworkStatsFetcher {
     return typeof result === 'object';
   }
 
-  async getHashRate(): Promise<string> {
-    return await this.rpcClient.call<string>('eth_hashrate', []);
-  }
 
   async getBlockNumber(): Promise<string> {
     return await this.rpcClient.call<string>('eth_blockNumber', []);

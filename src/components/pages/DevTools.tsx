@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import Artifacts from './Artifacts';
+import Artifacts from '../common/HH3IgnitionTool';
 
 const DevTools: React.FC = () => {
   const { chainId } = useParams<{ chainId?: string }>();

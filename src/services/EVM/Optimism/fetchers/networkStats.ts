@@ -12,7 +12,6 @@ export class NetworkStatsFetcher {
       this.rpcClient.call<string>('eth_blockNumber', []),
     ]);
 
-    const hashRate = await this.rpcClient.call<string>('eth_hashrate', []).catch(() => '0x0');
     const metadata = '';
 
     // eth_syncing returns false when not syncing, or an object with sync status when syncing
@@ -21,7 +20,6 @@ export class NetworkStatsFetcher {
     return {
       currentGasPrice: gasPrice,
       isSyncing,
-      hashRate,
       currentBlockNumber: blockNumber,
       metadata: metadata
     };
@@ -34,10 +32,6 @@ export class NetworkStatsFetcher {
   async getSyncingStatus(): Promise<boolean> {
     const result = await this.rpcClient.call<boolean | object>('eth_syncing', []);
     return typeof result === 'object';
-  }
-
-  async getHashRate(): Promise<string> {
-    return await this.rpcClient.call<string>('eth_hashrate', []).catch(() => '0x0');
   }
 
   async getBlockNumber(): Promise<string> {

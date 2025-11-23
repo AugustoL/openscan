@@ -37,7 +37,6 @@ import {
   LazySettings,
   LazyDevTools,
   LazyAbout,
-  LazyArtifacts
 } from './components/LazyComponents';
 import { NotificationProvider } from './context/NotificationContext';
 import { SettingsProvider, useTheme } from './context/SettingsContext';
@@ -67,7 +66,6 @@ function AppContent() {
             <Route path="/" element={<LazyHome />} />
             <Route path="settings" element={<LazySettings />} />
             <Route path="about" element={<LazyAbout />} />
-            <Route path="hardhatartifacts" element={<LazyArtifacts />} />
             <Route path="devtools" element={<LazyDevTools />} />
             <Route path=":chainId" element={<LazyChain />} />
             <Route path=":chainId/blocks" element={<LazyBlocks />} />

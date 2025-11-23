@@ -6,7 +6,6 @@ import React from 'react';
 export interface NetworkStats {
   currentGasPrice: string
   isSyncing: boolean
-  hashRate: string
   currentBlockNumber: string,
   metadata: any
 }

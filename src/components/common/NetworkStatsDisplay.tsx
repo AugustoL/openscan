@@ -159,11 +159,6 @@ const NetworkStatsDisplay: React.FC<NetworkStatsDisplayProps> = ({
             </span>
           </div>
 
-          <div className="block-detail-item">
-            <span className="detail-label">Hash Rate</span>
-            <span className="detail-value">{networkStats.hashRate}</span>
-          </div>
-
           {protocolVersion && (
             <div className="block-detail-item">
               <span className="detail-label">Protocol Version</span>
