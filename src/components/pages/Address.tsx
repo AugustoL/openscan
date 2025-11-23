@@ -1,9 +1,11 @@
 import { useParams } from 'react-router-dom';
 import { useDataService } from '../../hooks/useDataService';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Address as AddressType } from '../../types';
 import AddressDisplay from '../common/AddressDisplay';
 import Loader from '../common/Loader';
+import { useZipJsonReader } from '../../hooks/useZipJsonReader';
+import { AppContext } from '../../context';
 
 export default function Address() {
   const { chainId, address } = useParams<{ chainId?: string; address?: string }>();
@@ -35,6 +37,7 @@ export default function Address() {
       })
       .finally(() => setLoading(false));
   }, [dataService, address, numericChainId]);
+
 
   if (loading) {
     return (

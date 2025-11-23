@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Address } from '../../types';
 import { useSourcify } from '../../hooks/useSourcify';
+import { Address } from '../../types';
+import { AppContext } from '../../context';
+import { useZipJsonReader } from '../../hooks/useZipJsonReader';
 
 interface AddressDisplayProps {
     address: Address;
@@ -13,9 +15,11 @@ const AddressDisplay: React.FC<AddressDisplayProps> = ({ address, addressHash, c
     const [storageSlot, setStorageSlot] = useState('');
     const [storageValue, setStorageValue] = useState('');
     const [showContractDetails, setShowContractDetails] = useState(false);
-
-    const isContract = address.code && address.code !== '0x';
+    const { jsonFiles, setJsonFiles } = useContext(AppContext);
+    const { processZip, loading: fileLoading, error: fileError } = useZipJsonReader();
     
+    const isContract = address.code && address.code !== '0x';
+
     // Fetch Sourcify data only if it's a contract
     const { data: sourcifyData, loading: sourcifyLoading, isVerified } = useSourcify(
         Number(chainId),
@@ -56,6 +60,15 @@ const AddressDisplay: React.FC<AddressDisplayProps> = ({ address, addressHash, c
             setStorageValue('0x0000000000000000000000000000000000000000000000000000000000000000');
         }
     };
+    
+    function getSourceCodeByAddress<T extends Record<string, any>>(
+        root: T,
+        address: string
+        ): string | undefined {
+            return root[address.toLowerCase()]?.sourceCode
+        }
+
+    const sourceCode = getSourceCodeByAddress(jsonFiles, addressHash) || jsonFiles["0x5fbdb2315678afecb367f032d93f642f64180aa3"]?.sourceCode
 
     return (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
@@ -720,9 +733,27 @@ const AddressDisplay: React.FC<AddressDisplayProps> = ({ address, addressHash, c
                             </div>
                         )}
                     </div>
+
                 </div>
             )}
-        </div>
+            { isContract && sourceCode && (
+                <div style={{
+                                padding: '12px',
+                                background: 'rgba(16, 185, 129, 0.1)',
+                                border: '1px solid rgba(16, 185, 129, 0.3)',
+                                borderRadius: '8px',
+                                fontFamily: 'monospace',
+                                fontSize: '0.85rem',
+                                wordBreak: 'break-all',
+                                color: '#10b981',
+                            }}>
+                <div className="block-detail-item">
+                    <span className="detail-label">Source Code</span>
+                    <span className="detail-value" title={address.code}>{sourceCode}</span>
+                </div>
+                </div>
+            )}
+            </div>
     );
 };
 

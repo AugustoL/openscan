@@ -68,7 +68,49 @@ export function useZipJsonReader() {
 
       setLoading(false);
       console.log(results)
-      return results;
+
+      // Build an address -> artifact map based on each entry's `deployments`
+      const addressMap: Record<string, any> = {};
+
+      const extractAddresses = (input: any): string[] => {
+        if (!input) return [];
+        if (typeof input === "string") {
+          return /^0x[0-9a-fA-F]{40}$/.test(input) ? [input.toLowerCase()] : [];
+        }
+        if (Array.isArray(input)) {
+          return input.flatMap(extractAddresses);
+        }
+        if (typeof input === "object") {
+          const res: string[] = [];
+          if (typeof input.address === "string") {
+            if (/^0x[0-9a-fA-F]{40}$/.test(input.address)) res.push(input.address.toLowerCase());
+          }
+          if (Array.isArray(input.addresses)) {
+            res.push(...input.addresses.filter((a: any) => typeof a === "string" && /^0x[0-9a-fA-F]{40}$/.test(a)).map((a: string) => a.toLowerCase()));
+          }
+          for (const val of Object.values(input)) {
+            if (typeof val === "string" && /^0x[0-9a-fA-F]{40}$/.test(val)) {
+              res.push(val.toLowerCase());
+            } else if (Array.isArray(val) || typeof val === "object") {
+              res.push(...extractAddresses(val));
+            }
+          }
+          return Array.from(new Set(res));
+        }
+        return [];
+      }
+
+      for (const k of Object.keys(results)) {
+        const item = results[k];
+        const deps = item.deployments || [];
+        const addresses = extractAddresses(deps);
+        for (const addr of addresses) {
+          addressMap[addr] = item;
+        }
+      }
+
+      console.log(addressMap)
+      return addressMap;
     } catch (err) {
       console.error("Failed to process ZIP file:", err);
       setError("Failed to process ZIP file. Please ensure it's a valid ZIP archive.");
