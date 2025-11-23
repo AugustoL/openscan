@@ -1,0 +1,14 @@
+# Core dependencies
+web3==6.15.1
+fastapi==0.109.2
+uvicorn[standard]==0.27.1
+sqlalchemy==2.0.27
+pydantic==2.6.1
+pydantic-settings==2.1.0
+python-dotenv==1.0.1
+
+# Database
+alembic==1.13.1
+
+# Utilities
+python-dateutil==2.8.2
