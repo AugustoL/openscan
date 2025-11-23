@@ -1,17 +1,44 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Transaction, TransactionArbitrum, TransactionReceiptArbitrum, TransactionReceiptOptimism } from '../../types';
 import LongString from './LongString';
+import { DataService } from '../../services/DataService';
+import { TraceResult } from '../../services/EVM/L1/fetchers/trace';
 
 interface TransactionDisplayProps {
     transaction: Transaction | TransactionArbitrum;
     chainId?: string;
     currentBlockNumber?: number;
+    dataService?: DataService;
 }
 
-const TransactionDisplay: React.FC<TransactionDisplayProps> = ({ transaction, chainId, currentBlockNumber }) => {
+const TransactionDisplay: React.FC<TransactionDisplayProps> = ({ transaction, chainId, currentBlockNumber, dataService }) => {
     const [showRawData, setShowRawData] = useState(false);
     const [showLogs, setShowLogs] = useState(false);
+    const [showTrace, setShowTrace] = useState(false);
+    const [traceData, setTraceData] = useState<TraceResult | null>(null);
+    const [callTrace, setCallTrace] = useState<any>(null);
+    const [loadingTrace, setLoadingTrace] = useState(false);
+
+    // Check if trace is available (localhost only)
+    const isTraceAvailable = dataService?.isTraceAvailable() || false;
+
+    // Load trace data when trace section is expanded
+    useEffect(() => {
+        if (showTrace && isTraceAvailable && dataService && !traceData && !callTrace) {
+            setLoadingTrace(true);
+            Promise.all([
+                dataService.getTransactionTrace(transaction.hash),
+                dataService.getCallTrace(transaction.hash)
+            ])
+                .then(([trace, call]) => {
+                    setTraceData(trace);
+                    setCallTrace(call);
+                })
+                .catch(err => console.error('Error loading trace:', err))
+                .finally(() => setLoadingTrace(false));
+        }
+    }, [showTrace, isTraceAvailable, dataService, transaction.hash, traceData, callTrace]);
 
     // Check if this is an Arbitrum transaction
     const isArbitrumTx = (tx: Transaction | TransactionArbitrum): tx is TransactionArbitrum => {
@@ -826,6 +853,170 @@ const TransactionDisplay: React.FC<TransactionDisplayProps> = ({ transaction, ch
                                     </div>
                                 </div>
                             ))}
+                        </div>
+                    )}
+                </div>
+            )}
+
+            {/* Debug Trace Section (Localhost Only) */}
+            {isTraceAvailable && (
+                <div style={{ marginTop: '20px' }}>
+                    <button
+                        onClick={() => setShowTrace(!showTrace)}
+                        style={{
+                            background: '#8b5cf6',
+                            color: 'white',
+                            border: 'none',
+                            padding: '8px 16px',
+                            borderRadius: '8px',
+                            cursor: 'pointer',
+                            fontFamily: 'Outfit, sans-serif',
+                            fontWeight: '600',
+                            fontSize: '0.9rem',
+                            marginBottom: '10px'
+                        }}
+                    >
+                        {showTrace ? 'Hide' : 'Show'} Debug Trace
+                    </button>
+                    
+                    {showTrace && (
+                        <div style={{ 
+                            display: 'flex', 
+                            flexDirection: 'column', 
+                            gap: '15px' 
+                        }}>
+                            {loadingTrace && (
+                                <div style={{ textAlign: 'center', padding: '20px', color: '#6b7280' }}>
+                                    Loading trace data...
+                                </div>
+                            )}
+
+                            {/* Call Trace */}
+                            {callTrace && (
+                                <div style={{
+                                    background: '#f3f4f6',
+                                    padding: '15px',
+                                    borderRadius: '8px',
+                                    border: '1px solid #e5e7eb'
+                                }}>
+                                    <div style={{ 
+                                        fontFamily: 'Outfit, sans-serif', 
+                                        fontWeight: '600', 
+                                        color: '#8b5cf6',
+                                        marginBottom: '10px',
+                                        fontSize: '1.1rem'
+                                    }}>
+                                        Call Trace
+                                    </div>
+                                    <div style={{
+                                        display: 'grid',
+                                        gap: '8px',
+                                        fontSize: '0.85rem',
+                                        fontFamily: 'monospace'
+                                    }}>
+                                        <div><span style={{ fontWeight: '600', color: '#6b7280' }}>Type:</span> {callTrace.type}</div>
+                                        <div><span style={{ fontWeight: '600', color: '#6b7280' }}>From:</span> <LongString value={callTrace.from} start={10} end={8} /></div>
+                                        <div><span style={{ fontWeight: '600', color: '#6b7280' }}>To:</span> <LongString value={callTrace.to} start={10} end={8} /></div>
+                                        <div><span style={{ fontWeight: '600', color: '#6b7280' }}>Value:</span> {callTrace.value}</div>
+                                        <div><span style={{ fontWeight: '600', color: '#6b7280' }}>Gas:</span> {callTrace.gas}</div>
+                                        <div><span style={{ fontWeight: '600', color: '#6b7280' }}>Gas Used:</span> {callTrace.gasUsed}</div>
+                                        {callTrace.error && (
+                                            <div style={{ color: '#ef4444' }}>
+                                                <span style={{ fontWeight: '600' }}>Error:</span> {callTrace.error}
+                                            </div>
+                                        )}
+                                        {callTrace.calls && callTrace.calls.length > 0 && (
+                                            <div style={{ marginTop: '10px' }}>
+                                                <div style={{ fontWeight: '600', color: '#6b7280', marginBottom: '5px' }}>
+                                                    Internal Calls ({callTrace.calls.length}):
+                                                </div>
+                                                <div style={{ 
+                                                    maxHeight: '300px', 
+                                                    overflowY: 'auto',
+                                                    background: 'rgba(0,0,0,0.02)',
+                                                    padding: '10px',
+                                                    borderRadius: '6px'
+                                                }}>
+                                                    {JSON.stringify(callTrace.calls, null, 2)}
+                                                </div>
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+                            )}
+
+                            {/* Opcode Trace */}
+                            {traceData && (
+                                <div style={{
+                                    background: '#f3f4f6',
+                                    padding: '15px',
+                                    borderRadius: '8px',
+                                    border: '1px solid #e5e7eb'
+                                }}>
+                                    <div style={{ 
+                                        fontFamily: 'Outfit, sans-serif', 
+                                        fontWeight: '600', 
+                                        color: '#8b5cf6',
+                                        marginBottom: '10px',
+                                        fontSize: '1.1rem'
+                                    }}>
+                                        Execution Trace
+                                    </div>
+                                    <div style={{
+                                        display: 'grid',
+                                        gap: '8px',
+                                        fontSize: '0.85rem',
+                                        marginBottom: '15px'
+                                    }}>
+                                        <div><span style={{ fontWeight: '600', color: '#6b7280' }}>Total Gas Used:</span> {traceData.gas}</div>
+                                        <div><span style={{ fontWeight: '600', color: '#6b7280' }}>Failed:</span> {traceData.failed ? 'Yes' : 'No'}</div>
+                                        <div><span style={{ fontWeight: '600', color: '#6b7280' }}>Return Value:</span> <LongString value={traceData.returnValue || '0x'} start={20} end={20} /></div>
+                                        <div><span style={{ fontWeight: '600', color: '#6b7280' }}>Opcodes Executed:</span> {traceData.structLogs.length}</div>
+                                    </div>
+                                    
+                                    <div style={{ 
+                                        fontWeight: '600', 
+                                        color: '#6b7280',
+                                        marginBottom: '10px'
+                                    }}>
+                                        Opcode Execution Log:
+                                    </div>
+                                    <div style={{
+                                        maxHeight: '400px',
+                                        overflowY: 'auto',
+                                        background: 'rgba(0,0,0,0.02)',
+                                        padding: '10px',
+                                        borderRadius: '6px',
+                                        fontFamily: 'monospace',
+                                        fontSize: '0.75rem'
+                                    }}>
+                                        {traceData.structLogs.slice(0, 100).map((log, index) => (
+                                            <div key={index} style={{ 
+                                                marginBottom: '8px',
+                                                paddingBottom: '8px',
+                                                borderBottom: '1px solid #e5e7eb'
+                                            }}>
+                                                <div style={{ color: '#8b5cf6', fontWeight: '600' }}>
+                                                    Step {index}: {log.op}
+                                                </div>
+                                                <div style={{ marginLeft: '10px', color: '#6b7280' }}>
+                                                    PC: {log.pc} | Gas: {log.gas} | Cost: {log.gasCost} | Depth: {log.depth}
+                                                </div>
+                                                {log.stack && log.stack.length > 0 && (
+                                                    <div style={{ marginLeft: '10px', fontSize: '0.7rem', color: '#9ca3af' }}>
+                                                        Stack: [{log.stack.slice(0, 3).join(', ')}{log.stack.length > 3 ? '...' : ''}]
+                                                    </div>
+                                                )}
+                                            </div>
+                                        ))}
+                                        {traceData.structLogs.length > 100 && (
+                                            <div style={{ textAlign: 'center', color: '#6b7280', padding: '10px' }}>
+                                                ... showing first 100 of {traceData.structLogs.length} steps
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+                            )}
                         </div>
                     )}
                 </div>
