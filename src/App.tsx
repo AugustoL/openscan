@@ -78,7 +78,6 @@ function AppContent() {
             <Route path=":chainId/mempool" element={<LazyMempool />} />
             <Route path=":chainId/mempool/:filter" element={<LazyTx />} />
             <Route path="*" element={<Navigate to="/" replace />} />
-
           </Routes>
           <Footer />
         </div>

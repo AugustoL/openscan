@@ -70,6 +70,7 @@ export default function Tx() {
             transaction={transaction} 
             chainId={chainId}
             currentBlockNumber={currentBlockNumber || undefined}
+            dataService={dataService}
           />
         </>
       ) : (

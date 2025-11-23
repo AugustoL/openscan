@@ -94,43 +94,6 @@ const DevTools: React.FC = () => {
       padding: '32px 24px',
       fontFamily: 'Outfit, sans-serif'
     }}>
-      {/* Header */}
-      <div style={{ marginBottom: '32px', textAlign: 'center' }}>
-        <h1 style={{ 
-          fontSize: '2rem', 
-          fontWeight: '700',
-          color: 'var(--text-color, #1f2937)',
-          marginBottom: '8px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: '12px'
-        }}>
-          🛠️ Developer Tools
-        </h1>
-        <p style={{ 
-          fontSize: '0.95rem', 
-          color: '#6b7280',
-          margin: 0 
-        }}>
-          Tools for blockchain developers and power users
-        </p>
-        {chainId && (
-          <div style={{
-            marginTop: '12px',
-            padding: '8px 12px',
-            background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
-            color: 'white',
-            borderRadius: '8px',
-            display: 'inline-block',
-            fontSize: '0.85rem',
-            fontWeight: '600'
-          }}>
-            Connected to Chain ID: {chainId}
-          </div>
-        )}
-      </div>
-
       {/* Error Display */}
       {error && (
         <div style={{

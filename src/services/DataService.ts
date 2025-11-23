@@ -5,6 +5,7 @@ import { BlockFetcher } from './EVM/L1/fetchers/block';
 import { TransactionFetcher } from './EVM/L1/fetchers/transaction';
 import { AddressFetcher } from './EVM/L1/fetchers/address';
 import { NetworkStatsFetcher } from './EVM/L1/fetchers/networkStats';
+import { TraceFetcher, TraceResult } from './EVM/L1/fetchers/trace';
 import { BlockAdapter } from './EVM/L1/adapters/block';
 import { TransactionAdapter } from './EVM/L1/adapters/transaction';
 import { AddressAdapter } from './EVM/L1/adapters/address';
@@ -37,8 +38,10 @@ export class DataService {
   private transactionFetcher: TransactionFetcher | TransactionFetcherArbitrum | TransactionFetcherOptimism;
   private addressFetcher: AddressFetcher | AddressFetcherArbitrum | AddressFetcherOptimism;
   private networkStatsFetcher: NetworkStatsFetcher | NetworkStatsFetcherArbitrum | NetworkStatsFetcherOptimism;
+  private traceFetcher: TraceFetcher;
   private isArbitrum: boolean;
   private isOptimism: boolean;
+  private isLocalhost: boolean;
   
   // Simple in-memory cache with chainId in key
   private cache = new Map<string, CacheEntry<any>>();
@@ -53,6 +56,10 @@ export class DataService {
     // Check which network we're on
     this.isArbitrum = chainId === 42161;
     this.isOptimism = chainId === 10;
+    this.isLocalhost = chainId === 31337;
+    
+    // Initialize trace fetcher for all networks (will check availability when used)
+    this.traceFetcher = new TraceFetcher(this.rpcClient);
     
     if (this.isArbitrum) {
       this.blockFetcher = new BlockFetcherArbitrum(this.rpcClient, chainId);
@@ -290,5 +297,39 @@ export class DataService {
       }
     });
     keysToDelete.forEach(key => this.cache.delete(key));
+  }
+
+  // Trace methods (available for localhost networks)
+  isTraceAvailable(): boolean {
+    return this.isLocalhost;
+  }
+
+  async getTransactionTrace(txHash: string): Promise<TraceResult | null> {
+    if (!this.isLocalhost) {
+      console.warn('Trace methods are only available on localhost networks');
+      return null;
+    }
+    return await this.traceFetcher.getOpcodeTrace(txHash);
+  }
+
+  async getCallTrace(txHash: string): Promise<any> {
+    if (!this.isLocalhost) {
+      console.warn('Trace methods are only available on localhost networks');
+      return null;
+    }
+    return await this.traceFetcher.getCallTrace(txHash);
+  }
+
+  async getBlockTrace(blockHash: string): Promise<TraceResult[] | null> {
+    if (!this.isLocalhost) {
+      console.warn('Trace methods are only available on localhost networks');
+      return null;
+    }
+    try {
+      return await this.traceFetcher.traceBlockByHash(blockHash);
+    } catch (error) {
+      console.error('Error getting block trace:', error);
+      return null;
+    }
   }
 }

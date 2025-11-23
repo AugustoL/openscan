@@ -1,10 +1,15 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const SearchBox = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const navigate = useNavigate();
-
+  const location = useLocation();
+  
+  // Extract chainId from the pathname (e.g., /1/blocks -> 1)
+  const pathSegments = location.pathname.split('/').filter(Boolean);
+  const chainId = pathSegments[0] && !isNaN(Number(pathSegments[0])) ? pathSegments[0] : undefined;
+  
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (!searchTerm.trim()) return;
@@ -18,12 +23,12 @@ const SearchBox = () => {
     // Example logic:
     if (searchTerm.startsWith('0x')) {
         if (searchTerm.length === 42) {
-            navigate(`/1/address/${searchTerm}`);
+            navigate(`/${chainId}/address/${searchTerm}`);
         } else if (searchTerm.length === 66) {
-            navigate(`/1/tx/${searchTerm}`);
+            navigate(`/${chainId}/tx/${searchTerm}`);
         }
     } else if (!isNaN(Number(searchTerm))) {
-        navigate(`/1/block/${searchTerm}`);
+        navigate(`/${chainId}/block/${searchTerm}`);
     }
   };
 

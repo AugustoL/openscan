@@ -1,17 +1,49 @@
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { useAccount } from 'wagmi';
+import { useState } from 'react';
 
 const Navbar = () => {
   const { address } = useAccount();
   const navigate = useNavigate();
   const location = useLocation();
+  const [searchInput, setSearchInput] = useState('');
   
   // Extract chainId from the pathname (e.g., /1/blocks -> 1)
   const pathSegments = location.pathname.split('/').filter(Boolean);
   const chainId = pathSegments[0] && !isNaN(Number(pathSegments[0])) ? pathSegments[0] : undefined;
   
+  // Check if we should show the search box (on blocks, block, txs, tx pages)
+  const shouldShowSearch = chainId && pathSegments.length >= 2 && pathSegments[1] &&
+    ['blocks', 'block', 'txs', 'tx'].includes(pathSegments[1]);
+  
   console.log('Navbar chainId from URL:', chainId, 'pathname:', location.pathname);
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!searchInput.trim() || !chainId) return;
+
+    const input = searchInput.trim();
+    
+    // Check if it's a transaction hash (0x followed by 64 hex chars)
+    if (/^0x[a-fA-F0-9]{64}$/.test(input)) {
+      navigate(`/${chainId}/tx/${input}`);
+    }
+    // Check if it's an address (0x followed by 40 hex chars)
+    else if (/^0x[a-fA-F0-9]{40}$/.test(input)) {
+      navigate(`/${chainId}/address/${input}`);
+    }
+    // Check if it's a block number
+    else if (/^\d+$/.test(input)) {
+      navigate(`/${chainId}/block/${input}`);
+    }
+    // Check if it's a block hash (0x followed by 64 hex chars - same as tx)
+    else if (/^0x[a-fA-F0-9]{64}$/.test(input)) {
+      navigate(`/${chainId}/block/${input}`);
+    }
+    
+    setSearchInput('');
+  };
 
   const goToSettings = () => {
     navigate('/settings');
@@ -29,6 +61,74 @@ const Navbar = () => {
             </>
           )}
         </ul>
+        
+        {/* Search Box */}
+        {shouldShowSearch && (
+          <div style={{
+            flex: 1,
+            display: 'flex',
+            justifyContent: 'center',
+            padding: '0 20px'
+          }}>
+            <form onSubmit={handleSearch} style={{
+              display: 'flex',
+              gap: '8px',
+              maxWidth: '500px',
+              width: '100%'
+            }}>
+              <input
+                type="text"
+                value={searchInput}
+                onChange={(e) => setSearchInput(e.target.value)}
+                placeholder="Search by Address / Tx Hash / Block"
+                style={{
+                  flex: 1,
+                  padding: '8px 16px',
+                  borderRadius: '8px',
+                  border: '1px solid rgba(0, 98, 65, 0.3)',
+                  background: '#1b2537',
+                  color: '#f1f5f9',
+                  fontFamily: 'Outfit, sans-serif',
+                  fontSize: '0.9rem',
+                  outline: 'none',
+                  transition: 'all 0.2s ease'
+                }}
+              />
+              <button
+                type="submit"
+                style={{
+                  padding: '8px 16px',
+                  borderRadius: '8px',
+                  border: 'none',
+                  background: '#10b981',
+                  color: 'white',
+                  fontFamily: 'Outfit, sans-serif',
+                  fontWeight: '600',
+                  fontSize: '0.9rem',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = '#059669';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = '#10b981';
+                }}
+                aria-label="Search"
+                title="Search"
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="11" cy="11" r="8" stroke="currentColor" strokeWidth="2"/>
+                  <path d="M21 21l-4.35-4.35" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                </svg>
+              </button>
+            </form>
+          </div>
+        )}
+        
         <ul>
           <li><Link to={`/devtools`}>DEV TOOLs</Link></li>
           <li>
