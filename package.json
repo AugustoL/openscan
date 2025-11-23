@@ -1,62 +1,64 @@
 {
-  "name": "openscan",
-  "version": "0.1.0",
-  "private": true,
-  "dependencies": {
-    "@rainbow-me/rainbowkit": "^2.2.8",
-    "@testing-library/dom": "^10.4.0",
-    "@testing-library/jest-dom": "^6.6.3",
-    "@testing-library/react": "^16.2.0",
-    "@testing-library/user-event": "^13.5.0",
-    "ethers": "^6.14.4",
-    "jszip": "^3.10.1",
-    "react": "^19.1.0",
-    "react-dom": "^19.1.0",
-    "react-router-dom": "^7.4.1",
-    "wagmi": "^2.15.6",
-    "web-vitals": "^2.1.4"
-  },
-  "scripts": {
-    "start": "webpack serve --config webpack.config.js --mode development",
-    "build": "webpack --config webpack.config.js --mode production",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "typecheck": "tsc --noEmit"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
-  "devDependencies": {
-    "@babel/core": "^7.23.1",
-    "@babel/preset-env": "^7.23.1",
-    "@babel/preset-react": "^7.22.15",
-    "@svgr/webpack": "^8.1.0",
-    "@types/react": "^19.1.8",
-    "@types/react-dom": "^19.1.6",
-    "babel-loader": "^9.1.4",
-    "copy-webpack-plugin": "^13.0.1",
-    "css-loader": "^7.1.2",
-    "dotenv-webpack": "^8.1.0",
-    "html-webpack-plugin": "^5.5.3",
-    "style-loader": "^4.0.0",
-    "ts-loader": "^9.5.2",
-    "webpack": "^5.88.2",
-    "webpack-cli": "^5.1.4",
-    "webpack-dev-server": "^4.15.1"
-  }
+	"name": "openscan",
+	"version": "0.1.0",
+	"private": true,
+	"dependencies": {
+		"@rainbow-me/rainbowkit": "^2.2.8",
+		"@testing-library/dom": "^10.4.0",
+		"@testing-library/jest-dom": "^6.6.3",
+		"@testing-library/react": "^16.2.0",
+		"@testing-library/user-event": "^13.5.0",
+		"ethers": "^6.14.4",
+		"jszip": "^3.10.1",
+		"react": "^19.1.0",
+		"react-dom": "^19.1.0",
+		"react-router-dom": "^7.4.1",
+		"wagmi": "^2.15.6",
+		"web-vitals": "^2.1.4"
+	},
+	"scripts": {
+		"start": "webpack serve --config webpack.config.js --mode development",
+		"build": "webpack --config webpack.config.js --mode production",
+		"test": "react-scripts test",
+		"eject": "react-scripts eject",
+		"typecheck": "tsc --noEmit",
+		"format:fix": "npx @biomejs/biome format --write"
+	},
+	"eslintConfig": {
+		"extends": [
+			"react-app",
+			"react-app/jest"
+		]
+	},
+	"browserslist": {
+		"production": [
+			">0.2%",
+			"not dead",
+			"not op_mini all"
+		],
+		"development": [
+			"last 1 chrome version",
+			"last 1 firefox version",
+			"last 1 safari version"
+		]
+	},
+	"devDependencies": {
+		"@babel/core": "^7.23.1",
+		"@babel/preset-env": "^7.23.1",
+		"@babel/preset-react": "^7.22.15",
+		"@biomejs/biome": "2.3.7",
+		"@svgr/webpack": "^8.1.0",
+		"@types/react": "^19.1.8",
+		"@types/react-dom": "^19.1.6",
+		"babel-loader": "^9.1.4",
+		"copy-webpack-plugin": "^13.0.1",
+		"css-loader": "^7.1.2",
+		"dotenv-webpack": "^8.1.0",
+		"html-webpack-plugin": "^5.5.3",
+		"style-loader": "^4.0.0",
+		"ts-loader": "^9.5.2",
+		"webpack": "^5.88.2",
+		"webpack-cli": "^5.1.4",
+		"webpack-dev-server": "^4.15.1"
+	}
 }

@@ -1,4 +1,4 @@
-export const ENVIRONMENT = process.env.REACT_APP_ENVIRONMENT || 'development';
+export const ENVIRONMENT = process.env.REACT_APP_ENVIRONMENT || "development";
 
 // Number formatting constants
 export const MINIMUM_FRACTION_DIGITS = 0;

@@ -4207,6 +4207,7 @@ code {
 }
 
 /* Warning/Important sections */
+/* biome-ignore format: ignore this */
 .api-section:has(h3:contains("⚠️")) {
   border-color: var(--warning);
   background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(255, 215, 0, 0.05));

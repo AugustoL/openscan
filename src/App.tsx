@@ -28,6 +28,10 @@ import Footer from './components/common/Footer';
 import NotificationDisplay from './components/common/NotificationDisplay';
 import ErrorBoundary from './components/common/ErrorBoundary';
 import './styles/styles.css';
+import './styles/layouts.css';
+import './styles/components.css';
+import './styles/tables.css';
+import './styles/forms.css';
 import { useAppReady, useOnAppReady } from './hooks/useAppReady';
 import Loading from './components/common/Loading';
 import {

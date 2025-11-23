@@ -1,19 +1,19 @@
 {
-  "networks": [
-    {
-      "chainId": 1,
-      "name": "Mainnet",
-      "currency": "ETH"
-    },
-    {
-      "chainId": 11155111,
-      "name": "Sepolia",
-      "currency": "ETH"
-    },
-    {
-      "chainId": 31337,
-      "name": "Localhost",
-      "currency": "ETH"
-    }
-  ]
+	"networks": [
+		{
+			"chainId": 1,
+			"name": "Mainnet",
+			"currency": "ETH"
+		},
+		{
+			"chainId": 11155111,
+			"name": "Sepolia",
+			"currency": "ETH"
+		},
+		{
+			"chainId": 31337,
+			"name": "Localhost",
+			"currency": "ETH"
+		}
+	]
 }

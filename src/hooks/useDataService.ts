@@ -1,7 +1,7 @@
 // src/hooks/useDataService.ts
-import { useContext, useMemo } from 'react';
-import { DataService } from '../services/DataService';
-import { AppContext } from '../context/AppContext';
+import { useContext, useMemo } from "react";
+import { DataService } from "../services/DataService";
+import { AppContext } from "../context/AppContext";
 
 /**
  * Hook to get a DataService for a specific chain
@@ -9,16 +9,24 @@ import { AppContext } from '../context/AppContext';
  * @returns DataService instance
  */
 export function useDataService(chainId: number) {
-  const targetChainId = chainId;
-  const { rpcUrls } = useContext(AppContext);;
+	const targetChainId = chainId;
+	const { rpcUrls } = useContext(AppContext);
 
-  console.log('useDataService called with chainId:', chainId, 'targetChainId:', targetChainId);
+	console.log(
+		"useDataService called with chainId:",
+		chainId,
+		"targetChainId:",
+		targetChainId,
+	);
 
-  const dataService = useMemo(() => {
-    console.log('useMemo creating new DataService for chainId:', targetChainId);
-    return new DataService(targetChainId, rpcUrls);
-  }, [targetChainId, rpcUrls]);
+	const dataService = useMemo(() => {
+		console.log("useMemo creating new DataService for chainId:", targetChainId);
+		return new DataService(targetChainId, rpcUrls);
+	}, [targetChainId, rpcUrls]);
 
-  console.log('useDataService returning dataService for chainId:', targetChainId);
-  return dataService;
+	console.log(
+		"useDataService returning dataService for chainId:",
+		targetChainId,
+	);
+	return dataService;
 }

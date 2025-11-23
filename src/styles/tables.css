@@ -1,0 +1,221 @@
+/* Table Styles for Blocks and Transactions Pages */
+
+/* Table Wrapper */
+.table-wrapper {
+	background: var(--bg-color, #fff);
+	border: 1px solid #10b981;
+	border-radius: 16px;
+	padding: 20px;
+	box-shadow: 0 4px 20px rgba(16, 185, 129, 0.1);
+}
+
+/* Dashboard Table */
+.dash-table {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+.dash-table thead tr {
+	border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.dash-table th {
+	padding: 12px;
+	text-align: left;
+	color: rgba(255, 255, 255, 0.6);
+	font-weight: 600;
+	font-size: 0.85rem;
+	font-family: "Outfit", sans-serif;
+	text-transform: uppercase;
+	letter-spacing: 0.5px;
+}
+
+.dash-table th.text-right {
+	text-align: right;
+}
+
+.dash-table th.text-center {
+	text-align: center;
+}
+
+.dash-table tbody tr {
+	background: rgba(16, 185, 129, 0.04);
+	border-radius: 8px;
+	transition: all 0.2s ease;
+}
+
+.dash-table tbody tr:hover {
+	background: rgba(255, 255, 255, 0.02);
+}
+
+.dash-table tbody tr:not(:last-child) {
+	border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.dash-table td {
+	padding: 12px;
+	font-size: 0.95rem;
+	color: var(--text-color, #1f2937);
+	font-family: "Outfit", sans-serif;
+	font-weight: 500;
+}
+
+.dash-table td.text-right {
+	text-align: right;
+}
+
+.dash-table td.text-center {
+	text-align: center;
+}
+
+/* Table Cell Styles */
+.table-cell-number {
+	color: #10b981;
+	font-weight: 700;
+	text-decoration: none;
+	font-family: "Outfit", sans-serif;
+	font-size: 1.1rem;
+}
+
+.table-cell-hash {
+	color: #10b981;
+	font-weight: 600;
+	text-decoration: none;
+	font-family: "Outfit", sans-serif;
+	font-size: 0.95rem;
+}
+
+.table-cell-address {
+	color: #10b981;
+	font-weight: 600;
+	text-decoration: none;
+	font-family: "Outfit", sans-serif;
+}
+
+.table-cell-value {
+	font-weight: 600;
+	color: #059669;
+	font-family: "Outfit", sans-serif;
+	font-size: 1rem;
+}
+
+.table-cell-text {
+	font-size: 0.95rem;
+	color: var(--text-color, #1f2937);
+	font-family: "Outfit", sans-serif;
+	font-weight: 500;
+}
+
+.table-cell-muted {
+	font-size: 0.95rem;
+	color: #6b7280;
+	font-family: "Outfit", sans-serif;
+	font-weight: 500;
+}
+
+.table-cell-mono {
+	font-size: 0.9rem;
+	font-family: "Outfit", sans-serif;
+	color: var(--text-color, #1f2937);
+	font-weight: 500;
+}
+
+.table-cell-italic {
+	color: #6b7280;
+	font-style: italic;
+}
+
+/* Status Badges in Tables */
+.table-status-badge {
+	padding: 4px 10px;
+	border-radius: 6px;
+	font-size: 0.8rem;
+	font-weight: 600;
+}
+
+.table-status-success {
+	background: rgba(16, 185, 129, 0.15);
+	color: #10b981;
+}
+
+.table-status-failed {
+	background: rgba(239, 68, 68, 0.15);
+	color: #ef4444;
+}
+
+.table-status-pending {
+	background: rgba(245, 158, 11, 0.15);
+	color: #f59e0b;
+}
+
+/* Address Display Tables */
+.address-table-container {
+	overflow-x: auto;
+}
+
+.address-table {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+.address-table thead tr {
+	border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.address-table th {
+	padding: 12px;
+	text-align: left;
+	color: rgba(255, 255, 255, 0.6);
+	font-weight: 600;
+	font-size: 0.85rem;
+}
+
+.address-table tbody tr {
+	border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+	transition: background 0.2s;
+}
+
+.address-table tbody tr:hover {
+	background: rgba(255, 255, 255, 0.02);
+}
+
+.address-table tbody tr:last-child {
+	border-bottom: none;
+}
+
+.address-table td {
+	padding: 12px;
+}
+
+.address-table-link {
+	color: #10b981;
+	text-decoration: none;
+	font-family: "monospace";
+	font-size: 0.9rem;
+}
+
+.address-table-value {
+	font-family: "monospace";
+	color: #10b981;
+	font-weight: 600;
+	font-size: 0.9rem;
+}
+
+.table-center {
+	text-align: center;
+}
+
+.table-right {
+	text-align: right;
+}
+
+/* Responsive Table */
+@media (max-width: 768px) {
+	.table-wrapper {
+		overflow-x: auto;
+	}
+
+	.dash-table {
+		min-width: 600px;
+	}
+}

@@ -1,0 +1,141 @@
+/* Form and Input Styles */
+
+/* Search Form - Navbar */
+.search-container {
+	flex: 1;
+	display: flex;
+	justify-content: center;
+	padding: 0 20px;
+}
+
+.search-form {
+	display: flex;
+	gap: 8px;
+	max-width: 500px;
+	width: 100%;
+}
+
+.search-input {
+	flex: 1;
+	padding: 8px 16px;
+	border-radius: 8px;
+	border: 1px solid rgba(0, 98, 65, 0.3);
+	background: #1b2537;
+	color: #f1f5f9;
+	font-family: "Outfit", sans-serif;
+	font-size: 0.9rem;
+	outline: none;
+	transition: all 0.2s ease;
+}
+
+.search-input:focus {
+	border-color: #10b981;
+	box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.1);
+}
+
+.search-button {
+	padding: 8px 16px;
+	border-radius: 8px;
+	border: none;
+	background: #10b981;
+	color: white;
+	font-family: "Outfit", sans-serif;
+	font-weight: 600;
+	font-size: 0.9rem;
+	cursor: pointer;
+	transition: all 0.2s ease;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.search-button:hover {
+	background: #059669;
+}
+
+.search-button:active {
+	transform: scale(0.98);
+}
+
+/* General Input Styles */
+.input-primary {
+	padding: 8px 16px;
+	border-radius: 8px;
+	border: 1px solid rgba(0, 98, 65, 0.3);
+	background: #1b2537;
+	color: #f1f5f9;
+	font-family: "Outfit", sans-serif;
+	font-size: 0.9rem;
+	outline: none;
+	transition: all 0.2s ease;
+}
+
+.input-primary:focus {
+	border-color: #10b981;
+	box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.1);
+}
+
+/* Textarea */
+.textarea-primary {
+	padding: 12px 16px;
+	border-radius: 8px;
+	border: 1px solid rgba(0, 98, 65, 0.3);
+	background: #1b2537;
+	color: #f1f5f9;
+	font-family: "Outfit", sans-serif;
+	font-size: 0.9rem;
+	outline: none;
+	transition: all 0.2s ease;
+	resize: vertical;
+	min-height: 100px;
+}
+
+.textarea-primary:focus {
+	border-color: #10b981;
+	box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.1);
+}
+
+/* Select/Dropdown */
+.select-primary {
+	padding: 8px 16px;
+	border-radius: 8px;
+	border: 1px solid rgba(0, 98, 65, 0.3);
+	background: #1b2537;
+	color: #f1f5f9;
+	font-family: "Outfit", sans-serif;
+	font-size: 0.9rem;
+	outline: none;
+	transition: all 0.2s ease;
+	cursor: pointer;
+}
+
+.select-primary:focus {
+	border-color: #10b981;
+	box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.1);
+}
+
+/* Form Labels */
+.form-label {
+	display: block;
+	font-family: "Outfit", sans-serif;
+	font-size: 0.9rem;
+	font-weight: 600;
+	color: #10b981;
+	margin-bottom: 8px;
+}
+
+/* Form Groups */
+.form-group {
+	margin-bottom: 16px;
+}
+
+/* Form Row */
+.form-row {
+	display: flex;
+	gap: 16px;
+	margin-bottom: 16px;
+}
+
+.form-row > * {
+	flex: 1;
+}

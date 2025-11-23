@@ -1,0 +1,169 @@
+/* Layout Utilities */
+
+/* Grid Layouts */
+.data-grid-2 {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+	gap: 12px;
+	margin-bottom: 16px;
+}
+
+.data-grid-3 {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+	gap: 12px;
+	margin-bottom: 16px;
+}
+
+.data-grid-auto {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+	gap: 12px;
+}
+
+.network-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+	gap: 24px;
+	max-width: 1400px;
+	margin: 0 auto;
+	width: 100%;
+}
+
+/* Flex Utilities */
+.flex-center {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.flex-between {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.flex-start {
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+}
+
+.flex-column {
+	display: flex;
+	flex-direction: column;
+}
+
+.flex-column-gap {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+
+.flex-gap-small {
+	gap: 4px;
+}
+
+.flex-gap-medium {
+	gap: 8px;
+}
+
+.flex-gap-large {
+	gap: 16px;
+}
+
+/* Spacing */
+.mt-small {
+	margin-top: 8px;
+}
+
+.mt-medium {
+	margin-top: 16px;
+}
+
+.mt-large {
+	margin-top: 24px;
+}
+
+.mb-small {
+	margin-bottom: 8px;
+}
+
+.mb-medium {
+	margin-bottom: 16px;
+}
+
+.mb-large {
+	margin-bottom: 24px;
+}
+
+.p-small {
+	padding: 8px;
+}
+
+.p-medium {
+	padding: 16px;
+}
+
+.p-large {
+	padding: 24px;
+}
+
+/* Container widths */
+.container-narrow {
+	max-width: 800px;
+	margin: 0 auto;
+	width: 100%;
+}
+
+.container-medium {
+	max-width: 1200px;
+	margin: 0 auto;
+	width: 100%;
+}
+
+.container-wide {
+	max-width: 1400px;
+	margin: 0 auto;
+	width: 100%;
+}
+
+.container-full {
+	width: 100%;
+}
+
+/* Text alignment */
+.text-center {
+	text-align: center;
+}
+
+.text-left {
+	text-align: left;
+}
+
+.text-right {
+	text-align: right;
+}
+
+/* Typography utilities */
+.subtitle {
+	font-family: "Outfit", sans-serif;
+	font-size: 1.1rem;
+	color: #0da978ff;
+	text-align: center;
+	margin-top: 12px;
+	margin-bottom: 48px;
+}
+
+/* Responsive utilities */
+@media (max-width: 768px) {
+	.network-grid {
+		grid-template-columns: 1fr;
+	}
+
+	.data-grid-2,
+	.data-grid-3,
+	.data-grid-auto {
+		grid-template-columns: 1fr;
+	}
+}
