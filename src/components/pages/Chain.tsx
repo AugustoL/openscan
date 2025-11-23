@@ -40,7 +40,7 @@ export default function Chain() {
         <h1 className="home-title">OPENSCAN</h1>
         <SearchBox />
         {loading && <Loader text="Loading network stats..." />}
-        {error && <p style={{ color: 'red' }}>Error: {error}</p>}
+        {error && <p className="error-text-center">Error: {error}</p>}
         {networkStats && <NetworkStatsDisplay networkStats={networkStats} chainId={numericChainId} />}
       </div>
     </div>

@@ -61,8 +61,8 @@ export default function Txs() {
 
   if (loading) {
     return (
-      <div className="container-wide" style={{ padding: '20px', textAlign: 'center' }}>
-        <h1 style={{ fontFamily: 'Outfit, sans-serif', fontSize: '2rem', color: '#059669', marginBottom: '1rem' }}>Latest Transactions</h1>
+      <div className="container-wide page-container-padded text-center">
+        <h1 className="page-title-small">Latest Transactions</h1>
         <Loader text="Loading transactions from the last 10 blocks..." />
       </div>
     );
@@ -70,191 +70,85 @@ export default function Txs() {
 
   if (error) {
     return (
-      <div className="container-wide" style={{ padding: '20px', textAlign: 'center' }}>
-        <h1 style={{ fontFamily: 'Outfit, sans-serif', fontSize: '2rem', color: '#059669', marginBottom: '1rem' }}>Latest Transactions</h1>
-        <p style={{ color: 'red' }}>Error: {error}</p>
+      <div className="container-wide page-container-padded text-center">
+        <h1 className="page-title-small">Latest Transactions</h1>
+        <p className="error-text">Error: {error}</p>
       </div>
     );
   }
 
   return (
-    <div className="container-wide" style={{ padding: '20px', textAlign: 'center' }}>
-      <h1 style={{ fontFamily: 'Outfit, sans-serif', fontSize: '2rem', color: '#059669', marginBottom: '0.5rem' }}>Latest Transactions</h1>
-      <p style={{ color: '#6b7280', marginBottom: '1.5rem' }}>
+    <div className="container-wide page-container-padded text-center">
+      <h1 className="page-title-small">Latest Transactions</h1>
+      <p className="page-subtitle-text">
         Showing {transactions.length} transactions from the last 10 blocks
       </p>
-      
+
       {transactions.length === 0 ? (
-        <p style={{ textAlign: 'center', color: '#6b7280', padding: '2rem' }}>
+        <p className="table-cell-muted">
           No transactions found in the last 10 blocks
         </p>
       ) : (
-        <div className="table-wrapper" style={{ 
-          background: 'var(--bg-color, #fff)',
-          border: '1px solid #10b981',
-          borderRadius: '16px',
-          padding: '20px',
-          boxShadow: '0 4px 20px rgba(16, 185, 129, 0.1)'
-        }}>
+        <div className="table-wrapper">
           <table className="dash-table">
             <thead>
               <tr>
-                <th style={{ 
-                  fontFamily: 'Outfit, sans-serif', 
-                  color: '#10b981', 
-                  fontWeight: '600',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.5px',
-                  fontSize: '0.9rem'
-                }}>Tx Hash</th>
-                <th style={{ 
-                  fontFamily: 'Outfit, sans-serif', 
-                  color: '#10b981', 
-                  fontWeight: '600',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.5px',
-                  fontSize: '0.9rem'
-                }}>Block</th>
-                <th style={{ 
-                  fontFamily: 'Outfit, sans-serif', 
-                  color: '#10b981', 
-                  fontWeight: '600',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.5px',
-                  fontSize: '0.9rem'
-                }}>From</th>
-                <th style={{ 
-                  fontFamily: 'Outfit, sans-serif', 
-                  color: '#10b981', 
-                  fontWeight: '600',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.5px',
-                  fontSize: '0.9rem'
-                }}>To</th>
-                <th style={{ 
-                  fontFamily: 'Outfit, sans-serif', 
-                  color: '#10b981', 
-                  fontWeight: '600',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.5px',
-                  fontSize: '0.9rem'
-                }}>Value</th>
-                <th style={{ 
-                  fontFamily: 'Outfit, sans-serif', 
-                  color: '#10b981', 
-                  fontWeight: '600',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.5px',
-                  fontSize: '0.9rem'
-                }}>Gas Price</th>
-                <th style={{ 
-                  fontFamily: 'Outfit, sans-serif', 
-                  color: '#10b981', 
-                  fontWeight: '600',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.5px',
-                  fontSize: '0.9rem'
-                }}>Gas</th>
+                <th>Tx Hash</th>
+                <th>Block</th>
+                <th>From</th>
+                <th>To</th>
+                <th>Value</th>
+                <th>Gas Price</th>
+                <th>Gas</th>
               </tr>
             </thead>
             <tbody>
               {transactions.map((transaction) => (
-                <tr key={transaction.hash} style={{ 
-                  background: 'rgba(16, 185, 129, 0.04)',
-                  borderRadius: '8px',
-                  transition: 'all 0.2s ease'
-                }}>
+                <tr key={transaction.hash}>
                   <td>
-                    <Link 
+                    <Link
                       to={`/${chainId}/tx/${transaction.hash}`}
-                      style={{ 
-                        color: '#10b981', 
-                        fontWeight: '600',
-                        textDecoration: 'none',
-                        fontFamily: 'Outfit, sans-serif',
-                        fontSize: '0.95rem'
-                      }}
+                      className="table-cell-hash"
                       title={transaction.hash}
                     >
                       {truncate(transaction.hash)}
                     </Link>
                   </td>
                   <td>
-                    <Link 
+                    <Link
                       to={`/${chainId}/block/${transaction.blockNumber}`}
-                      style={{ 
-                        color: '#059669', 
-                        fontWeight: '600',
-                        textDecoration: 'none',
-                        fontFamily: 'Outfit, sans-serif',
-                        fontSize: '1rem'
-                      }}
+                      className="table-cell-value"
                     >
                       {transaction.blockNumber}
                     </Link>
                   </td>
-                  <td style={{ 
-                    fontSize: '0.9rem', 
-                    fontFamily: 'Outfit, sans-serif',
-                    color: 'var(--text-color, #1f2937)',
-                    fontWeight: '500'
-                  }} title={transaction.from}>
-                    <Link 
+                  <td className="table-cell-mono" title={transaction.from}>
+                    <Link
                       to={`/${chainId}/address/${transaction.from}`}
-                      style={{ 
-                        color: '#10b981', 
-                        fontWeight: '600',
-                        textDecoration: 'none',
-                        fontFamily: 'Outfit, sans-serif'
-                      }}
+                      className="table-cell-address"
                     >
                       {truncate(transaction.from)}
                     </Link>
                   </td>
-                  <td style={{ 
-                    fontSize: '0.9rem', 
-                    fontFamily: 'Outfit, sans-serif',
-                    color: 'var(--text-color, #1f2937)',
-                    fontWeight: '500'
-                  }} title={transaction.to}>
+                  <td className="table-cell-mono" title={transaction.to}>
                     {transaction.to ? (
-                      <Link 
+                      <Link
                         to={`/${chainId}/address/${transaction.to}`}
-                        style={{ 
-                          color: '#10b981', 
-                          fontWeight: '600',
-                          textDecoration: 'none',
-                          fontFamily: 'Outfit, sans-serif'
-                        }}
+                        className="table-cell-address"
                       >
                         {truncate(transaction.to)}
                       </Link>
                     ) : (
-                      <span style={{ color: '#6b7280', fontStyle: 'italic' }}>Contract Creation</span>
+                      <span className="table-cell-italic">Contract Creation</span>
                     )}
                   </td>
-                  <td style={{ 
-                    fontWeight: '600', 
-                    color: '#059669', 
-                    fontSize: '0.95rem',
-                    fontFamily: 'Outfit, sans-serif'
-                  }}>
+                  <td className="table-cell-value">
                     {formatValue(transaction.value)}
                   </td>
-                  <td style={{ 
-                    fontSize: '0.95rem', 
-                    color: '#6b7280',
-                    fontFamily: 'Outfit, sans-serif',
-                    fontWeight: '500'
-                  }}>
+                  <td className="table-cell-muted">
                     {formatGasPrice(transaction.gasPrice)}
                   </td>
-                  <td style={{ 
-                    fontSize: '0.95rem', 
-                    color: '#6b7280',
-                    fontFamily: 'Outfit, sans-serif',
-                    fontWeight: '500'
-                  }}>
+                  <td className="table-cell-muted">
                     {Number(transaction.gas).toLocaleString()}
                   </td>
                 </tr>

@@ -7,10 +7,10 @@ import Loader from '../common/Loader';
 
 export default function Tx() {
   const { chainId, filter } = useParams<{ chainId?: string; filter?: string }>();
-  
+
   const txHash = filter;
   const numericChainId = Number(chainId) || 1;
-  
+
   const dataService = useDataService(numericChainId);
   const [transaction, setTransaction] = useState<Transaction | null>(null);
   const [currentBlockNumber, setCurrentBlockNumber] = useState<number | null>(null);
@@ -22,11 +22,11 @@ export default function Tx() {
       setLoading(false);
       return;
     }
-    
+
     console.log('Fetching transaction:', txHash, 'for chain:', numericChainId);
     setLoading(true);
     setError(null);
-    
+
     Promise.all([
       dataService.getTransaction(txHash),
       dataService.getLatestBlockNumber()
@@ -46,8 +46,8 @@ export default function Tx() {
 
   if (loading) {
     return (
-      <div className="container-wide" style={{ padding: '20px', textAlign: 'center' }}>
-        <h1 style={{ fontFamily: 'Outfit, sans-serif', fontSize: '2rem', color: '#059669', marginBottom: '1rem' }}>Transaction</h1>
+      <div className="container-wide page-container-padded text-center">
+        <h1 className="page-title-small">Transaction</h1>
         <Loader text="Loading transaction..." />
       </div>
     );
@@ -55,19 +55,19 @@ export default function Tx() {
 
   if (error) {
     return (
-      <div className="container-wide" style={{ padding: '20px', textAlign: 'center' }}>
-        <h1 style={{ fontFamily: 'Outfit, sans-serif', fontSize: '2rem', color: '#059669', marginBottom: '1rem' }}>Transaction</h1>
-        <p style={{ color: 'red' }}>Error: {error}</p>
+      <div className="container-wide page-container-padded text-center">
+        <h1 className="page-title-small">Transaction</h1>
+        <p className="error-text">Error: {error}</p>
       </div>
     );
   }
 
   return (
-    <div className="container-wide" style={{ padding: '20px' }}>     
+    <div className="container-wide page-container-padded">
       {transaction ? (
         <>
-          <TransactionDisplay 
-            transaction={transaction} 
+          <TransactionDisplay
+            transaction={transaction}
             chainId={chainId}
             currentBlockNumber={currentBlockNumber || undefined}
             dataService={dataService}

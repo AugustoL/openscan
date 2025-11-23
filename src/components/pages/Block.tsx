@@ -10,10 +10,10 @@ export default function Block() {
     chainId: string;
     blockNumber: string;
   }>();
-  
+
   const blockNumber = filter == "latest" ? "latest" : Number(filter);
   const numericChainId = Number(chainId) || 1;
-  
+
   const dataService = useDataService(numericChainId);
   const [block, setBlock] = useState<Block | null>(null);
   const [loading, setLoading] = useState(true);
@@ -24,11 +24,11 @@ export default function Block() {
       setLoading(false);
       return;
     }
-    
+
     console.log('Fetching block:', blockNumber, 'for chain:', numericChainId);
     setLoading(true);
     setError(null);
-    
+
     dataService
       .getBlock(blockNumber)
       .then(fetchedBlock => {
@@ -44,24 +44,24 @@ export default function Block() {
 
   if (loading) {
     return (
-      <div className="container-wide" style={{ padding: '20px', textAlign: 'center' }}>
-        <h1 style={{ fontFamily: 'Outfit, sans-serif', fontSize: '2rem', color: '#059669', marginBottom: '1rem' }}>Block</h1>
-        <p style={{ color: '#6b7280' }}>Loading...</p>
+      <div className="container-wide page-container-padded text-center">
+        <h1 className="page-title-small">Block</h1>
+        <p className="table-cell-muted">Loading...</p>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="container-wide" style={{ padding: '20px', textAlign: 'center' }}>
-        <h1 style={{ fontFamily: 'Outfit, sans-serif', fontSize: '2rem', color: '#059669', marginBottom: '1rem' }}>Block</h1>
-        <p style={{ color: 'red' }}>Error: {error}</p>
+      <div className="container-wide page-container-padded text-center">
+        <h1 className="page-title-small">Block</h1>
+        <p className="error-text">Error: {error}</p>
       </div>
     );
   }
 
   return (
-    <div className="container-wide" style={{ padding: '20px' }}>     
+    <div className="container-wide page-container-padded">
       {block ? (
         <>
           <BlockDisplay block={block} chainId={chainId} />

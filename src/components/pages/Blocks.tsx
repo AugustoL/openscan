@@ -52,8 +52,8 @@ export default function Blocks() {
 
   if (loading) {
     return (
-      <div className="container-wide" style={{ padding: '20px', textAlign: 'center' }}>
-        <h1 style={{ fontFamily: 'Outfit, sans-serif', fontSize: '2rem', color: '#059669', marginBottom: '1rem' }}>Latest Blocks</h1>
+      <div className="container-wide page-container-padded text-center">
+        <h1 className="page-title-small">Latest Blocks</h1>
         <Loader text="Loading blocks..." />
       </div>
     );
@@ -61,163 +61,63 @@ export default function Blocks() {
 
   if (error) {
     return (
-      <div className="container-wide" style={{ padding: '20px', textAlign: 'center' }}>
-        <h1 style={{ fontFamily: 'Outfit, sans-serif', fontSize: '2rem', color: '#059669', marginBottom: '1rem' }}>Latest Blocks</h1>
-        <p style={{ color: 'red' }}>Error: {error}</p>
+      <div className="container-wide page-container-padded text-center">
+        <h1 className="page-title-small">Latest Blocks</h1>
+        <p className="error-text">Error: {error}</p>
       </div>
     );
   }
 
   return (
-    <div className="container-wide" style={{ padding: '20px', textAlign: 'center' }}>
-      <h1 style={{ fontFamily: 'Outfit, sans-serif', fontSize: '2rem', color: '#059669', marginBottom: '0.5rem' }}>Latest Blocks</h1>
-      <p style={{ color: '#6b7280', marginBottom: '1.5rem' }}>Showing {blocks.length} most recent blocks</p>
-      
-      <div className="table-wrapper" style={{ 
-        background: 'var(--bg-color, #fff)',
-        border: '1px solid #10b981',
-        borderRadius: '16px',
-        padding: '20px',
-        boxShadow: '0 4px 20px rgba(16, 185, 129, 0.1)'
-      }}>
+    <div className="container-wide page-container-padded text-center">
+      <h1 className="page-title-small">Latest Blocks</h1>
+      <p className="page-subtitle-text">Showing {blocks.length} most recent blocks</p>
+
+      <div className="table-wrapper">
         <table className="dash-table">
           <thead>
             <tr>
-              <th style={{ 
-                fontFamily: 'Outfit, sans-serif', 
-                color: '#10b981', 
-                fontWeight: '600',
-                textTransform: 'uppercase',
-                letterSpacing: '0.5px',
-                fontSize: '0.9rem'
-              }}>Block</th>
-              <th style={{ 
-                fontFamily: 'Outfit, sans-serif', 
-                color: '#10b981', 
-                fontWeight: '600',
-                textTransform: 'uppercase',
-                letterSpacing: '0.5px',
-                fontSize: '0.9rem'
-              }}>Timestamp</th>
-              <th style={{ 
-                fontFamily: 'Outfit, sans-serif', 
-                color: '#10b981', 
-                fontWeight: '600',
-                textTransform: 'uppercase',
-                letterSpacing: '0.5px',
-                fontSize: '0.9rem'
-              }}>Txns</th>
-              <th style={{ 
-                fontFamily: 'Outfit, sans-serif', 
-                color: '#10b981', 
-                fontWeight: '600',
-                textTransform: 'uppercase',
-                letterSpacing: '0.5px',
-                fontSize: '0.9rem'
-              }}>Miner</th>
-              <th style={{ 
-                fontFamily: 'Outfit, sans-serif', 
-                color: '#10b981', 
-                fontWeight: '600',
-                textTransform: 'uppercase',
-                letterSpacing: '0.5px',
-                fontSize: '0.9rem'
-              }}>Gas Used</th>
-              <th style={{ 
-                fontFamily: 'Outfit, sans-serif', 
-                color: '#10b981', 
-                fontWeight: '600',
-                textTransform: 'uppercase',
-                letterSpacing: '0.5px',
-                fontSize: '0.9rem'
-              }}>Gas Limit</th>
-              <th style={{ 
-                fontFamily: 'Outfit, sans-serif', 
-                color: '#10b981', 
-                fontWeight: '600',
-                textTransform: 'uppercase',
-                letterSpacing: '0.5px',
-                fontSize: '0.9rem'
-              }}>Size</th>
+              <th>Block</th>
+              <th>Timestamp</th>
+              <th>Txns</th>
+              <th>Miner</th>
+              <th>Gas Used</th>
+              <th>Gas Limit</th>
+              <th>Size</th>
             </tr>
           </thead>
           <tbody>
             {blocks.map((block) => (
-              <tr key={block.number} style={{ 
-                background: 'rgba(16, 185, 129, 0.04)',
-                borderRadius: '8px',
-                transition: 'all 0.2s ease'
-              }}>
+              <tr key={block.number}>
                 <td>
-                  <Link 
+                  <Link
                     to={`/${chainId}/block/${Number(block.number).toString()}`}
-                    style={{ 
-                      color: '#10b981', 
-                      fontWeight: '700',
-                      textDecoration: 'none',
-                      fontFamily: 'Outfit, sans-serif',
-                      fontSize: '1.1rem'
-                    }}
+                    className="table-cell-number"
                   >
                     {Number(block.number).toLocaleString()}
                   </Link>
                 </td>
-                <td style={{ 
-                  fontSize: '0.95rem', 
-                  color: 'var(--text-color, #1f2937)',
-                  fontFamily: 'Outfit, sans-serif',
-                  fontWeight: '500'
-                }}>
+                <td className="table-cell-text">
                   {formatTime(block.timestamp)}
                 </td>
-                <td style={{ 
-                  fontWeight: '600', 
-                  color: '#059669',
-                  fontFamily: 'Outfit, sans-serif',
-                  fontSize: '1rem'
-                }}>
+                <td className="table-cell-value">
                   {block.transactions ? block.transactions.length : 0}
                 </td>
-                <td style={{ 
-                  fontSize: '0.9rem', 
-                  fontFamily: 'Outfit, sans-serif',
-                  color: 'var(--text-color, #1f2937)',
-                  fontWeight: '500'
-                }} title={block.miner}>
-                  <Link 
+                <td className="table-cell-mono" title={block.miner}>
+                  <Link
                     to={`/${chainId}/address/${block.miner}`}
-                    style={{ 
-                      color: '#10b981', 
-                      fontWeight: '600',
-                      textDecoration: 'none',
-                      fontFamily: 'Outfit, sans-serif'
-                    }}
+                    className="table-cell-address"
                   >
                     {truncate(block.miner)}
                   </Link>
                 </td>
-                <td style={{ 
-                  fontSize: '0.95rem',
-                  fontFamily: 'Outfit, sans-serif',
-                  color: 'var(--text-color, #1f2937)',
-                  fontWeight: '500'
-                }}>
+                <td className="table-cell-text">
                   {Number(block.gasUsed).toLocaleString()}
                 </td>
-                <td style={{ 
-                  fontSize: '0.95rem', 
-                  color: '#6b7280',
-                  fontFamily: 'Outfit, sans-serif',
-                  fontWeight: '500'
-                }}>
+                <td className="table-cell-muted">
                   {Number(block.gasLimit).toLocaleString()}
                 </td>
-                <td style={{ 
-                  fontSize: '0.95rem', 
-                  color: '#6b7280',
-                  fontFamily: 'Outfit, sans-serif',
-                  fontWeight: '500'
-                }}>
+                <td className="table-cell-muted">
                   {Number(block.size).toLocaleString()} bytes
                 </td>
               </tr>

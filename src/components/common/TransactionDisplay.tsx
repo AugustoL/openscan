@@ -83,14 +83,7 @@ const TransactionDisplay: React.FC<TransactionDisplayProps> = ({ transaction, ch
         if (!status) return null;
         const isSuccess = status === '0x1' || status === '1';
         return (
-            <span style={{
-                padding: '4px 12px',
-                borderRadius: '6px',
-                fontSize: '0.85rem',
-                fontWeight: '600',
-                background: isSuccess ? '#d1fae5' : '#fee2e2',
-                color: isSuccess ? '#065f46' : '#991b1b'
-            }}>
+            <span className={`status-badge ${isSuccess ? 'status-badge-success' : 'status-badge-failed'}`}>
                 {isSuccess ? 'Success' : 'Failed'}
             </span>
         );
@@ -107,66 +100,20 @@ const TransactionDisplay: React.FC<TransactionDisplayProps> = ({ transaction, ch
 
             {/* Basic Transaction Info */}
             <div className="data-grid-2 mb-medium">
-                <div style={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    padding: '8px 12px',
-                    background: 'rgba(16, 185, 129, 0.04)',
-                    borderRadius: '8px',
-                    borderLeft: '3px solid #10b981'
-                }}>
-                    <span style={{ 
-                        fontSize: '0.85rem',
-                        color: '#10b981',
-                        fontWeight: '600',
-                        fontFamily: 'Outfit, sans-serif'
-                    }}>Status</span>
+                <div className="info-box">
+                    <span className="info-box-label">Status</span>
                     <span>{getStatusBadge(transaction.receipt?.status)}</span>
                 </div>
 
-                <div style={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    padding: '8px 12px',
-                    background: 'rgba(16, 185, 129, 0.04)',
-                    borderRadius: '8px',
-                    borderLeft: '3px solid #10b981'
-                }}>
-                    <span style={{ 
-                        fontSize: '0.85rem',
-                        color: '#10b981',
-                        fontWeight: '600',
-                        fontFamily: 'Outfit, sans-serif'
-                    }}>Block</span>
-                    <span style={{ 
-                        fontWeight: '500',
-                        color: 'var(--text-color, #1f2937)',
-                        fontFamily: 'Outfit, sans-serif',
-                        fontSize: '0.95rem'
-                    }}>{Number(transaction.blockNumber).toLocaleString()}</span>
+                <div className="info-box">
+                    <span className="info-box-label">Block</span>
+                    <span className="info-box-value">{Number(transaction.blockNumber).toLocaleString()}</span>
                 </div>
 
                 {currentBlockNumber && (
-                    <div style={{
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        padding: '8px 12px',
-                        background: 'rgba(16, 185, 129, 0.04)',
-                        borderRadius: '8px',
-                        borderLeft: '3px solid #10b981'
-                    }}>
-                        <span style={{ 
-                            fontSize: '0.85rem',
-                            color: '#10b981',
-                            fontWeight: '600',
-                            fontFamily: 'Outfit, sans-serif'
-                        }}>Confirmations</span>
-                        <span style={{ 
-                            fontWeight: '500',
-                            color: 'var(--text-color, #1f2937)',
-                            fontFamily: 'Outfit, sans-serif',
-                            fontSize: '0.95rem'
-                        }}>
+                    <div className="info-box">
+                        <span className="info-box-label">Confirmations</span>
+                        <span className="info-box-value">
                             {(() => {
                                 const confirmations = currentBlockNumber - Number(transaction.blockNumber);
                                 return confirmations > 100 ? '+100' : confirmations.toLocaleString();
@@ -175,104 +122,31 @@ const TransactionDisplay: React.FC<TransactionDisplayProps> = ({ transaction, ch
                     </div>
                 )}
 
-                <div style={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    padding: '8px 12px',
-                    background: 'rgba(16, 185, 129, 0.04)',
-                    borderRadius: '8px',
-                    borderLeft: '3px solid #10b981'
-                }}>
-                    <span style={{ 
-                        fontSize: '0.85rem',
-                        color: '#10b981',
-                        fontWeight: '600',
-                        fontFamily: 'Outfit, sans-serif'
-                    }}>Nonce</span>
-                    <span style={{ 
-                        fontWeight: '500',
-                        color: 'var(--text-color, #1f2937)',
-                        fontFamily: 'Outfit, sans-serif',
-                        fontSize: '0.95rem'
-                    }}>{transaction.nonce}</span>
+                <div className="info-box">
+                    <span className="info-box-label">Nonce</span>
+                    <span className="info-box-value">{transaction.nonce}</span>
                 </div>
 
-                <div style={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    padding: '8px 12px',
-                    background: 'rgba(16, 185, 129, 0.04)',
-                    borderRadius: '8px',
-                    borderLeft: '3px solid #10b981'
-                }}>
-                    <span style={{ 
-                        fontSize: '0.85rem',
-                        color: '#10b981',
-                        fontWeight: '600',
-                        fontFamily: 'Outfit, sans-serif'
-                    }}>Index</span>
-                    <span style={{ 
-                        fontWeight: '500',
-                        color: 'var(--text-color, #1f2937)',
-                        fontFamily: 'Outfit, sans-serif',
-                        fontSize: '0.95rem'
-                    }}>{transaction.transactionIndex}</span>
+                <div className="info-box">
+                    <span className="info-box-label">Index</span>
+                    <span className="info-box-value">{transaction.transactionIndex}</span>
                 </div>
 
-                <div style={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    padding: '8px 12px',
-                    background: 'rgba(16, 185, 129, 0.04)',
-                    borderRadius: '8px',
-                    borderLeft: '3px solid #10b981'
-                }}>
-                    <span style={{ 
-                        fontSize: '0.85rem',
-                        color: '#10b981',
-                        fontWeight: '600',
-                        fontFamily: 'Outfit, sans-serif'
-                    }}>Type</span>
-                    <span style={{ 
-                        fontWeight: '500',
-                        color: 'var(--text-color, #1f2937)',
-                        fontFamily: 'Outfit, sans-serif',
-                        fontSize: '0.95rem'
-                    }}>{transaction.type}</span>
+                <div className="info-box">
+                    <span className="info-box-label">Type</span>
+                    <span className="info-box-value">{transaction.type}</span>
                 </div>
             </div>
 
             {/* Addresses */}
             <div className="data-grid-3 mb-medium">
-                <div style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: '4px',
-                    padding: '10px 12px',
-                    background: 'rgba(16, 185, 129, 0.04)',
-                    borderRadius: '8px',
-                    borderLeft: '3px solid #10b981'
-                }}>
-                    <span style={{ 
-                        fontSize: '0.85rem',
-                        color: '#10b981',
-                        fontWeight: '600',
-                        fontFamily: 'Outfit, sans-serif'
-                    }}>From</span>
-                    <span style={{ 
-                        fontWeight: '500',
-                        color: 'var(--text-color, #1f2937)',
-                        fontFamily: 'Outfit, sans-serif',
-                        fontSize: '0.9rem'
-                    }}>
+                <div className="info-box-vertical">
+                    <span className="info-box-label">From</span>
+                    <span className="info-box-value-mono">
                         {chainId ? (
-                            <Link 
+                            <Link
                                 to={`/${chainId}/address/${transaction.from}`}
-                                style={{ 
-                                    color: '#10b981', 
-                                    fontWeight: '600',
-                                    textDecoration: 'none'
-                                }}
+                                className="link-accent"
                             >
                                 {truncate(transaction.from, 10, 8)}
                             </Link>
@@ -282,36 +156,14 @@ const TransactionDisplay: React.FC<TransactionDisplayProps> = ({ transaction, ch
                     </span>
                 </div>
 
-                <div style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: '4px',
-                    padding: '10px 12px',
-                    background: 'rgba(16, 185, 129, 0.04)',
-                    borderRadius: '8px',
-                    borderLeft: '3px solid #10b981'
-                }}>
-                    <span style={{ 
-                        fontSize: '0.85rem',
-                        color: '#10b981',
-                        fontWeight: '600',
-                        fontFamily: 'Outfit, sans-serif'
-                    }}>To</span>
-                    <span style={{ 
-                        fontWeight: '500',
-                        color: 'var(--text-color, #1f2937)',
-                        fontFamily: 'Outfit, sans-serif',
-                        fontSize: '0.9rem'
-                    }}>
+                <div className="info-box-vertical">
+                    <span className="info-box-label">To</span>
+                    <span className="info-box-value-mono">
                         {transaction.to ? (
                             chainId ? (
-                                <Link 
+                                <Link
                                     to={`/${chainId}/address/${transaction.to}`}
-                                    style={{ 
-                                        color: '#10b981', 
-                                        fontWeight: '600',
-                                        textDecoration: 'none'
-                                    }}
+                                    className="link-accent"
                                 >
                                     {truncate(transaction.to, 10, 8)}
                                 </Link>
@@ -319,41 +171,19 @@ const TransactionDisplay: React.FC<TransactionDisplayProps> = ({ transaction, ch
                                 truncate(transaction.to, 10, 8)
                             )
                         ) : (
-                            <span style={{ color: '#6b7280', fontStyle: 'italic' }}>Contract Creation</span>
+                            <span className="contract-creation-label">Contract Creation</span>
                         )}
                     </span>
                 </div>
 
                 {transaction.receipt?.contractAddress && (
-                    <div style={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        gap: '4px',
-                        padding: '10px 12px',
-                        background: 'rgba(16, 185, 129, 0.04)',
-                        borderRadius: '8px',
-                        borderLeft: '3px solid #10b981'
-                    }}>
-                        <span style={{ 
-                            fontSize: '0.85rem',
-                            color: '#10b981',
-                            fontWeight: '600',
-                            fontFamily: 'Outfit, sans-serif'
-                        }}>Contract Address</span>
-                        <span style={{ 
-                            fontWeight: '500',
-                            color: 'var(--text-color, #1f2937)',
-                            fontFamily: 'Outfit, sans-serif',
-                            fontSize: '0.9rem'
-                        }}>
+                    <div className="info-box-vertical">
+                        <span className="info-box-label">Contract Address</span>
+                        <span className="info-box-value-mono">
                             {chainId ? (
-                                <Link 
+                                <Link
                                     to={`/${chainId}/address/${transaction.receipt.contractAddress}`}
-                                    style={{ 
-                                        color: '#10b981', 
-                                        fontWeight: '600',
-                                        textDecoration: 'none'
-                                    }}
+                                    className="link-accent"
                                 >
                                     {truncate(transaction.receipt.contractAddress, 10, 8)}
                                 </Link>
@@ -367,49 +197,15 @@ const TransactionDisplay: React.FC<TransactionDisplayProps> = ({ transaction, ch
 
             {/* Value and Fees */}
             <div className="data-grid-2 mb-medium">
-                <div style={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    padding: '8px 12px',
-                    background: 'rgba(16, 185, 129, 0.04)',
-                    borderRadius: '8px',
-                    borderLeft: '3px solid #10b981'
-                }}>
-                    <span style={{ 
-                        fontSize: '0.85rem',
-                        color: '#10b981',
-                        fontWeight: '600',
-                        fontFamily: 'Outfit, sans-serif'
-                    }}>Value</span>
-                    <span style={{ 
-                        fontWeight: '600',
-                        color: '#059669',
-                        fontFamily: 'Outfit, sans-serif',
-                        fontSize: '0.95rem'
-                    }}>{formatValue(transaction.value)}</span>
+                <div className="info-box">
+                    <span className="info-box-label">Value</span>
+                    <span className="info-box-value-accent">{formatValue(transaction.value)}</span>
                 </div>
 
-                <div style={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    padding: '8px 12px',
-                    background: 'rgba(16, 185, 129, 0.04)',
-                    borderRadius: '8px',
-                    borderLeft: '3px solid #10b981'
-                }}>
-                    <span style={{ 
-                        fontSize: '0.85rem',
-                        color: '#10b981',
-                        fontWeight: '600',
-                        fontFamily: 'Outfit, sans-serif'
-                    }}>Transaction Fee</span>
-                    <span style={{ 
-                        fontWeight: '500',
-                        color: 'var(--text-color, #1f2937)',
-                        fontFamily: 'Outfit, sans-serif',
-                        fontSize: '0.95rem'
-                    }}>
-                        {transaction.receipt 
+                <div className="info-box">
+                    <span className="info-box-label">Transaction Fee</span>
+                    <span className="info-box-value">
+                        {transaction.receipt
                             ? formatValue((BigInt(transaction.receipt.gasUsed) * BigInt(transaction.receipt.effectiveGasPrice)).toString())
                             : 'N/A'
                         }
@@ -419,99 +215,31 @@ const TransactionDisplay: React.FC<TransactionDisplayProps> = ({ transaction, ch
 
             {/* Gas Details */}
             <div className="data-grid-2 mb-medium">
-                <div style={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    padding: '8px 12px',
-                    background: 'rgba(16, 185, 129, 0.04)',
-                    borderRadius: '8px',
-                    borderLeft: '3px solid #10b981'
-                }}>
-                    <span style={{ 
-                        fontSize: '0.85rem',
-                        color: '#10b981',
-                        fontWeight: '600',
-                        fontFamily: 'Outfit, sans-serif'
-                    }}>Gas Price</span>
-                    <span style={{ 
-                        fontWeight: '500',
-                        color: 'var(--text-color, #1f2937)',
-                        fontFamily: 'Outfit, sans-serif',
-                        fontSize: '0.95rem'
-                    }}>{formatGwei(transaction.gasPrice)}</span>
+                <div className="info-box">
+                    <span className="info-box-label">Gas Price</span>
+                    <span className="info-box-value">{formatGwei(transaction.gasPrice)}</span>
                 </div>
 
-                <div style={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    padding: '8px 12px',
-                    background: 'rgba(16, 185, 129, 0.04)',
-                    borderRadius: '8px',
-                    borderLeft: '3px solid #10b981'
-                }}>
-                    <span style={{ 
-                        fontSize: '0.85rem',
-                        color: '#10b981',
-                        fontWeight: '600',
-                        fontFamily: 'Outfit, sans-serif'
-                    }}>Gas Limit</span>
-                    <span style={{ 
-                        fontWeight: '500',
-                        color: 'var(--text-color, #1f2937)',
-                        fontFamily: 'Outfit, sans-serif',
-                        fontSize: '0.95rem'
-                    }}>{Number(transaction.gas).toLocaleString()}</span>
+                <div className="info-box">
+                    <span className="info-box-label">Gas Limit</span>
+                    <span className="info-box-value">{Number(transaction.gas).toLocaleString()}</span>
                 </div>
 
                 {transaction.receipt && (
                     <>
-                        <div style={{
-                            display: 'flex',
-                            justifyContent: 'space-between',
-                            padding: '8px 12px',
-                            background: 'rgba(16, 185, 129, 0.04)',
-                            borderRadius: '8px',
-                            borderLeft: '3px solid #10b981'
-                        }}>
-                            <span style={{ 
-                                fontSize: '0.85rem',
-                                color: '#10b981',
-                                fontWeight: '600',
-                                fontFamily: 'Outfit, sans-serif'
-                            }}>Gas Used</span>
-                            <span style={{ 
-                                fontWeight: '500',
-                                color: 'var(--text-color, #1f2937)',
-                                fontFamily: 'Outfit, sans-serif',
-                                fontSize: '0.95rem'
-                            }}>
-                                {Number(transaction.receipt.gasUsed).toLocaleString()} 
-                                <span style={{ color: '#6b7280', marginLeft: '4px', fontSize: '0.85rem' }}>
+                        <div className="info-box">
+                            <span className="info-box-label">Gas Used</span>
+                            <span className="info-box-value">
+                                {Number(transaction.receipt.gasUsed).toLocaleString()}
+                                <span className="gas-percentage">
                                     ({((Number(transaction.receipt.gasUsed) / Number(transaction.gas)) * 100).toFixed(1)}%)
                                 </span>
                             </span>
                         </div>
 
-                        <div style={{
-                            display: 'flex',
-                            justifyContent: 'space-between',
-                            padding: '8px 12px',
-                            background: 'rgba(16, 185, 129, 0.04)',
-                            borderRadius: '8px',
-                            borderLeft: '3px solid #10b981'
-                        }}>
-                            <span style={{ 
-                                fontSize: '0.85rem',
-                                color: '#10b981',
-                                fontWeight: '600',
-                                fontFamily: 'Outfit, sans-serif'
-                            }}>Effective Gas Price</span>
-                            <span style={{ 
-                                fontWeight: '500',
-                                color: 'var(--text-color, #1f2937)',
-                                fontFamily: 'Outfit, sans-serif',
-                                fontSize: '0.95rem'
-                            }}>{formatGwei(transaction.receipt.effectiveGasPrice)}</span>
+                        <div className="info-box">
+                            <span className="info-box-label">Effective Gas Price</span>
+                            <span className="info-box-value">{formatGwei(transaction.receipt.effectiveGasPrice)}</span>
                         </div>
                     </>
                 )}
@@ -519,83 +247,24 @@ const TransactionDisplay: React.FC<TransactionDisplayProps> = ({ transaction, ch
 
             {/* Arbitrum-specific fields */}
             {isArbitrumTx(transaction) && (
-                <div style={{
-                    display: 'grid',
-                    gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-                    gap: '12px',
-                    marginTop: '16px'
-                }}>
+                <div className="arbitrum-grid">
                     {transaction.requestId && transaction.requestId !== '0x0' && (
-                        <div style={{
-                            display: 'flex',
-                            flexDirection: 'column',
-                            gap: '4px',
-                            padding: '10px 12px',
-                            background: 'rgba(59, 130, 246, 0.08)',
-                            borderRadius: '8px',
-                            borderLeft: '3px solid #3b82f6',
-                            gridColumn: '1 / -1'
-                        }}>
-                            <span style={{ 
-                                fontSize: '0.85rem',
-                                color: '#3b82f6',
-                                fontWeight: '600',
-                                fontFamily: 'Outfit, sans-serif'
-                            }}>Request ID</span>
-                            <span style={{ 
-                                fontWeight: '500',
-                                color: 'var(--text-color, #1f2937)',
-                                fontFamily: 'monospace',
-                                fontSize: '0.85rem',
-                                wordBreak: 'break-all'
-                            }}>{transaction.requestId}</span>
+                        <div className="info-box-arbitrum-vertical">
+                            <span className="info-box-arbitrum-label">Request ID</span>
+                            <span className="info-box-value-mono">{transaction.requestId}</span>
                         </div>
                     )}
-                    
+
                     {transaction.receipt && isArbitrumReceipt(transaction.receipt) && (
                         <>
-                            <div style={{
-                                display: 'flex',
-                                justifyContent: 'space-between',
-                                padding: '8px 12px',
-                                background: 'rgba(59, 130, 246, 0.08)',
-                                borderRadius: '8px',
-                                borderLeft: '3px solid #3b82f6'
-                            }}>
-                                <span style={{ 
-                                    fontSize: '0.85rem',
-                                    color: '#3b82f6',
-                                    fontWeight: '600',
-                                    fontFamily: 'Outfit, sans-serif'
-                                }}>L1 Block Number</span>
-                                <span style={{ 
-                                    fontWeight: '500',
-                                    color: 'var(--text-color, #1f2937)',
-                                    fontFamily: 'Outfit, sans-serif',
-                                    fontSize: '0.95rem'
-                                }}>{Number(transaction.receipt.l1BlockNumber).toLocaleString()}</span>
+                            <div className="info-box-arbitrum">
+                                <span className="info-box-arbitrum-label">L1 Block Number</span>
+                                <span className="info-box-value">{Number(transaction.receipt.l1BlockNumber).toLocaleString()}</span>
                             </div>
 
-                            <div style={{
-                                display: 'flex',
-                                justifyContent: 'space-between',
-                                padding: '8px 12px',
-                                background: 'rgba(59, 130, 246, 0.08)',
-                                borderRadius: '8px',
-                                borderLeft: '3px solid #3b82f6'
-                            }}>
-                                <span style={{ 
-                                    fontSize: '0.85rem',
-                                    color: '#3b82f6',
-                                    fontWeight: '600',
-                                    fontFamily: 'Outfit, sans-serif'
-                                }}>Gas Used for L1</span>
-                                <span style={{ 
-                                    fontWeight: '500',
-                                    color: 'var(--text-color, #1f2937)',
-                                    fontFamily: 'Outfit, sans-serif',
-                                    fontSize: '0.95rem'
-                                }}>{Number(transaction.receipt.gasUsedForL1).toLocaleString()}</span>
+                            <div className="info-box-arbitrum">
+                                <span className="info-box-arbitrum-label">Gas Used for L1</span>
+                                <span className="info-box-value">{Number(transaction.receipt.gasUsedForL1).toLocaleString()}</span>
                             </div>
                         </>
                     )}
@@ -604,135 +273,40 @@ const TransactionDisplay: React.FC<TransactionDisplayProps> = ({ transaction, ch
 
             {/* Optimism-specific fields */}
             {transaction.receipt && isOptimismReceipt(transaction.receipt) && (
-                <div style={{
-                    display: 'grid',
-                    gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-                    gap: '12px',
-                    marginTop: '16px'
-                }}>
-                    <div style={{
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        padding: '8px 12px',
-                        background: 'rgba(239, 68, 68, 0.08)',
-                        borderRadius: '8px',
-                        borderLeft: '3px solid #ef4444'
-                    }}>
-                        <span style={{ 
-                            fontSize: '0.85rem',
-                            color: '#ef4444',
-                            fontWeight: '600',
-                            fontFamily: 'Outfit, sans-serif'
-                        }}>L1 Fee</span>
-                        <span style={{ 
-                            fontWeight: '500',
-                            color: 'var(--text-color, #1f2937)',
-                            fontFamily: 'Outfit, sans-serif',
-                            fontSize: '0.95rem'
-                        }}>{formatValue(transaction.receipt.l1Fee)}</span>
+                <div className="optimism-grid">
+                    <div className="info-box-optimism">
+                        <span className="info-box-optimism-label">L1 Fee</span>
+                        <span className="info-box-value">{formatValue(transaction.receipt.l1Fee)}</span>
                     </div>
 
-                    <div style={{
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        padding: '8px 12px',
-                        background: 'rgba(239, 68, 68, 0.08)',
-                        borderRadius: '8px',
-                        borderLeft: '3px solid #ef4444'
-                    }}>
-                        <span style={{ 
-                            fontSize: '0.85rem',
-                            color: '#ef4444',
-                            fontWeight: '600',
-                            fontFamily: 'Outfit, sans-serif'
-                        }}>L1 Gas Price</span>
-                        <span style={{ 
-                            fontWeight: '500',
-                            color: 'var(--text-color, #1f2937)',
-                            fontFamily: 'Outfit, sans-serif',
-                            fontSize: '0.95rem'
-                        }}>{formatGwei(transaction.receipt.l1GasPrice)}</span>
+                    <div className="info-box-optimism">
+                        <span className="info-box-optimism-label">L1 Gas Price</span>
+                        <span className="info-box-value">{formatGwei(transaction.receipt.l1GasPrice)}</span>
                     </div>
 
-                    <div style={{
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        padding: '8px 12px',
-                        background: 'rgba(239, 68, 68, 0.08)',
-                        borderRadius: '8px',
-                        borderLeft: '3px solid #ef4444'
-                    }}>
-                        <span style={{ 
-                            fontSize: '0.85rem',
-                            color: '#ef4444',
-                            fontWeight: '600',
-                            fontFamily: 'Outfit, sans-serif'
-                        }}>L1 Gas Used</span>
-                        <span style={{ 
-                            fontWeight: '500',
-                            color: 'var(--text-color, #1f2937)',
-                            fontFamily: 'Outfit, sans-serif',
-                            fontSize: '0.95rem'
-                        }}>{Number(transaction.receipt.l1GasUsed).toLocaleString()}</span>
+                    <div className="info-box-optimism">
+                        <span className="info-box-optimism-label">L1 Gas Used</span>
+                        <span className="info-box-value">{Number(transaction.receipt.l1GasUsed).toLocaleString()}</span>
                     </div>
 
-                    <div style={{
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        padding: '8px 12px',
-                        background: 'rgba(239, 68, 68, 0.08)',
-                        borderRadius: '8px',
-                        borderLeft: '3px solid #ef4444'
-                    }}>
-                        <span style={{ 
-                            fontSize: '0.85rem',
-                            color: '#ef4444',
-                            fontWeight: '600',
-                            fontFamily: 'Outfit, sans-serif'
-                        }}>L1 Fee Scalar</span>
-                        <span style={{ 
-                            fontWeight: '500',
-                            color: 'var(--text-color, #1f2937)',
-                            fontFamily: 'Outfit, sans-serif',
-                            fontSize: '0.95rem'
-                        }}>{transaction.receipt.l1FeeScalar}</span>
+                    <div className="info-box-optimism">
+                        <span className="info-box-optimism-label">L1 Fee Scalar</span>
+                        <span className="info-box-value">{transaction.receipt.l1FeeScalar}</span>
                     </div>
                 </div>
             )}
 
             {/* Input Data Section */}
             {transaction.data && transaction.data !== '0x' && (
-                <div className="mt-large">
+                <div className="collapsible-container">
                     <button className="collapsible-button"
                         onClick={() => setShowRawData(!showRawData)}
-                        style={{
-                            background: '#10b981',
-                            color: 'white',
-                            border: 'none',
-                            padding: '8px 16px',
-                            borderRadius: '8px',
-                            cursor: 'pointer',
-                            fontFamily: 'Outfit, sans-serif',
-                            fontWeight: '600',
-                            fontSize: '0.9rem',
-                            marginBottom: '10px'
-                        }}
                     >
                         {showRawData ? 'Hide' : 'Show'} Input Data
                     </button>
-                    
+
                     {showRawData && (
-                        <div style={{
-                            background: '#f3f4f6',
-                            padding: '15px',
-                            borderRadius: '8px',
-                            border: '1px solid #e5e7eb',
-                            fontFamily: 'monospace',
-                            fontSize: '0.85rem',
-                            wordBreak: 'break-all',
-                            maxHeight: '300px',
-                            overflowY: 'auto'
-                        }}>
+                        <div className="input-data-display">
                             {transaction.data}
                         </div>
                     )}
@@ -741,76 +315,39 @@ const TransactionDisplay: React.FC<TransactionDisplayProps> = ({ transaction, ch
 
             {/* Event Logs Section */}
             {transaction.receipt && transaction.receipt.logs.length > 0 && (
-                <div className="mt-large">
+                <div className="collapsible-container">
                     <button className="collapsible-button"
                         onClick={() => setShowLogs(!showLogs)}
-                        style={{
-                            background: '#10b981',
-                            color: 'white',
-                            border: 'none',
-                            padding: '8px 16px',
-                            borderRadius: '8px',
-                            cursor: 'pointer',
-                            fontFamily: 'Outfit, sans-serif',
-                            fontWeight: '600',
-                            fontSize: '0.9rem',
-                            marginBottom: '10px'
-                        }}
                     >
                         {showLogs ? 'Hide' : 'Show'} Event Logs ({transaction.receipt.logs.length})
                     </button>
-                    
+
                     {showLogs && (
-                        <div className="flex-column" style={{
-                            gap: '10px'
-                        }}>
+                        <div className="collapsible-content">
                             {transaction.receipt.logs.map((log: any, index: number) => (
-                                <div key={index} style={{
-                                    background: '#f3f4f6',
-                                    padding: '15px',
-                                    borderRadius: '8px',
-                                    border: '1px solid #e5e7eb'
-                                }}>
-                                    <div style={{ 
-                                        fontFamily: 'Outfit, sans-serif', 
-                                        fontWeight: '600', 
-                                        color: '#10b981',
-                                        marginBottom: '10px' 
-                                    }}>
+                                <div key={index} className="log-container">
+                                    <div className="log-header">
                                         Log {index}
                                     </div>
-                                    <div style={{ 
-                                        display: 'grid', 
-                                        gap: '8px',
-                                        fontSize: '0.9rem'
-                                    }}>
+                                    <div className="log-details">
                                         <div>
-                                            <span style={{ fontWeight: '600', color: '#6b7280' }}>Address: </span>
+                                            <span className="log-label">Address: </span>
                                             {chainId ? (
-                                                <Link 
+                                                <Link
                                                     to={`/${chainId}/address/${log.address}`}
-                                                    style={{ 
-                                                        color: '#10b981', 
-                                                        fontWeight: '600',
-                                                        textDecoration: 'none',
-                                                        fontFamily: 'monospace'
-                                                    }}
+                                                    className="link-accent log-value"
                                                 >
                                                     {log.address}
                                                 </Link>
                                             ) : (
-                                                <span style={{ fontFamily: 'monospace' }}>{log.address}</span>
+                                                <span className="log-value">{log.address}</span>
                                             )}
                                         </div>
                                         {log.topics && log.topics.length > 0 && (
                                             <div>
-                                                <span style={{ fontWeight: '600', color: '#6b7280' }}>Topics:</span>
+                                                <span className="log-label">Topics:</span>
                                                 {log.topics.map((topic: string, i: number) => (
-                                                    <div key={i} style={{ 
-                                                        fontFamily: 'monospace', 
-                                                        fontSize: '0.85rem',
-                                                        marginLeft: '10px'
-                                                    }}>
+                                                    <div key={i} className="log-topic-item">
                                                         [{i}] <LongString value={topic} start={10} end={8} />
                                                     </div>
                                                 ))}
@@ -818,12 +355,8 @@ const TransactionDisplay: React.FC<TransactionDisplayProps> = ({ transaction, ch
                                         )}
                                         {log.data && log.data !== '0x' && (
                                             <div>
-                                                <span style={{ fontWeight: '600', color: '#6b7280' }}>Data: </span>
-                                                <div style={{ 
-                                                    fontFamily: 'monospace', 
-                                                    fontSize: '0.85rem',
-                                                    marginTop: '4px'
-                                                }}>
+                                                <span className="log-label">Data: </span>
+                                                <div className="log-value" style={{ marginTop: '4px' }}>
                                                     <LongString value={log.data} start={20} end={20} />
                                                 </div>
                                             </div>
@@ -838,81 +371,45 @@ const TransactionDisplay: React.FC<TransactionDisplayProps> = ({ transaction, ch
 
             {/* Debug Trace Section (Localhost Only) */}
             {isTraceAvailable && (
-                <div className="mt-large">
-                    <button className="collapsible-button"
+                <div className="collapsible-container">
+                    <button className="collapsible-button-purple"
                         onClick={() => setShowTrace(!showTrace)}
-                        style={{
-                            background: '#8b5cf6',
-                            color: 'white',
-                            border: 'none',
-                            padding: '8px 16px',
-                            borderRadius: '8px',
-                            cursor: 'pointer',
-                            fontFamily: 'Outfit, sans-serif',
-                            fontWeight: '600',
-                            fontSize: '0.9rem',
-                            marginBottom: '10px'
-                        }}
                     >
                         {showTrace ? 'Hide' : 'Show'} Debug Trace
                     </button>
-                    
+
                     {showTrace && (
-                        <div className="flex-column" style={{
-                            gap: '15px'
-                        }}>
+                        <div className="collapsible-content">
                             {loadingTrace && (
-                                <div style={{ textAlign: 'center', padding: '20px', color: '#6b7280' }}>
+                                <div className="trace-loading">
                                     Loading trace data...
                                 </div>
                             )}
 
                             {/* Call Trace */}
                             {callTrace && (
-                                <div style={{
-                                    background: '#f3f4f6',
-                                    padding: '15px',
-                                    borderRadius: '8px',
-                                    border: '1px solid #e5e7eb'
-                                }}>
-                                    <div style={{ 
-                                        fontFamily: 'Outfit, sans-serif', 
-                                        fontWeight: '600', 
-                                        color: '#8b5cf6',
-                                        marginBottom: '10px',
-                                        fontSize: '1.1rem'
-                                    }}>
+                                <div className="trace-container">
+                                    <div className="trace-title">
                                         Call Trace
                                     </div>
-                                    <div style={{
-                                        display: 'grid',
-                                        gap: '8px',
-                                        fontSize: '0.85rem',
-                                        fontFamily: 'monospace'
-                                    }}>
-                                        <div><span style={{ fontWeight: '600', color: '#6b7280' }}>Type:</span> {callTrace.type}</div>
-                                        <div><span style={{ fontWeight: '600', color: '#6b7280' }}>From:</span> <LongString value={callTrace.from} start={10} end={8} /></div>
-                                        <div><span style={{ fontWeight: '600', color: '#6b7280' }}>To:</span> <LongString value={callTrace.to} start={10} end={8} /></div>
-                                        <div><span style={{ fontWeight: '600', color: '#6b7280' }}>Value:</span> {callTrace.value}</div>
-                                        <div><span style={{ fontWeight: '600', color: '#6b7280' }}>Gas:</span> {callTrace.gas}</div>
-                                        <div><span style={{ fontWeight: '600', color: '#6b7280' }}>Gas Used:</span> {callTrace.gasUsed}</div>
+                                    <div className="trace-details">
+                                        <div><span className="log-label">Type:</span> {callTrace.type}</div>
+                                        <div><span className="log-label">From:</span> <LongString value={callTrace.from} start={10} end={8} /></div>
+                                        <div><span className="log-label">To:</span> <LongString value={callTrace.to} start={10} end={8} /></div>
+                                        <div><span className="log-label">Value:</span> {callTrace.value}</div>
+                                        <div><span className="log-label">Gas:</span> {callTrace.gas}</div>
+                                        <div><span className="log-label">Gas Used:</span> {callTrace.gasUsed}</div>
                                         {callTrace.error && (
-                                            <div style={{ color: '#ef4444' }}>
-                                                <span style={{ fontWeight: '600' }}>Error:</span> {callTrace.error}
+                                            <div className="trace-error">
+                                                <span className="log-label">Error:</span> {callTrace.error}
                                             </div>
                                         )}
                                         {callTrace.calls && callTrace.calls.length > 0 && (
                                             <div style={{ marginTop: '10px' }}>
-                                                <div style={{ fontWeight: '600', color: '#6b7280', marginBottom: '5px' }}>
+                                                <div className="trace-calls-header">
                                                     Internal Calls ({callTrace.calls.length}):
                                                 </div>
-                                                <div style={{ 
-                                                    maxHeight: '300px', 
-                                                    overflowY: 'auto',
-                                                    background: 'rgba(0,0,0,0.02)',
-                                                    padding: '10px',
-                                                    borderRadius: '6px'
-                                                }}>
+                                                <div className="trace-calls-container">
                                                     {JSON.stringify(callTrace.calls, null, 2)}
                                                 </div>
                                             </div>
@@ -923,70 +420,38 @@ const TransactionDisplay: React.FC<TransactionDisplayProps> = ({ transaction, ch
 
                             {/* Opcode Trace */}
                             {traceData && (
-                                <div style={{
-                                    background: '#f3f4f6',
-                                    padding: '15px',
-                                    borderRadius: '8px',
-                                    border: '1px solid #e5e7eb'
-                                }}>
-                                    <div style={{ 
-                                        fontFamily: 'Outfit, sans-serif', 
-                                        fontWeight: '600', 
-                                        color: '#8b5cf6',
-                                        marginBottom: '10px',
-                                        fontSize: '1.1rem'
-                                    }}>
+                                <div className="trace-container">
+                                    <div className="trace-title">
                                         Execution Trace
                                     </div>
-                                    <div style={{
-                                        display: 'grid',
-                                        gap: '8px',
-                                        fontSize: '0.85rem',
-                                        marginBottom: '15px'
-                                    }}>
-                                        <div><span style={{ fontWeight: '600', color: '#6b7280' }}>Total Gas Used:</span> {traceData.gas}</div>
-                                        <div><span style={{ fontWeight: '600', color: '#6b7280' }}>Failed:</span> {traceData.failed ? 'Yes' : 'No'}</div>
-                                        <div><span style={{ fontWeight: '600', color: '#6b7280' }}>Return Value:</span> <LongString value={traceData.returnValue || '0x'} start={20} end={20} /></div>
-                                        <div><span style={{ fontWeight: '600', color: '#6b7280' }}>Opcodes Executed:</span> {traceData.structLogs.length}</div>
+                                    <div className="trace-details" style={{ marginBottom: '15px' }}>
+                                        <div><span className="log-label">Total Gas Used:</span> {traceData.gas}</div>
+                                        <div><span className="log-label">Failed:</span> {traceData.failed ? 'Yes' : 'No'}</div>
+                                        <div><span className="log-label">Return Value:</span> <LongString value={traceData.returnValue || '0x'} start={20} end={20} /></div>
+                                        <div><span className="log-label">Opcodes Executed:</span> {traceData.structLogs.length}</div>
                                     </div>
-                                    
-                                    <div style={{ 
-                                        fontWeight: '600', 
-                                        color: '#6b7280',
-                                        marginBottom: '10px'
-                                    }}>
+
+                                    <div className="trace-opcode-header">
                                         Opcode Execution Log:
                                     </div>
-                                    <div style={{
-                                        maxHeight: '400px',
-                                        overflowY: 'auto',
-                                        background: 'rgba(0,0,0,0.02)',
-                                        padding: '10px',
-                                        borderRadius: '6px',
-                                        fontFamily: 'monospace',
-                                        fontSize: '0.75rem'
-                                    }}>
+                                    <div className="trace-opcode-container">
                                         {traceData.structLogs.slice(0, 100).map((log, index) => (
-                                            <div key={index} style={{ 
-                                                marginBottom: '8px',
-                                                paddingBottom: '8px',
-                                                borderBottom: '1px solid #e5e7eb'
-                                            }}>
-                                                <div style={{ color: '#8b5cf6', fontWeight: '600' }}>
+                                            <div key={index} className="trace-opcode-step">
+                                                <div className="trace-opcode-name">
                                                     Step {index}: {log.op}
                                                 </div>
-                                                <div style={{ marginLeft: '10px', color: '#6b7280' }}>
+                                                <div className="trace-opcode-info">
                                                     PC: {log.pc} | Gas: {log.gas} | Cost: {log.gasCost} | Depth: {log.depth}
                                                 </div>
                                                 {log.stack && log.stack.length > 0 && (
-                                                    <div style={{ marginLeft: '10px', fontSize: '0.7rem', color: '#9ca3af' }}>
+                                                    <div className="trace-opcode-stack">
                                                         Stack: [{log.stack.slice(0, 3).join(', ')}{log.stack.length > 3 ? '...' : ''}]
                                                     </div>
                                                 )}
                                             </div>
                                         ))}
                                         {traceData.structLogs.length > 100 && (
-                                            <div style={{ textAlign: 'center', color: '#6b7280', padding: '10px' }}>
+                                            <div className="trace-more-text">
                                                 ... showing first 100 of {traceData.structLogs.length} steps
                                             </div>
                                         )}
