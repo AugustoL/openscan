@@ -1,11 +1,15 @@
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useSearchParams, useNavigate } from "react-router-dom";
 import { useDataService } from "../../hooks/useDataService";
 import { useEffect, useState } from "react";
 import { Transaction } from "../../types";
 import Loader from "../common/Loader";
 
+const BLOCKS_PER_PAGE = 10;
+
 export default function Txs() {
 	const { chainId } = useParams<{ chainId?: string }>();
+	const [searchParams] = useSearchParams();
+	const navigate = useNavigate();
 	const numericChainId = Number(chainId) || 1;
 	const dataService = useDataService(numericChainId);
 	const [transactions, setTransactions] = useState<
@@ -13,6 +17,12 @@ export default function Txs() {
 	>([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
+	const [latestBlockNumber, setLatestBlockNumber] = useState<number | null>(null);
+	const [blockRange, setBlockRange] = useState<{ from: number; to: number } | null>(null);
+
+	// Get fromBlock from URL params, default to null (latest)
+	const fromBlockParam = searchParams.get("fromBlock");
+	const fromBlock = fromBlockParam ? Number(fromBlockParam) : null;
 
 	useEffect(() => {
 		if (!dataService) {
@@ -20,25 +30,40 @@ export default function Txs() {
 			return;
 		}
 
-		console.log(
-			"Fetching transactions from latest 10 blocks for chain:",
-			numericChainId,
-		);
-		setLoading(true);
-		setError(null);
+		const fetchTransactions = async () => {
+			setLoading(true);
+			setError(null);
 
-		dataService
-			.getTransactionsFromLatestBlocks(10)
-			.then((fetchedTransactions) => {
+			try {
+				// Get the latest block number first
+				const latestBlock = await dataService.getLatestBlockNumber();
+				setLatestBlockNumber(latestBlock);
+
+				// Determine starting block
+				const startBlock = fromBlock !== null ? fromBlock : latestBlock;
+
+				// Calculate block range
+				const endBlock = Math.max(startBlock - BLOCKS_PER_PAGE + 1, 0);
+				setBlockRange({ from: endBlock, to: startBlock });
+
+				// Fetch transactions from block range
+				const fetchedTransactions = await dataService.getTransactionsFromBlockRange(
+					startBlock,
+					BLOCKS_PER_PAGE
+				);
+
 				console.log("Fetched transactions:", fetchedTransactions);
 				setTransactions(fetchedTransactions);
-			})
-			.catch((err) => {
+			} catch (err: any) {
 				console.error("Error fetching transactions:", err);
 				setError(err.message || "Failed to fetch transactions");
-			})
-			.finally(() => setLoading(false));
-	}, [dataService, numericChainId]);
+			} finally {
+				setLoading(false);
+			}
+		};
+
+		fetchTransactions();
+	}, [dataService, numericChainId, fromBlock]);
 
 	const truncate = (str: string, start = 10, end = 8) => {
 		if (!str) return "";
@@ -64,11 +89,42 @@ export default function Txs() {
 		}
 	};
 
+	// Navigation handlers
+	const goToNewerBlocks = () => {
+		if (!blockRange || latestBlockNumber === null) return;
+		const newFromBlock = Math.min(blockRange.to + BLOCKS_PER_PAGE, latestBlockNumber);
+		
+		if (newFromBlock >= latestBlockNumber) {
+			// Go to latest (remove fromBlock param)
+			navigate(`/${chainId}/txs`);
+		} else {
+			navigate(`/${chainId}/txs?fromBlock=${newFromBlock}`);
+		}
+	};
+
+	const goToOlderBlocks = () => {
+		if (!blockRange) return;
+		const newFromBlock = blockRange.from - 1;
+		
+		if (newFromBlock >= 0) {
+			navigate(`/${chainId}/txs?fromBlock=${newFromBlock}`);
+		}
+	};
+
+	const goToLatest = () => {
+		navigate(`/${chainId}/txs`);
+	};
+
+	// Determine if we can navigate
+	const canGoNewer = fromBlock !== null && latestBlockNumber !== null && fromBlock < latestBlockNumber;
+	const canGoOlder = blockRange !== null && blockRange.from > 0;
+	const isAtLatest = fromBlock === null || (latestBlockNumber !== null && fromBlock >= latestBlockNumber);
+
 	if (loading) {
 		return (
 			<div className="container-wide page-container-padded text-center">
 				<h1 className="page-title-small">Latest Transactions</h1>
-				<Loader text="Loading transactions from the last 10 blocks..." />
+				<Loader text="Loading transactions..." />
 			</div>
 		);
 	}
@@ -82,16 +138,55 @@ export default function Txs() {
 		);
 	}
 
+	const Pagination = () => {
+		// Pagination
+		return (
+			<div className="pagination-container no-margin-top">
+				<button
+					onClick={goToLatest}
+					disabled={isAtLatest}
+					className="pagination-btn"
+					title="Go to latest transactions"
+				>
+					Latest
+				</button>
+				<button
+					onClick={goToNewerBlocks}
+					disabled={!canGoNewer}
+					className="pagination-btn"
+					title="View newer transactions"
+				>
+					← Newer
+				</button>
+				<button
+					onClick={goToOlderBlocks}
+					disabled={!canGoOlder}
+					className="pagination-btn"
+					title="View older transactions"
+				>
+					Older →
+				</button>
+			</div>
+		);
+	};
+
 	return (
 		<div className="container-wide page-container-padded text-center">
 			<h1 className="page-title-small">Latest Transactions</h1>
-			<p className="page-subtitle-text">
-				Showing {transactions.length} transactions from the last 10 blocks
+			<p className="page-subtitle-text no-margin-bottom">
+				{isAtLatest
+					? `Showing ${transactions.length} transactions from the last ${BLOCKS_PER_PAGE} blocks`
+					: blockRange
+						? `Showing ${transactions.length} transactions from blocks ${blockRange.from.toLocaleString()} - ${blockRange.to.toLocaleString()}`
+						: `Showing ${transactions.length} transactions`
+				}
 			</p>
+
+			<Pagination />
 
 			{transactions.length === 0 ? (
 				<p className="table-cell-muted">
-					No transactions found in the last 10 blocks
+					No transactions found in the selected block range
 				</p>
 			) : (
 				<div className="table-wrapper">
@@ -164,6 +259,8 @@ export default function Txs() {
 					</table>
 				</div>
 			)}
+
+			<Pagination />
 		</div>
 	);
 }
