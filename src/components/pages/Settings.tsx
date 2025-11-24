@@ -1,9 +1,11 @@
 import React, { useContext, useState } from "react";
 import { AppContext } from "../../context/AppContext";
+import { useSettings } from "../../context/SettingsContext";
 import type { RpcUrlsContextType, RPCUrls } from "../../types";
 
 const Settings: React.FC = () => {
 	const { rpcUrls, setRpcUrls } = useContext(AppContext);
+	const { settings, updateSettings } = useSettings();
 	const [localRpc, setLocalRpc] = useState<Record<number, string | RPCUrls>>({
 		...rpcUrls,
 	});
@@ -76,6 +78,126 @@ const Settings: React.FC = () => {
 					✓ Settings saved successfully!
 				</div>
 			)}
+
+			{/* Appearance Settings Section */}
+			<div
+				style={{
+					background: "#ffffff",
+					borderRadius: "16px",
+					padding: "24px",
+					boxShadow: "0 2px 8px rgba(0, 0, 0, 0.05)",
+					border: "1px solid rgba(16, 185, 129, 0.1)",
+					marginBottom: "24px",
+				}}
+			>
+				<h2
+					style={{
+						fontSize: "1.25rem",
+						fontWeight: "700",
+						color: "#10b981",
+						marginBottom: "8px",
+						display: "flex",
+						alignItems: "center",
+						gap: "8px",
+					}}
+				>
+					🎨 Appearance
+				</h2>
+				<p
+					style={{
+						fontSize: "0.85rem",
+						color: "#6b7280",
+						marginBottom: "24px",
+					}}
+				>
+					Customize the visual appearance of the application.
+				</p>
+
+				<div
+					style={{
+						background: "rgba(16, 185, 129, 0.02)",
+						padding: "16px",
+						borderRadius: "12px",
+						border: "1px solid rgba(16, 185, 129, 0.15)",
+						display: "flex",
+						alignItems: "center",
+						justifyContent: "space-between",
+					}}
+				>
+					<div>
+						<div
+							style={{
+								fontWeight: "600",
+								color: "#1f2937",
+								fontSize: "0.95rem",
+							}}
+						>
+							Funny Background Blocks
+						</div>
+						<div
+							style={{
+								fontSize: "0.8rem",
+								color: "#6b7280",
+								marginTop: "2px",
+							}}
+						>
+							Show animated isometric blocks in the background
+						</div>
+					</div>
+					<label
+						style={{
+							position: "relative",
+							display: "inline-block",
+							width: "50px",
+							height: "26px",
+							cursor: "pointer",
+						}}
+					>
+						<input
+							type="checkbox"
+							checked={settings.showBackgroundBlocks ?? true}
+							onChange={(e) =>
+								updateSettings({ showBackgroundBlocks: e.target.checked })
+							}
+							style={{
+								opacity: 0,
+								width: 0,
+								height: 0,
+							}}
+						/>
+						<span
+							style={{
+								position: "absolute",
+								cursor: "pointer",
+								top: 0,
+								left: 0,
+								right: 0,
+								bottom: 0,
+								backgroundColor: settings.showBackgroundBlocks
+									? "#10b981"
+									: "#cbd5e1",
+								transition: "0.3s",
+								borderRadius: "26px",
+							}}
+						>
+							<span
+								style={{
+									position: "absolute",
+									content: '""',
+									height: "20px",
+									width: "20px",
+									left: settings.showBackgroundBlocks ? "27px" : "3px",
+									bottom: "3px",
+									backgroundColor: "white",
+									transition: "0.3s",
+									borderRadius: "50%",
+									boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
+								}}
+							/>
+						</span>
+					</label>
+				</div>
+			</div>
 
 			{/* RPC Configuration Section */}
 			<div

@@ -27,6 +27,18 @@ body {
   overflow: hidden;
 }
 
+/* Background animated blocks */
+.app-background-blocks {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  opacity: 0.2;
+  z-index: 0;
+}
+
 .app-content {
   position: relative;
   z-index: 1;
@@ -92,6 +104,26 @@ body {
   color: #ffffff;
   border-radius: 8px;
   transition: all 0.2s ease;
+}
+
+.navbar a.home-cube-link {
+  padding: 6px 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 10px;
+}
+
+.navbar a.home-cube-link:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.home-cube {
+  transition: transform 0.2s ease;
+}
+
+.navbar a.home-cube-link:hover .home-cube {
+  transform: scale(1.1) rotate(-5deg);
 }
 
 .navbar a:hover {
@@ -4570,6 +4602,19 @@ code {
   align-items: center;
   min-height: 60vh;
   width: 100%;
+  background: transparent;
+}
+
+/* Page card with semi-transparent background */
+.page-card {
+  background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 20px;
+  border: 1px solid rgba(16, 185, 129, 0.15);
+  padding: 32px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  margin-top: 12px;
 }
 
 .home-content {

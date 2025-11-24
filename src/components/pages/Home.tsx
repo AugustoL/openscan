@@ -107,6 +107,38 @@ export default function Home() {
 			),
 		},
 		{
+			to: "/31337",
+			name: "Localhost",
+			description: "Local development network, hardhat or anvil",
+			chainId: "31337",
+			color: "#FFF100",
+			icon: <img src={hardhatLogo} alt="Localhost" width="32" height="32" />,
+		},
+		{
+			to: "/42161",
+			name: "Arbitrum One",
+			description: "Ethereum Layer 2 scaling solution",
+			chainId: "42161",
+			color: "#28A0F0",
+			icon: <img src={arbitrumLogo} alt="Arbitrum" width="32" height="32" />,
+		},
+		{
+			to: "/10",
+			name: "Optimism",
+			description: "Ethereum Layer 2 with low fees",
+			chainId: "10",
+			color: "#FF0420",
+			icon: <img src={optimismLogo} alt="Optimism" width="32" height="32" />,
+		},
+		{
+			to: "/8453",
+			name: "Base",
+			description: "Coinbase's Ethereum Layer 2",
+			chainId: "8453",
+			color: "#0052FF",
+			icon: <img src={baseLogo} alt="Base" width="32" height="32" />,
+		},
+		{
 			to: "/11155111",
 			name: "Sepolia Testnet",
 			description: "Ethereum test network for development",
@@ -140,44 +172,11 @@ export default function Home() {
 				</svg>
 			),
 		},
-		{
-			to: "/42161",
-			name: "Arbitrum One",
-			description: "Ethereum Layer 2 scaling solution",
-			chainId: "42161",
-			color: "#28A0F0",
-			icon: <img src={arbitrumLogo} alt="Arbitrum" width="32" height="32" />,
-		},
-		{
-			to: "/10",
-			name: "Optimism",
-			description: "Ethereum Layer 2 with low fees",
-			chainId: "10",
-			color: "#FF0420",
-			icon: <img src={optimismLogo} alt="Optimism" width="32" height="32" />,
-		},
-		{
-			to: "/8453",
-			name: "Base",
-			description: "Coinbase's Ethereum Layer 2",
-			chainId: "8453",
-			color: "#0052FF",
-			icon: <img src={baseLogo} alt="Base" width="32" height="32" />,
-		},
 	];
-
-	const localhostNetwork = {
-		to: "/31337",
-		name: "Localhost",
-		description: "Local development network, hardhat or anvil",
-		chainId: "31337",
-		color: "#FFF100",
-		icon: <img src={hardhatLogo} alt="Localhost" width="32" height="32" />,
-	};
 
 	return (
 		<div className="home-container">
-			<div className="home-content">
+			<div className="home-content page-card">
 				<h1 className="home-title">OPENSCAN</h1>
 				<p className="subtitle">Select a blockchain network to explore</p>
 
@@ -185,11 +184,6 @@ export default function Home() {
 					{mainNetworks.map((network) => (
 						<NetworkCard key={network.chainId} {...network} />
 					))}
-				</div>
-
-				{/* Localhost card spanning full width */}
-				<div className="localhost-network-container">
-					<NetworkCard {...localhostNetwork} centered={true} />
 				</div>
 			</div>
 		</div>

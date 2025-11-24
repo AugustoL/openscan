@@ -8,13 +8,14 @@ const About: React.FC = () => {
 
 	return (
 		<div className="container-medium page-container-padded">
-			{/* Header */}
-			<div className="text-center mb-large">
-				<h1 className="page-heading">About OpenScan</h1>
-				<p className="page-subtitle">
-					An open-source, lightweight, multi-chain blockchain explorer
-				</p>
-			</div>
+			<div className="page-card">
+				{/* Header */}
+				<div className="text-center mb-large">
+					<h1 className="page-heading">About OpenScan</h1>
+					<p className="page-subtitle">
+						An open-source, lightweight, multi-chain blockchain explorer
+					</p>
+				</div>
 
 			{/* Version Info Card */}
 			<div className="version-card">
@@ -119,6 +120,7 @@ const About: React.FC = () => {
 				<p className="license-footer-spacing">
 					Built with ❤️ for the Ethereum community
 				</p>
+			</div>
 			</div>
 		</div>
 	);

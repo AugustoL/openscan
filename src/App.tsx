@@ -37,6 +37,7 @@ import Navbar from "./components/common/Navbar";
 import Footer from "./components/common/Footer";
 import NotificationDisplay from "./components/common/NotificationDisplay";
 import ErrorBoundary from "./components/common/ErrorBoundary";
+import { IsometricBlocks } from "./components/common/IsometricBlocks";
 import "./styles/styles.css";
 import "./styles/layouts.css";
 import "./styles/components.css";
@@ -58,7 +59,7 @@ import {
 	LazyAbout,
 } from "./components/LazyComponents";
 import { NotificationProvider } from "./context/NotificationContext";
-import { SettingsProvider, useTheme } from "./context/SettingsContext";
+import { SettingsProvider, useTheme, useSettings } from "./context/SettingsContext";
 
 // Detect GH Pages once
 const isGhPages =
@@ -76,32 +77,48 @@ function AppContent() {
 
 	const { fullyReady } = useAppReady();
 	const { isDarkMode } = useTheme(); // Now this is inside ThemeProvider
+	const { settings } = useSettings();
 
 	return (
 		<>
 			{!fullyReady ? (
 				<Loading />
 			) : (
-				<div className="app-content">
-					<Navbar />
-					<NotificationDisplay />
-					<Routes>
-						<Route path="/" element={<LazyHome />} />
-						<Route path="settings" element={<LazySettings />} />
-						<Route path="about" element={<LazyAbout />} />
-						<Route path="devtools" element={<LazyDevTools />} />
-						<Route path=":chainId" element={<LazyChain />} />
-						<Route path=":chainId/blocks" element={<LazyBlocks />} />
-						<Route path=":chainId/block/:filter" element={<LazyBlock />} />
-						<Route path=":chainId/txs" element={<LazyTxs />} />
-						<Route path=":chainId/tx/:filter" element={<LazyTx />} />
-						<Route path=":chainId/address/:address" element={<LazyAddress />} />
-						<Route path=":chainId/mempool" element={<LazyMempool />} />
-						<Route path=":chainId/mempool/:filter" element={<LazyTx />} />
-						<Route path="*" element={<Navigate to="/" replace />} />
-					</Routes>
-					<Footer />
-				</div>
+				<>
+					{/* Background animated blocks - full screen (conditionally rendered) */}
+					{settings.showBackgroundBlocks && (
+						<div className="app-background-blocks">
+							<IsometricBlocks
+								width={window.innerWidth}
+								height={window.innerHeight}
+								cubeSize={32}
+								maxCubes={80}
+								spawnInterval={100}
+							/>
+						</div>
+					)}
+
+					<div className="app-content">
+						<Navbar />
+						<NotificationDisplay />
+						<Routes>
+							<Route path="/" element={<LazyHome />} />
+							<Route path="settings" element={<LazySettings />} />
+							<Route path="about" element={<LazyAbout />} />
+							<Route path="devtools" element={<LazyDevTools />} />
+							<Route path=":chainId" element={<LazyChain />} />
+							<Route path=":chainId/blocks" element={<LazyBlocks />} />
+							<Route path=":chainId/block/:filter" element={<LazyBlock />} />
+							<Route path=":chainId/txs" element={<LazyTxs />} />
+							<Route path=":chainId/tx/:filter" element={<LazyTx />} />
+							<Route path=":chainId/address/:address" element={<LazyAddress />} />
+							<Route path=":chainId/mempool" element={<LazyMempool />} />
+							<Route path=":chainId/mempool/:filter" element={<LazyTx />} />
+							<Route path="*" element={<Navigate to="/" replace />} />
+						</Routes>
+						<Footer />
+					</div>
+				</>
 			)}
 		</>
 	);

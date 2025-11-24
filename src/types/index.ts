@@ -212,6 +212,7 @@ export type RpcUrlsContextType = Record<supportedChainsIds, RPCUrls>;
  */
 export interface UserSettings {
 	theme?: "light" | "dark" | "auto";
+	showBackgroundBlocks?: boolean;
 }
 
 /**
@@ -219,6 +220,7 @@ export interface UserSettings {
  */
 export const DEFAULT_SETTINGS: UserSettings = {
 	theme: "auto",
+	showBackgroundBlocks: true,
 };
 
 // src/services/rpc/types.ts
