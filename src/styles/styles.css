@@ -31,8 +31,14 @@ body {
   position: relative;
   z-index: 1;
   height: 100vh;
-  overflow-y: hidden;
+  overflow-y: auto;
   padding-bottom: 60px;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+.app-content::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
 }
 
 /* Navbar */
