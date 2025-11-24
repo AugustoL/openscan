@@ -114,6 +114,7 @@ export function NetworkBlockIndicator({
 		<div
 			className={`network-block-indicator ${className || ""}`}
 			style={{ borderColor: `${networkInfo.color}40` }}
+			title={networkInfo.name}
 		>
 			<div
 				className="network-block-pulse"
@@ -126,16 +127,13 @@ export function NetworkBlockIndicator({
 					<EthereumIcon color={networkInfo.color} />
 				)}
 			</div>
-			<div className="network-block-info">
-				<span className="network-block-label">{networkInfo.name}</span>
-				<span className="network-block-number">
-					{isLoading
-						? "..."
-						: blockNumber !== null
-							? `#${blockNumber.toLocaleString()}`
-							: "---"}
-				</span>
-			</div>
+			<span className="network-block-number">
+				{isLoading
+					? "..."
+					: blockNumber !== null
+						? `#${blockNumber.toLocaleString()}`
+						: "---"}
+			</span>
 		</div>
 	);
 }

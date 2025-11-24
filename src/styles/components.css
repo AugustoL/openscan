@@ -1096,7 +1096,8 @@
 	display: flex;
 	align-items: center;
 	gap: 8px;
-	padding: 6px 12px;
+	padding: 4px 10px;
+	height: 36px;
 	background: rgba(255, 255, 255, 0.05);
 	border: 1px solid rgba(255, 255, 255, 0.15);
 	border-radius: 8px;
@@ -1144,11 +1145,11 @@
 .network-block-info {
 	display: flex;
 	flex-direction: column;
-	gap: 1px;
+	gap: 0px;
 }
 
 .network-block-label {
-	font-size: 0.65rem;
+	font-size: 0.6rem;
 	color: #e5e7eb;
 	font-family: "Outfit", sans-serif;
 	text-transform: uppercase;
@@ -1157,7 +1158,7 @@
 }
 
 .network-block-number {
-	font-size: 0.8rem;
+	font-size: 0.75rem;
 	font-family: "JetBrains Mono", monospace;
 	color: var(--text-color, #e5e7eb);
 	font-weight: 500;
