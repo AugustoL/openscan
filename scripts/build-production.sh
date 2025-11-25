@@ -15,7 +15,11 @@ npm ci
 echo "Creating production environment file..."
 echo "REACT_APP_ENVIRONMENT=production" > .env
 
+# Get current commit hash
 COMMIT_HASH=$(git rev-parse HEAD)
+
+# Clean previous build
+rm -r dist || true
 
 # Build the app
 echo "Building React app on commit $COMMIT_HASH"
@@ -25,8 +29,8 @@ echo "Production build completed!"
 echo "Build output is in ./dist/"
 
 # Get IPFS hash (ensure consistent chunking)
-ipfs add -r --chunker=size-262144 ./dist
-HASH=$(ipfs add -r -Q --chunker=size-262144 ./dist)
+ipfs add -r --chunker=size-262144 --raw-leaves=false ./dist
+HASH=$(ipfs add -r -Q --chunker=size-262144 --raw-leaves=false ./dist)
 HASH_V1=$(ipfs cid format -v 1 -b base32 $HASH)
 
 echo "IPFS Hash (v0): $HASH"

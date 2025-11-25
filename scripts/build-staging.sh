@@ -15,6 +15,7 @@ npm ci
 echo "Creating staging environment file..."
 echo "REACT_APP_ENVIRONMENT=staging" > .env
 
+# Get current commit hash
 COMMIT_HASH=$(git rev-parse HEAD)
 
 # Build the app
