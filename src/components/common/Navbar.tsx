@@ -22,7 +22,7 @@ const Navbar = () => {
 		chainId &&
 		pathSegments.length >= 2 &&
 		pathSegments[1] &&
-		["blocks", "block", "txs", "tx"].includes(pathSegments[1]);
+		["blocks", "block", "txs", "tx", "address"].includes(pathSegments[1]);
 
 	console.log(
 		"Navbar chainId from URL:",

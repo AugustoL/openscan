@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { useSourcify } from "../../hooks/useSourcify";
-import { Address } from "../../types";
+import { Address, AddressTransactionsResult, Transaction } from "../../types";
 import { AppContext } from "../../context";
 import {
 	useWriteContract,
@@ -17,12 +17,18 @@ interface AddressDisplayProps {
 	address: Address;
 	addressHash: string;
 	chainId?: string;
+	transactionsResult?: AddressTransactionsResult | null;
+	transactionDetails?: Transaction[];
+	loadingTxDetails?: boolean;
 }
 
 const AddressDisplay: React.FC<AddressDisplayProps> = ({
 	address,
 	addressHash,
 	chainId = "1",
+	transactionsResult,
+	transactionDetails = [],
+	loadingTxDetails = false,
 }) => {
 	const [storageSlot, setStorageSlot] = useState("");
 	const [storageValue, setStorageValue] = useState("");
@@ -307,281 +313,171 @@ const AddressDisplay: React.FC<AddressDisplayProps> = ({
 	}
 
 	return (
-		<div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
-			{/* Address Header Card */}
-			<div className="block-display-card">
-				<div className="block-display-header">
-					<span className="block-label">Address</span>
-					<span
-						className="block-number"
-						style={{ fontFamily: "monospace", fontSize: "1.1rem" }}
-					>
-						{addressHash}
-					</span>
-				</div>
+		<div className="block-display-card">
+			<div className="block-display-header">
+				<span className="block-label">Address</span>
+				<span className="tx-mono" style={{ fontSize: "0.9rem", color: "#9ca3af" }}>
+					{addressHash}
+				</span>
+			</div>
 
-				<div
-					style={{
-						display: "grid",
-						gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
-						gap: "12px",
-						marginBottom: "0",
-					}}
-				>
+			<div style={{ display: "flex", flexDirection: "column", gap: "24px", padding: "0" }}>
+				{/* Address Details Section */}
+				<div className="tx-details">
+					<div className="tx-section">
+						<span className="tx-section-title">Address Details</span>
+					</div>
+
 					{/* Type */}
-					<div
-						style={{
-							display: "flex",
-							justifyContent: "space-between",
-							padding: "10px 16px",
-							background: "rgba(16, 185, 129, 0.04)",
-							borderRadius: "8px",
-							borderLeft: "3px solid #10b981",
-						}}
-					>
-						<span
-							style={{
-								fontSize: "0.85rem",
-								color: "#10b981",
-								fontWeight: "600",
-								fontFamily: "Outfit, sans-serif",
-							}}
-						>
-							Type
-						</span>
-						<span
-							style={{
-								fontWeight: "600",
-								color: isContract ? "#3b82f6" : "#10b981",
-								fontFamily: "Outfit, sans-serif",
-								fontSize: "0.95rem",
-							}}
-						>
-							{isContract ? "📄 Contract" : "👤 EOA"}
+					<div className="tx-row">
+						<span className="tx-label">Type:</span>
+						<span className="tx-value">
+							{isContract ? (
+								<span className="tx-value-highlight" style={{ color: "#3b82f6" }}>
+									📄 Contract
+								</span>
+							) : (
+								<span className="tx-value-highlight">
+									👤 Externally Owned Account (EOA)
+								</span>
+							)}
 						</span>
 					</div>
+
+					<div className="tx-separator" />
 
 					{/* Balance */}
-					<div
-						style={{
-							display: "flex",
-							justifyContent: "space-between",
-							padding: "10px 16px",
-							background: "rgba(16, 185, 129, 0.04)",
-							borderRadius: "8px",
-							borderLeft: "3px solid #10b981",
-						}}
-					>
-						<span
-							style={{
-								fontSize: "0.85rem",
-								color: "#10b981",
-								fontWeight: "600",
-								fontFamily: "Outfit, sans-serif",
-							}}
-						>
-							Balance
-						</span>
-						<span
-							style={{
-								fontWeight: "600",
-								color: "#059669",
-								fontFamily: "Outfit, sans-serif",
-								fontSize: "0.95rem",
-							}}
-						>
-							{formatBalance(address.balance)}
+					<div className="tx-row">
+						<span className="tx-label">Balance:</span>
+						<span className="tx-value">
+							<span className="tx-value-highlight">{formatBalance(address.balance)}</span>
 						</span>
 					</div>
 
-					{/* Transaction Count */}
-					<div
-						style={{
-							display: "flex",
-							justifyContent: "space-between",
-							padding: "10px 16px",
-							background: "rgba(16, 185, 129, 0.04)",
-							borderRadius: "8px",
-							borderLeft: "3px solid #10b981",
-						}}
-					>
-						<span
-							style={{
-								fontSize: "0.85rem",
-								color: "#10b981",
-								fontWeight: "600",
-								fontFamily: "Outfit, sans-serif",
-							}}
-						>
-							Transactions
-						</span>
-						<span
-							style={{
-								fontWeight: "600",
-								color: "#059669",
-								fontFamily: "Outfit, sans-serif",
-								fontSize: "0.95rem",
-							}}
-						>
-							{Number(address.txCount).toLocaleString()}
-						</span>
+					{/* Transaction Count (Nonce) */}
+					<div className="tx-row">
+						<span className="tx-label">Transactions:</span>
+						<span className="tx-value">{Number(address.txCount).toLocaleString()} txns</span>
 					</div>
 
-					{/* Verification (only for contracts) */}
+					{/* Verification Status (only for contracts) */}
 					{isContract && (
-						<div
-							style={{
-								display: "flex",
-								justifyContent: "space-between",
-								alignItems: "center",
-								padding: "10px 16px",
-								background: "rgba(16, 185, 129, 0.04)",
-								borderRadius: "8px",
-								borderLeft: "3px solid #10b981",
-							}}
-						>
-							<span
-								style={{
-									fontSize: "0.85rem",
-									color: "#10b981",
-									fontWeight: "600",
-									fontFamily: "Outfit, sans-serif",
-								}}
-							>
-								Verified
-							</span>
-							<span
-								style={{
-									display: "flex",
-									alignItems: "center",
-									gap: "6px",
-								}}
-							>
-								{sourcifyLoading ? (
-									<span
-										style={{
-											color: "rgba(255, 255, 255, 0.5)",
-											fontSize: "0.9rem",
-											fontFamily: "Outfit, sans-serif",
-										}}
-									>
-										Checking...
-									</span>
-								) : isVerified || parsedLocalData ? (
-									<>
-										<span
-											style={{
-												color: "#10b981",
-												fontWeight: "600",
-												fontSize: "0.95rem",
-												fontFamily: "Outfit, sans-serif",
-											}}
-										>
-											✓ Yes
+						<>
+							<div className="tx-separator" />
+							<div className="tx-row">
+								<span className="tx-label">Contract Verified:</span>
+								<span className="tx-value">
+									{sourcifyLoading ? (
+										<span style={{ color: "#6b7280" }}>Checking Sourcify...</span>
+									) : isVerified || parsedLocalData ? (
+										<span style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+											<span className="tx-value-highlight">✓ Verified</span>
+											{contractData?.match && (
+												<span 
+													style={{
+														fontSize: "0.75rem",
+														padding: "2px 8px",
+														background: "rgba(16, 185, 129, 0.15)",
+														borderRadius: "4px",
+														color: "#10b981",
+														fontWeight: "600",
+													}}
+												>
+													{contractData.match === "perfect"
+														? parsedLocalData
+															? "Local JSON"
+															: "Perfect Match"
+														: "Partial Match"}
+												</span>
+											)}
 										</span>
-										{contractData?.match && (
-											<span
-												style={{
-													fontSize: "0.7rem",
-													padding: "2px 6px",
-													background: "rgba(16, 185, 129, 0.2)",
-													borderRadius: "4px",
-													color: "#10b981",
-													fontWeight: "600",
-												}}
-											>
-												{contractData.match === "perfect"
-													? parsedLocalData
-														? "Local"
-														: "Perfect"
-													: "Partial"}
-											</span>
-										)}
-									</>
-								) : (
-									<span
-										style={{
-											color: "rgba(255, 255, 255, 0.5)",
-											fontSize: "0.9rem",
-											fontFamily: "Outfit, sans-serif",
-										}}
-									>
-										No
-									</span>
-								)}
-							</span>
+									) : (
+										<span style={{ color: "#6b7280" }}>Not Verified</span>
+									)}
+								</span>
+							</div>
+						</>
+					)}
+
+					{/* Contract Name (if verified) */}
+					{isContract && contractData?.name && (
+						<div className="tx-row">
+							<span className="tx-label">Contract Name:</span>
+							<span className="tx-value">{contractData.name}</span>
+						</div>
+					)}
+
+					{/* Compiler Version (if verified) */}
+					{isContract && contractData?.compilerVersion && (
+						<div className="tx-row">
+							<span className="tx-label">Compiler:</span>
+							<span className="tx-value tx-mono">{contractData.compilerVersion}</span>
 						</div>
 					)}
 				</div>
-			</div>
 
-			{/* Contract Verification Details */}
-			{isContract && (isVerified || parsedLocalData) && contractData && (
-				<div className="block-display-card">
-					<div
-						className="block-display-header"
-						style={{ cursor: "pointer" }}
-						onClick={() => setShowContractDetails(!showContractDetails)}
-					>
-						<span className="block-label">Contract Details</span>
-						<span style={{ fontSize: "1.2rem", color: "#10b981" }}>
-							{showContractDetails ? "▼" : "▶"}
+				{/* Contract Verification Details */}
+				{isContract && (isVerified || parsedLocalData) && contractData && (
+					<div className="tx-details">
+						<div
+							className="tx-section"
+							style={{ cursor: "pointer" }}
+							onClick={() => setShowContractDetails(!showContractDetails)}
+						>
+							<span className="tx-section-title">Contract Details</span>
+							<span style={{ fontSize: "1rem", color: "#10b981", marginLeft: "8px" }}>
+								{showContractDetails ? " ▼" : " ▶"}
 						</span>
 					</div>
 
 					{showContractDetails && (
-						<div className="block-display-grid">
+						<>
 							{contractData.name && (
-								<div className="block-detail-item">
-									<span className="detail-label">Contract Name</span>
-									<span
-										className="detail-value"
-										style={{ color: "#10b981", fontWeight: "600" }}
-									>
+								<div className="tx-row">
+									<span className="tx-label">Contract Name</span>
+									<span className="tx-value" style={{ color: "#10b981", fontWeight: "600" }}>
 										{contractData.name}
 									</span>
 								</div>
 							)}
 
 							{contractData.compilerVersion && (
-								<div className="block-detail-item">
-									<span className="detail-label">Compiler Version</span>
-									<span className="detail-value">
+								<div className="tx-row">
+									<span className="tx-label">Compiler Version</span>
+									<span className="tx-value tx-mono">
 										{contractData.compilerVersion}
 									</span>
 								</div>
 							)}
 
 							{contractData.evmVersion && (
-								<div className="block-detail-item">
-									<span className="detail-label">EVM Version</span>
-									<span className="detail-value">
-										{contractData.evmVersion}
-									</span>
+								<div className="tx-row">
+									<span className="tx-label">EVM Version</span>
+									<span className="tx-value">{contractData.evmVersion}</span>
 								</div>
 							)}
 
 							{contractData.chainId && (
-								<div className="block-detail-item">
-									<span className="detail-label">Chain ID</span>
-									<span className="detail-value">{contractData.chainId}</span>
+								<div className="tx-row">
+									<span className="tx-label">Chain ID</span>
+									<span className="tx-value">{contractData.chainId}</span>
 								</div>
 							)}
 
 							{contractData.verifiedAt && (
-								<div className="block-detail-item">
-									<span className="detail-label">Verified At</span>
-									<span className="detail-value">
+								<div className="tx-row">
+									<span className="tx-label">Verified At</span>
+									<span className="tx-value">
 										{new Date(contractData.verifiedAt).toLocaleString()}
 									</span>
 								</div>
 							)}
 
 							{contractData.match && (
-								<div className="block-detail-item">
-									<span className="detail-label">Match Type</span>
+								<div className="tx-row">
+									<span className="tx-label">Match Type</span>
 									<span
-										className="detail-value"
+										className="tx-value"
 										style={{
 											color:
 												contractData.match === "perfect"
@@ -595,11 +491,20 @@ const AddressDisplay: React.FC<AddressDisplayProps> = ({
 								</div>
 							)}
 
+							{contractData.metadata?.compiler && (
+								<div className="tx-row">
+									<span className="tx-label">Compiler</span>
+									<span className="tx-value tx-mono">
+										{contractData.metadata.compiler.version}
+									</span>
+								</div>
+							)}
+
 							{contractData.creation_match && (
-								<div className="block-detail-item">
-									<span className="detail-label">Creation Match</span>
+								<div className="tx-row">
+									<span className="tx-label">Creation Match</span>
 									<span
-										className="detail-value"
+										className="tx-value"
 										style={{
 											color:
 												contractData.creation_match === "perfect"
@@ -614,10 +519,10 @@ const AddressDisplay: React.FC<AddressDisplayProps> = ({
 							)}
 
 							{contractData.runtime_match && (
-								<div className="block-detail-item">
-									<span className="detail-label">Runtime Match</span>
+								<div className="tx-row">
+									<span className="tx-label">Runtime Match</span>
 									<span
-										className="detail-value"
+										className="tx-value"
 										style={{
 											color:
 												contractData.runtime_match === "perfect"
@@ -632,27 +537,41 @@ const AddressDisplay: React.FC<AddressDisplayProps> = ({
 							)}
 
 							{/* Contract Bytecode */}
-							<div
-								className="block-detail-item"
-								style={{ gridColumn: "1 / -1" }}
-							>
-								<span className="detail-label">Contract Bytecode</span>
+							<div className="tx-row-vertical">
 								<div
 									style={{
-										marginTop: "8px",
-										padding: "12px",
-										background: "rgba(255, 255, 255, 0.03)",
-										border: "1px solid rgba(255, 255, 255, 0.1)",
-										borderRadius: "8px",
-										fontFamily: "monospace",
-										fontSize: "0.75rem",
-										wordBreak: "break-all",
-										color: "#10b981",
-										maxHeight: "200px",
-										overflowY: "auto",
+										display: "flex",
+										alignItems: "center",
+										gap: "8px",
+										cursor: "pointer",
+										userSelect: "none",
+									}}
+									onClick={() => {
+										const elem = document.getElementById("bytecode-content");
+										const icon = document.getElementById("bytecode-icon");
+										if (elem && icon) {
+											const isHidden = elem.style.display === "none";
+											elem.style.display = isHidden ? "block" : "none";
+											icon.textContent = isHidden ? "▼" : "▶";
+										}
 									}}
 								>
-									{address.code}
+									<span className="tx-label">Contract Bytecode</span>
+									<span
+										id="bytecode-icon"
+										style={{ fontSize: "0.9rem", color: "#10b981" }}
+									>
+										▶
+									</span>
+								</div>
+								<div
+									id="bytecode-content"
+									className="tx-input-data"
+									style={{
+										display: "none",
+									}}
+								>
+									<code>{address.code}</code>
 								</div>
 							</div>
 
@@ -676,15 +595,12 @@ const AddressDisplay: React.FC<AddressDisplayProps> = ({
 												: [];
 
 									return sourceFiles.length > 0 ? (
-										<div
-											className="block-detail-item"
-											style={{ gridColumn: "1 / -1" }}
-										>
+										<div className="tx-row-vertical">
 											<div
 												style={{
 													display: "flex",
-													justifyContent: "space-between",
 													alignItems: "center",
+													gap: "8px",
 													cursor: "pointer",
 													userSelect: "none",
 												}}
@@ -701,7 +617,7 @@ const AddressDisplay: React.FC<AddressDisplayProps> = ({
 													}
 												}}
 											>
-												<span className="detail-label">Source Code</span>
+												<span className="tx-label">Source Code</span>
 												<span
 													id="source-code-icon"
 													style={{ fontSize: "0.9rem", color: "#10b981" }}
@@ -758,12 +674,50 @@ const AddressDisplay: React.FC<AddressDisplayProps> = ({
 									) : null;
 								})()}
 
+							{/* Raw ABI */}
+							{contractData.abi && contractData.abi.length > 0 && (
+								<div className="tx-row-vertical">
+									<div
+										style={{
+											display: "flex",
+											alignItems: "center",
+											gap: "8px",
+											cursor: "pointer",
+											userSelect: "none",
+										}}
+										onClick={() => {
+											const elem = document.getElementById("raw-abi-content");
+											const icon = document.getElementById("raw-abi-icon");
+											if (elem && icon) {
+												const isHidden = elem.style.display === "none";
+												elem.style.display = isHidden ? "block" : "none";
+												icon.textContent = isHidden ? "▼" : "▶";
+											}
+										}}
+									>
+										<span className="tx-label">Raw ABI</span>
+										<span
+											id="raw-abi-icon"
+											style={{ fontSize: "0.9rem", color: "#10b981" }}
+										>
+											▶
+										</span>
+									</div>
+									<div
+										id="raw-abi-content"
+										className="tx-input-data"
+										style={{
+											display: "none",
+										}}
+									>
+										<code>{JSON.stringify(contractData.abi, null, 2)}</code>
+									</div>
+								</div>
+							)}
+
 							{/* Contract ABI */}
 							{contractData.abi && contractData.abi.length > 0 && (
-								<div
-									className="block-detail-item"
-									style={{ gridColumn: "1 / -1" }}
-								>
+								<div className="tx-row-vertical">
 									<div
 										style={{
 											display: "flex",
@@ -772,7 +726,7 @@ const AddressDisplay: React.FC<AddressDisplayProps> = ({
 											marginBottom: "8px",
 										}}
 									>
-										<span className="detail-label">Contract ABI</span>
+										<span className="tx-label">Functions</span>
 										<ConnectButton.Custom>
 											{({
 												account,
@@ -1615,109 +1569,13 @@ const AddressDisplay: React.FC<AddressDisplayProps> = ({
 											</div>
 										)}
 
-										{/* Constructor */}
-										{contractData.abi.find(
-											(item: any) => item.type === "constructor",
-										) && (
-											<div>
-												<div
-													style={{
-														fontSize: "0.85rem",
-														color: "#10b981",
-														marginBottom: "6px",
-														fontWeight: "600",
-													}}
-												>
-													Constructor
-												</div>
-												<span
-													style={{
-														padding: "4px 10px",
-														background: "rgba(245, 158, 11, 0.15)",
-														color: "#f59e0b",
-														borderRadius: "6px",
-														fontSize: "0.8rem",
-														fontFamily: "monospace",
-														display: "inline-block",
-													}}
-												>
-													constructor
-												</span>
-											</div>
-										)}
-									</div>
-								</div>
-							)}
-
-							{/* Metadata Info */}
-							{contractData.metadata && (
-								<div
-									className="block-detail-item"
-									style={{ gridColumn: "1 / -1" }}
-								>
-									<span className="detail-label">Additional Metadata</span>
-									<div
-										style={{
-											marginTop: "8px",
-											display: "grid",
-											gridTemplateColumns:
-												"repeat(auto-fit, minmax(200px, 1fr))",
-											gap: "12px",
-										}}
-									>
-										{contractData.metadata.language && (
-											<div
-												style={{
-													padding: "8px",
-													background: "rgba(255, 255, 255, 0.03)",
-													borderRadius: "6px",
-												}}
-											>
-												<div
-													style={{
-														fontSize: "0.75rem",
-														color: "#10b981",
-														marginBottom: "4px",
-													}}
-												>
-													Language
-												</div>
-												<div style={{ fontSize: "0.85rem", color: "#10b981" }}>
-													{contractData.metadata.language}
-												</div>
-											</div>
-										)}
-										{contractData.metadata.compiler && (
-											<div
-												style={{
-													padding: "8px",
-													background: "rgba(255, 255, 255, 0.03)",
-													borderRadius: "6px",
-												}}
-											>
-												<div
-													style={{
-														fontSize: "0.75rem",
-														color: "#10b981",
-														marginBottom: "4px",
-													}}
-												>
-													Compiler
-												</div>
-												<div style={{ fontSize: "0.85rem", color: "#10b981" }}>
-													{contractData.metadata.compiler.version}
-												</div>
-											</div>
-										)}
 									</div>
 								</div>
 							)}
 
 							{sourcifyData && (
-								<div
-									className="block-detail-item"
-									style={{ gridColumn: "1 / -1" }}
-								>
+								<div className="tx-row">
+									<span className="tx-label">Sourcify</span>
 									<a
 										href={`https://repo.sourcify.dev/contracts/full_match/${chainId}/${addressHash}/`}
 										target="_blank"
@@ -1735,22 +1593,86 @@ const AddressDisplay: React.FC<AddressDisplayProps> = ({
 									</a>
 								</div>
 							)}
-						</div>
+						</>
 					)}
 				</div>
 			)}
 
-			{/* Recent Transactions Table */}
-			{address.recentTransactions && address.recentTransactions.length > 0 && (
-				<div className="block-display-card">
-					<div className="block-display-header">
-						<span className="block-label">Recent Transactions</span>
+			{/* Last Transactions Section */}
+			<div className="tx-details">
+				<div
+					className="tx-section"
+					style={{
+						display: "flex",
+						justifyContent: "space-between",
+						alignItems: "center",
+					}}
+				>
+					<span className="tx-section-title">Last Transactions</span>
+					{transactionsResult && (
 						<span
-							style={{ fontSize: "0.9rem", color: "rgba(255, 255, 255, 0.6)" }}
+							style={{ 
+								fontSize: "0.85rem", 
+								color: transactionsResult.isComplete ? "#10b981" : "#f59e0b",
+								display: "flex",
+								alignItems: "center",
+								gap: "6px",
+							}}
 						>
-							Last {address.recentTransactions.length} transactions
+							{transactionsResult.source === "trace_filter" && (
+								<>
+									<span style={{ color: "#10b981" }}>●</span>
+									Complete history ({transactionDetails.length} transactions)
+								</>
+							)}
+							{transactionsResult.source === "logs" && (
+								<>
+									<span style={{ color: "#f59e0b" }}>●</span>
+									Partial (logs only) - {transactionDetails.length} transactions
+								</>
+							)}
+							{transactionsResult.source === "none" && (
+								<>
+									<span style={{ color: "#ef4444" }}>●</span>
+									No data available
+								</>
+							)}
 						</span>
+					)}
+				</div>
+				
+				{/* Warning message for partial data */}
+				{transactionsResult?.message && (
+					<div 
+						style={{
+							padding: "12px 16px",
+							background: transactionsResult.source === "none" 
+								? "rgba(239, 68, 68, 0.1)" 
+								: "rgba(245, 158, 11, 0.1)",
+							borderBottom: "1px solid rgba(0, 0, 0, 0.1)",
+							fontSize: "0.85rem",
+							color: transactionsResult.source === "none" ? "#ef4444" : "#f59e0b",
+							display: "flex",
+							alignItems: "center",
+							gap: "8px",
+						}}
+					>
+						<span style={{ fontSize: "1rem" }}>
+							{transactionsResult.source === "none" ? "⚠️" : "ℹ️"}
+						</span>
+						{transactionsResult.message}
 					</div>
+				)}
+
+				{/* Loading state */}
+				{loadingTxDetails && (
+					<div style={{ padding: "24px", textAlign: "center", color: "#6b7280" }}>
+						Loading transaction details...
+					</div>
+				)}
+
+				{/* Transaction table */}
+				{!loadingTxDetails && transactionDetails.length > 0 && (
 					<div className="address-table-container">
 						<table className="recent-transactions-table">
 							<thead>
@@ -1763,7 +1685,7 @@ const AddressDisplay: React.FC<AddressDisplayProps> = ({
 								</tr>
 							</thead>
 							<tbody>
-								{address.recentTransactions.map((tx, index) => (
+								{transactionDetails.map((tx) => (
 									<tr key={tx.hash}>
 										<td>
 											<Link
@@ -1832,8 +1754,15 @@ const AddressDisplay: React.FC<AddressDisplayProps> = ({
 							</tbody>
 						</table>
 					</div>
-				</div>
-			)}
+				)}
+
+				{/* Empty state */}
+				{!loadingTxDetails && transactionDetails.length === 0 && !transactionsResult?.message && (
+					<div style={{ padding: "24px", textAlign: "center", color: "#6b7280" }}>
+						No transactions found for this address
+					</div>
+				)}
+			</div>
 
 			{/* Storage Section (for contracts) */}
 			{isContract && (
@@ -1900,6 +1829,7 @@ const AddressDisplay: React.FC<AddressDisplayProps> = ({
 					</div>
 				</div>
 			)}
+			</div>
 		</div>
 	);
 };

@@ -31,6 +31,7 @@ import type {
 	Address,
 	NetworkStats,
 	RpcUrlsContextType,
+	AddressTransactionsResult,
 } from "../types";
 
 interface CacheEntry<T> {
@@ -308,6 +309,40 @@ export class DataService {
 
 		this.setCache(cacheKey, addressData);
 		return addressData;
+	}
+
+	/**
+	 * Get all transactions for an address using trace_filter or eth_getLogs fallback
+	 * @param address The address to get transactions for
+	 * @param fromBlock Starting block (default: last 10000 blocks)
+	 * @param toBlock Ending block (default: latest)
+	 * @param limit Maximum number of transactions to return
+	 */
+	async getAddressTransactions(
+		address: string,
+		fromBlock?: number | "earliest",
+		toBlock?: number | "latest",
+		limit: number = 100,
+	): Promise<AddressTransactionsResult> {
+		// If no fromBlock specified, use last 10000 blocks to avoid huge queries
+		let actualFromBlock = fromBlock;
+		if (!actualFromBlock) {
+			const latestBlock = await this.getLatestBlockNumber();
+			actualFromBlock = Math.max(0, latestBlock - 10000);
+		}
+
+		const result = await this.addressFetcher.getAddressTransactions(
+			address,
+			actualFromBlock,
+			toBlock || "latest",
+		);
+
+		// Limit the results
+		if (result.transactions.length > limit) {
+			result.transactions = result.transactions.slice(0, limit);
+		}
+
+		return result;
 	}
 
 	async getLatestBlockNumber(): Promise<number> {
