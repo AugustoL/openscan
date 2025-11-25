@@ -48,6 +48,7 @@ const Settings: React.FC = () => {
 		{ id: 8453, name: "Base Mainnet" },
 		{ id: 56, name: "BSC Mainnet" },
 		{ id: 97, name: "BSC Testnet" },
+		{ id: 137, name: "Polygon POS" },
 		{ id: 31337, name: "Local Hardhat" },
 	];
 

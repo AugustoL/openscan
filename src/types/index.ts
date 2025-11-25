@@ -208,7 +208,8 @@ export type supportedChainsIds =
 	| 10 // optimism mainnet
 	| 8453 // base mainnet
 	| 56 // bsc mainnet
-	| 97; // bsc testnet
+	| 97 // bsc testnet
+	| 137; // polygon pos
 
 export type RpcUrlsContextType = Record<supportedChainsIds, RPCUrls>;
 

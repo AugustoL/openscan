@@ -36,6 +36,11 @@
 			"currency": "tBNB"
 		},
 		{
+			"chainId": 137,
+			"name": "Polygon",
+			"currency": "POL"
+		},
+		{
 			"chainId": 31337,
 			"name": "Localhost",
 			"currency": "ETH"

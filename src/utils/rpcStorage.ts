@@ -67,6 +67,13 @@ export const RPC_ENDPOINTS: RpcUrlsContextType = {
 			"https://data-seed-prebsc-1-s1.binance.org:8545",
 		"https://bsc-testnet.publicnode.com",
 	].filter(Boolean) as string[],
+
+	// Polygon POS
+	137: [
+		process.env.REACT_APP_POLYGON_RPC || "https://polygon-rpc.com",
+		"https://polygon.llamarpc.com",
+		"https://polygon-bor.publicnode.com",
+	].filter(Boolean) as string[],
 };
 type RpcMap = Record<number, string[]>;
 
