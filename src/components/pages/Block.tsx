@@ -3,6 +3,7 @@ import { useDataService } from "../../hooks/useDataService";
 import { useEffect, useState } from "react";
 import { Block } from "../../types";
 import BlockDisplay from "../common/BlockDisplay";
+import Loader from "../common/Loader";
 
 export default function Block() {
 	const { chainId, filter } = useParams<{
@@ -47,30 +48,55 @@ export default function Block() {
 
 	if (loading) {
 		return (
-			<div className="container-wide page-container-padded text-center">
-				<h1 className="page-title-small">Block</h1>
-				<p className="table-cell-muted">Loading...</p>
+			<div className="container-wide" style={{ padding: "20px" }}>
+				<div className="block-display-card">
+					<div className="block-display-header">
+						<span className="block-label">Block</span>
+						<span className="tx-mono" style={{ fontSize: "0.9rem", color: "#9ca3af" }}>
+							#{filter}
+						</span>
+					</div>
+					<div style={{ padding: "48px 24px", display: "flex", justifyContent: "center", alignItems: "center" }}>
+						<Loader text="Loading block data..." />
+					</div>
+				</div>
 			</div>
 		);
 	}
 
 	if (error) {
 		return (
-			<div className="container-wide page-container-padded text-center">
-				<h1 className="page-title-small">Block</h1>
-				<p className="error-text">Error: {error}</p>
+			<div className="container-wide" style={{ padding: "20px" }}>
+				<div className="block-display-card">
+					<div className="block-display-header">
+						<span className="block-label">Block</span>
+						<span className="tx-mono" style={{ fontSize: "0.9rem", color: "#9ca3af" }}>
+							#{filter}
+						</span>
+					</div>
+					<div style={{ padding: "24px" }}>
+						<p style={{ color: "#ef4444", margin: 0 }}>Error: {error}</p>
+					</div>
+				</div>
 			</div>
 		);
 	}
 
 	return (
-		<div className="container-wide page-container-padded">
+		<div className="container-wide" style={{ padding: "20px" }}>
 			{block ? (
 				<>
 					<BlockDisplay block={block} chainId={chainId} />
 				</>
 			) : (
-				<p>Block not found</p>
+				<div className="block-display-card">
+					<div className="block-display-header">
+						<span className="block-label">Block</span>
+					</div>
+					<div style={{ padding: "24px" }}>
+						<p style={{ color: "#9ca3af", margin: 0 }}>Block not found</p>
+					</div>
+				</div>
 			)}
 		</div>
 	);

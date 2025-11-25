@@ -51,24 +51,42 @@ export default function Tx() {
 
 	if (loading) {
 		return (
-			<div className="container-wide page-container-padded text-center">
-				<h1 className="page-title-small">Transaction</h1>
-				<Loader text="Loading transaction..." />
+			<div className="container-wide" style={{ padding: "20px" }}>
+				<div className="block-display-card">
+					<div className="block-display-header">
+						<span className="block-label">Transaction</span>
+						<span className="tx-mono" style={{ fontSize: "0.9rem", color: "#9ca3af" }}>
+							{txHash}
+						</span>
+					</div>
+					<div style={{ padding: "48px 24px", display: "flex", justifyContent: "center", alignItems: "center" }}>
+						<Loader text="Loading transaction..." />
+					</div>
+				</div>
 			</div>
 		);
 	}
 
 	if (error) {
 		return (
-			<div className="container-wide page-container-padded text-center">
-				<h1 className="page-title-small">Transaction</h1>
-				<p className="error-text">Error: {error}</p>
+			<div className="container-wide" style={{ padding: "20px" }}>
+				<div className="block-display-card">
+					<div className="block-display-header">
+						<span className="block-label">Transaction</span>
+						<span className="tx-mono" style={{ fontSize: "0.9rem", color: "#9ca3af" }}>
+							{txHash}
+						</span>
+					</div>
+					<div style={{ padding: "24px" }}>
+						<p className="error-text" style={{ margin: 0 }}>Error: {error}</p>
+					</div>
+				</div>
 			</div>
 		);
 	}
 
 	return (
-		<div className="container-wide page-container-padded">
+		<div className="container-wide" style={{ padding: "20px" }}>
 			{transaction ? (
 				<>
 					<TransactionDisplay
@@ -79,7 +97,14 @@ export default function Tx() {
 					/>
 				</>
 			) : (
-				<p>Transaction not found</p>
+				<div className="block-display-card">
+					<div className="block-display-header">
+						<span className="block-label">Transaction</span>
+					</div>
+					<div style={{ padding: "24px" }}>
+						<p style={{ color: "#9ca3af", margin: 0 }}>Transaction not found</p>
+					</div>
+				</div>
 			)}
 		</div>
 	);
