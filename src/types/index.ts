@@ -206,7 +206,9 @@ export type supportedChainsIds =
 	| 677868 // aztec sandobx
 	| 42161 // arbitrum one
 	| 10 // optimism mainnet
-	| 8453; // base mainnet
+	| 8453 // base mainnet
+	| 56 // bsc mainnet
+	| 97; // bsc testnet
 
 export type RpcUrlsContextType = Record<supportedChainsIds, RPCUrls>;
 

@@ -22,6 +22,8 @@ const NETWORK_INFO: Record<number, NetworkInfo> = {
 	42161: { name: "Arbitrum", logo: arbitrumLogo, color: "#28A0F0" },
 	10: { name: "Optimism", logo: optimismLogo, color: "#FF0420" },
 	8453: { name: "Base", logo: baseLogo, color: "#0052FF" },
+	56: { name: "BSC", logo: null, color: "#F0B90B" },
+	97: { name: "BSC Testnet", logo: null, color: "#F0B90B" },
 	31337: { name: "Localhost", logo: hardhatLogo, color: "#FFF100" },
 };
 

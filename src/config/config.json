@@ -26,6 +26,16 @@
 			"currency": "ETH"
 		},
 		{
+			"chainId": 56,
+			"name": "BSC",
+			"currency": "BNB"
+		},
+		{
+			"chainId": 97,
+			"name": "BSC Testnet",
+			"currency": "tBNB"
+		},
+		{
 			"chainId": 31337,
 			"name": "Localhost",
 			"currency": "ETH"

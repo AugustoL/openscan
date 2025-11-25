@@ -107,14 +107,6 @@ export default function Home() {
 			),
 		},
 		{
-			to: "/31337",
-			name: "Localhost",
-			description: "Local development network, hardhat or anvil",
-			chainId: "31337",
-			color: "#FFF100",
-			icon: <img src={hardhatLogo} alt="Localhost" width="32" height="32" />,
-		},
-		{
 			to: "/42161",
 			name: "Arbitrum One",
 			description: "Ethereum Layer 2 scaling solution",
@@ -137,6 +129,64 @@ export default function Home() {
 			chainId: "8453",
 			color: "#0052FF",
 			icon: <img src={baseLogo} alt="Base" width="32" height="32" />,
+		},
+		{
+			to: "/56",
+			name: "BSC",
+			description: "Binance Smart Chain mainnet",
+			chainId: "56",
+			color: "#F0B90B",
+			icon: (
+				<svg
+					width="32"
+					height="32"
+					viewBox="0 0 126.61 126.61"
+					xmlns="http://www.w3.org/2000/svg"
+				>
+					<path
+						fill="#F0B90B"
+						d="m38.73 53.2 24.59-24.58 24.6 24.6 14.3-14.31L63.32 0l-38.9 38.9zM0 63.31l14.3-14.31 14.31 14.31-14.31 14.3zM38.73 73.41l24.59 24.59 24.6-24.6 14.31 14.29-38.9 38.91-38.91-38.88zM97.99 63.31l14.3-14.31 14.32 14.31-14.31 14.3z"
+					/>
+					<path
+						fill="#F0B90B"
+						d="m77.83 63.3-14.51-14.52-10.73 10.73-1.24 1.23-2.54 2.54 14.51 14.5 14.51-14.47z"
+					/>
+				</svg>
+			),
+		},
+		{
+			to: "/97",
+			name: "BSC Testnet",
+			description: "Binance Smart Chain testnet",
+			chainId: "97",
+			color: "#F0B90B",
+			icon: (
+				<svg
+					width="32"
+					height="32"
+					viewBox="0 0 126.61 126.61"
+					xmlns="http://www.w3.org/2000/svg"
+				>
+					<path
+						fill="#F0B90B"
+						fillOpacity="0.7"
+						d="m38.73 53.2 24.59-24.58 24.6 24.6 14.3-14.31L63.32 0l-38.9 38.9zM0 63.31l14.3-14.31 14.31 14.31-14.31 14.3zM38.73 73.41l24.59 24.59 24.6-24.6 14.31 14.29-38.9 38.91-38.91-38.88zM97.99 63.31l14.3-14.31 14.32 14.31-14.31 14.3z"
+					/>
+					<path
+						fill="#F0B90B"
+						fillOpacity="0.7"
+						d="m77.83 63.3-14.51-14.52-10.73 10.73-1.24 1.23-2.54 2.54 14.51 14.5 14.51-14.47z"
+					/>
+				</svg>
+			),
+		},
+		{
+			to: "/31337",
+			name: "Localhost",
+			description: "Local development network, hardhat or anvil",
+			chainId: "31337",
+			color: "#FFF100",
+			icon: <img src={hardhatLogo} alt="Localhost" width="32" height="32" />,
 		},
 		{
 			to: "/11155111",

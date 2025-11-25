@@ -19,6 +19,9 @@ A trustless, open-source, standalone web-app, multi-chain blockchain explorer fo
 - **Sepolia Testnet** - Ethereum test network for development
 - **Arbitrum One** - Ethereum Layer 2 scaling solution
 - **Optimism** - Ethereum Layer 2 with low fees
+- **Base** - Coinbase's Layer 2 network
+- **BSC (BNB Chain)** - Binance Smart Chain mainnet
+- **BSC Testnet** - Binance Smart Chain testnet
 - **Localhost** - Local development networks (Hardhat/Anvil)
 
 ### 🔍 Core Functionality
@@ -115,6 +118,8 @@ Default RPC endpoints:
 - **Sepolia**: `https://rpc.sepolia.org`, `https://ethereum-sepolia-rpc.publicnode.com`
 - **Arbitrum**: `https://arb1.arbitrum.io/rpc`, `https://arbitrum-one.publicnode.com`
 - **Optimism**: `https://mainnet.optimism.io`, `https://optimism.publicnode.com`
+- **BSC**: `https://bsc-dataseed.binance.org`, `https://bsc.publicnode.com`
+- **BSC Testnet**: `https://data-seed-prebsc-1-s1.binance.org:8545`, `https://bsc-testnet.publicnode.com`
 - **Localhost**: `http://localhost:8545`
 
 ### Supported Chain IDs
@@ -125,6 +130,9 @@ Default RPC endpoints:
 | Sepolia Testnet | 11155111 |
 | Arbitrum One | 42161 |
 | Optimism | 10 |
+| Base | 8453 |
+| BSC (BNB Chain) | 56 |
+| BSC Testnet | 97 |
 | Localhost | 31337 |
 
 ## Architecture

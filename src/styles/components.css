@@ -670,8 +670,8 @@
 .network-card {
 	background: rgba(255, 255, 255, 0.05);
 	border: 2px solid rgba(255, 255, 255, 0.1);
-	border-radius: 16px;
-	padding: 24px;
+	border-radius: 12px;
+	padding: 16px;
 	transition: all 0.3s ease;
 	box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
 	cursor: pointer;
@@ -684,23 +684,23 @@
 .network-card-header {
 	display: flex;
 	align-items: center;
-	gap: 16px;
-	margin-bottom: 12px;
+	gap: 12px;
+	margin-bottom: 8px;
 	justify-content: flex-start;
 }
 
 .network-card-header-centered {
 	display: flex;
 	align-items: center;
-	gap: 16px;
-	margin-bottom: 12px;
+	gap: 12px;
+	margin-bottom: 8px;
 	justify-content: center;
 }
 
 .network-card-icon {
-	width: 48px;
-	height: 48px;
-	border-radius: 12px;
+	width: 40px;
+	height: 40px;
+	border-radius: 10px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -714,15 +714,15 @@
 .network-card-title {
 	margin: 0;
 	font-family: "Outfit", sans-serif;
-	font-size: 1.5rem;
+	font-size: 1.25rem;
 	font-weight: 700;
 	color: #059669;
-	margin-bottom: 4px;
+	margin-bottom: 2px;
 }
 
 .network-card-chain-id {
 	font-family: "Outfit", sans-serif;
-	font-size: 0.875rem;
+	font-size: 0.75rem;
 	color: #059669;
 	font-weight: 500;
 }
@@ -730,9 +730,9 @@
 .network-card-description {
 	margin: 0;
 	font-family: "Outfit", sans-serif;
-	font-size: 0.95rem;
+	font-size: 0.85rem;
 	color: #0da978ff;
-	line-height: 1.5;
+	line-height: 1.4;
 	text-align: center;
 }
 
