@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="https://openscan.eth.link/openscan-logo.png" alt="OpenScan Logo" width="128" height="128">
+</p>
+
 # OpenScan
 
 A trustless, open-source, standalone web-app, multi-chain blockchain explorer for Ethereum, Layer 2 networks, and local development chains, allowing the direct interaction with verified smart contracts.
