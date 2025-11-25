@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useMemo, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { useSourcify } from "../../hooks/useSourcify";
 import { Address, AddressTransactionsResult, Transaction } from "../../types";
@@ -55,7 +55,10 @@ const AddressDisplay: React.FC<AddressDisplayProps> = React.memo(
 		const { isLoading: isConfirming, isSuccess: isConfirmed } =
 			useWaitForTransactionReceipt({ hash });
 
-		const isContract = address.code && address.code !== "0x";
+		const isContract = useMemo(
+			() => address.code && address.code !== "0x",
+			[address.code],
+		);
 
 		// Fetch Sourcify data only if it's a contract
 		const {
@@ -68,31 +71,38 @@ const AddressDisplay: React.FC<AddressDisplayProps> = React.memo(
 			true,
 		);
 
-		const truncate = (str: string, start = 6, end = 4) => {
+		// Memoized helper functions
+		const truncate = useCallback((str: string, start = 6, end = 4) => {
 			if (!str) return "";
 			if (str.length <= start + end) return str;
 			return `${str.slice(0, start)}...${str.slice(-end)}`;
-		};
+		}, []);
 
-		const formatBalance = (balance: string) => {
+		const formatBalance = useCallback((balance: string) => {
 			try {
 				const eth = Number(balance) / 1e18;
 				return `${eth.toFixed(6)} ETH`;
 			} catch (e) {
 				return balance;
 			}
-		};
+		}, []);
 
-		const formatValue = (value: string) => {
+		const formatValue = useCallback((value: string) => {
 			try {
 				const eth = Number(value) / 1e18;
 				return `${eth.toFixed(6)} ETH`;
 			} catch (e) {
 				return "0 ETH";
 			}
-		};
+		}, []);
 
-		const handleGetStorage = () => {
+		// Memoized formatted balance
+		const formattedBalance = useMemo(
+			() => formatBalance(address.balance),
+			[address.balance, formatBalance],
+		);
+
+		const handleGetStorage = useCallback(() => {
 			// Check if the slot exists in the storeageAt object
 			if (address.storeageAt && address.storeageAt[storageSlot]) {
 				setStorageValue(address.storeageAt[storageSlot]);
@@ -101,9 +111,52 @@ const AddressDisplay: React.FC<AddressDisplayProps> = React.memo(
 					"0x0000000000000000000000000000000000000000000000000000000000000000",
 				);
 			}
-		};
+		}, [address.storeageAt, storageSlot]);
 
-		const handleWriteFunction = async () => {
+		// Check if we have local artifact data for this address
+		const localArtifact = jsonFiles[addressHash.toLowerCase()];
+
+		// Parse local artifact to sourcify format if it exists - memoized
+		const parsedLocalData = useMemo(() => {
+			if (!localArtifact) return null;
+			return {
+				name: localArtifact.contractName,
+				compilerVersion: localArtifact.buildInfo?.solcLongVersion,
+				evmVersion: localArtifact.buildInfo?.input?.settings?.evmVersion,
+				abi: localArtifact.abi,
+				files: localArtifact.sourceCode
+					? [
+							{
+								name: localArtifact.sourceName || "Contract.sol",
+								path: localArtifact.sourceName || "Contract.sol",
+								content: localArtifact.sourceCode,
+							},
+						]
+					: undefined,
+				metadata: {
+					language: localArtifact.buildInfo?.input?.language,
+					compiler: localArtifact.buildInfo
+						? {
+								version: localArtifact.buildInfo.solcVersion,
+							}
+						: undefined,
+				},
+				match: "perfect" as const,
+				creation_match: null,
+				runtime_match: null,
+				chainId: chainId,
+				address: addressHash,
+				verifiedAt: undefined,
+			};
+		}, [localArtifact, chainId, addressHash]);
+
+		// Use local artifact data if available and sourcify is not verified, otherwise use sourcify
+		const contractData = useMemo(
+			() => (isVerified && sourcifyData ? sourcifyData : parsedLocalData),
+			[isVerified, sourcifyData, parsedLocalData],
+		);
+
+		const handleWriteFunction = useCallback(async () => {
 			if (!selectedWriteFunction) return;
 
 			try {
@@ -154,9 +207,15 @@ const AddressDisplay: React.FC<AddressDisplayProps> = React.memo(
 				console.error("Error writing to contract:", err);
 				alert(`Error: ${err instanceof Error ? err.message : "Unknown error"}`);
 			}
-		};
+		}, [
+			selectedWriteFunction,
+			functionInputs,
+			addressHash,
+			contractData?.abi,
+			writeContract,
+		]);
 
-		const handleReadFunction = async () => {
+		const handleReadFunction = useCallback(async () => {
 			if (!selectedReadFunction || !contractData) return;
 
 			setIsReadingFunction(true);
@@ -242,47 +301,13 @@ const AddressDisplay: React.FC<AddressDisplayProps> = React.memo(
 			} finally {
 				setIsReadingFunction(false);
 			}
-		};
-
-		// Check if we have local artifact data for this address
-		const localArtifact = jsonFiles[addressHash.toLowerCase()];
-
-		// Parse local artifact to sourcify format if it exists
-		const parsedLocalData = localArtifact
-			? {
-					name: localArtifact.contractName,
-					compilerVersion: localArtifact.buildInfo?.solcLongVersion,
-					evmVersion: localArtifact.buildInfo?.input?.settings?.evmVersion,
-					abi: localArtifact.abi,
-					files: localArtifact.sourceCode
-						? [
-								{
-									name: localArtifact.sourceName || "Contract.sol",
-									path: localArtifact.sourceName || "Contract.sol",
-									content: localArtifact.sourceCode,
-								},
-							]
-						: undefined,
-					metadata: {
-						language: localArtifact.buildInfo?.input?.language,
-						compiler: localArtifact.buildInfo
-							? {
-									version: localArtifact.buildInfo.solcVersion,
-								}
-							: undefined,
-					},
-					match: "perfect" as const,
-					creation_match: null,
-					runtime_match: null,
-					chainId: chainId,
-					address: addressHash,
-					verifiedAt: undefined,
-				}
-			: null;
-
-		// Use local artifact data if available and sourcify is not verified, otherwise use sourcify
-		const contractData =
-			isVerified && sourcifyData ? sourcifyData : parsedLocalData;
+		}, [
+			selectedReadFunction,
+			contractData,
+			chainId,
+			functionInputs,
+			addressHash,
+		]);
 
 		// Debug: Log ABI information
 		if (contractData && contractData.abi) {
