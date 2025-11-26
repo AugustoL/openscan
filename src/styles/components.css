@@ -2668,6 +2668,28 @@
 	background: rgba(255, 255, 255, 0.3);
 }
 
+.devtools-button {
+	background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+	color: white;
+	border: none;
+	padding: 12px 24px;
+	border-radius: 10px;
+	font-size: 0.9rem;
+	font-weight: 600;
+	cursor: pointer;
+	transition: all 0.2s ease;
+	box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+.devtools-button:hover {
+	transform: translateY(-1px);
+	box-shadow: 0 6px 16px rgba(16, 185, 129, 0.4);
+}
+
+.devtools-button:active {
+	transform: translateY(0);
+}
+
 /* Keccak Tool Styles */
 .keccak-mode-toggle {
 	display: flex;
@@ -2816,5 +2838,85 @@
 .fork-hash-value {
 	font-size: 0.85rem;
 	word-break: break-all;
+}
+
+/* Signature Inspector Styles */
+.signature-results {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.sig-result-row {
+	display: flex;
+	align-items: flex-start;
+	gap: 12px;
+	padding: 8px 12px;
+	background: rgba(16, 185, 129, 0.04);
+	border-radius: 6px;
+	border: 1px solid rgba(16, 185, 129, 0.1);
+}
+
+.sig-result-label {
+	font-size: 0.8rem;
+	font-weight: 600;
+	color: #6b7280;
+	min-width: 120px;
+	flex-shrink: 0;
+}
+
+.sig-result-value {
+	font-size: 0.85rem;
+	color: #1f2937;
+	word-break: break-all;
+	flex: 1;
+}
+
+.sig-result-value.mono {
+	font-family: "JetBrains Mono", monospace;
+	font-size: 0.8rem;
+}
+
+.sig-match {
+	color: #10b981;
+	font-weight: 600;
+}
+
+.sig-no-match {
+	color: #ef4444;
+	font-weight: 600;
+}
+
+.sig-components {
+	margin-top: 8px;
+	padding: 12px;
+	background: rgba(99, 102, 241, 0.04);
+	border-radius: 8px;
+	border: 1px solid rgba(99, 102, 241, 0.15);
+}
+
+.sig-component-title {
+	font-size: 0.75rem;
+	font-weight: 700;
+	color: #6366f1;
+	text-transform: uppercase;
+	letter-spacing: 0.5px;
+	margin-bottom: 8px;
+}
+
+.sig-components .sig-result-row {
+	background: transparent;
+	border: none;
+	padding: 4px 0;
+}
+
+.sig-components .sig-result-label {
+	min-width: 80px;
+}
+
+.input-label {
+	font-size: 0.8rem;
+	font-weight: 600;
+	color: #6b7280;
 }
 
