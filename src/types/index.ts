@@ -7,6 +7,7 @@ export interface NetworkStats {
 	currentGasPrice: string;
 	isSyncing: boolean;
 	currentBlockNumber: string;
+	clientVersion: string;
 	metadata: any;
 }
 

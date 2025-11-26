@@ -9,10 +9,11 @@ export class NetworkStatsFetcher {
 	) {}
 
 	async getNetworkStats(): Promise<NetworkStats> {
-		const [gasPrice, syncing, blockNumber] = await Promise.all([
+		const [gasPrice, syncing, blockNumber, clientVersion] = await Promise.all([
 			this.rpcClient.call<string>("eth_gasPrice", []),
 			this.rpcClient.call<boolean | object>("eth_syncing", []),
 			this.rpcClient.call<string>("eth_blockNumber", []),
+			this.rpcClient.call<string>("web3_clientVersion", []).catch(() => "Unknown"),
 		]);
 
 		const metadata = "";
@@ -24,6 +25,7 @@ export class NetworkStatsFetcher {
 			currentGasPrice: gasPrice,
 			isSyncing,
 			currentBlockNumber: blockNumber,
+			clientVersion,
 			metadata: metadata,
 		};
 	}

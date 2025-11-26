@@ -1381,6 +1381,7 @@
 	gap: 8px;
 	font-size: 0.85rem;
 	font-family: "monospace";
+	color:#1f2937; 
 }
 
 .trace-error {

@@ -133,6 +133,15 @@ const NetworkStatsDisplay: React.FC<NetworkStatsDisplayProps> = React.memo(
 							</span>
 						</div>
 
+						{networkStats.clientVersion && (
+							<div className="block-detail-item network-stat-full-width">
+								<span className="detail-label">Client Version</span>
+								<span className="detail-value tx-mono">
+									{networkStats.clientVersion}
+								</span>
+							</div>
+						)}
+
 						{protocolVersion && (
 							<div className="block-detail-item">
 								<span className="detail-label">Protocol Version</span>
