@@ -139,34 +139,11 @@ const DevTools: React.FC = () => {
 
 			{/* Error Display */}
 			{error && (
-				<div
-					style={{
-						background: "linear-gradient(135deg, #ef4444 0%, #dc2626 100%)",
-						color: "white",
-						padding: "12px 16px",
-						borderRadius: "12px",
-						marginBottom: "24px",
-						display: "flex",
-						alignItems: "center",
-						justifyContent: "space-between",
-						gap: "10px",
-						fontWeight: "600",
-						fontSize: "0.9rem",
-						boxShadow: "0 4px 12px rgba(239, 68, 68, 0.3)",
-					}}
-				>
+				<div className="devtools-error">
 					⚠️ {error}
 					<button
 						onClick={() => setError("")}
-						style={{
-							background: "rgba(255, 255, 255, 0.2)",
-							border: "none",
-							color: "white",
-							padding: "4px 8px",
-							borderRadius: "6px",
-							cursor: "pointer",
-							fontWeight: "600",
-						}}
+						className="devtools-error-dismiss"
 					>
 						✕
 					</button>
@@ -210,42 +187,13 @@ const DevTools: React.FC = () => {
 			{activeSection === "utils" && (
 				<div className="devtools-section">
 					{/* Unit Converter */}
-					<div
-						style={{
-							background: "#ffffff",
-							borderRadius: "16px",
-							padding: "24px",
-							boxShadow: "0 2px 8px rgba(0, 0, 0, 0.05)",
-							border: "1px solid rgba(16, 185, 129, 0.1)",
-							marginBottom: "24px",
-						}}
-					>
-						<h3
-							style={{
-								fontSize: "1.1rem",
-								fontWeight: "700",
-								color: "#10b981",
-								marginBottom: "16px",
-								display: "flex",
-								alignItems: "center",
-								gap: "8px",
-							}}
-						>
+					<div className="devtools-card">
+						<h3 className="devtools-tool-title">
 							💱 Unit Converter (ETH ⟷ Gwei ⟷ Wei)
 						</h3>
 						<div className="data-grid-3">
 							<div>
-								<label
-									style={{
-										fontSize: "0.85rem",
-										fontWeight: "600",
-										color: "#6b7280",
-										marginBottom: "6px",
-										display: "block",
-									}}
-								>
-									ETH
-								</label>
+								<label className="devtools-input-label">ETH</label>
 								<input
 									type="text"
 									placeholder="1.5"
@@ -254,29 +202,11 @@ const DevTools: React.FC = () => {
 										setEthAmount(e.target.value);
 										convertEth(e.target.value, "eth");
 									}}
-									style={{
-										width: "100%",
-										padding: "10px 12px",
-										border: "2px solid rgba(16, 185, 129, 0.2)",
-										borderRadius: "8px",
-										fontSize: "0.85rem",
-										outline: "none",
-										fontFamily: "monospace",
-									}}
+									className="devtools-input"
 								/>
 							</div>
 							<div>
-								<label
-									style={{
-										fontSize: "0.85rem",
-										fontWeight: "600",
-										color: "#6b7280",
-										marginBottom: "6px",
-										display: "block",
-									}}
-								>
-									Gwei
-								</label>
+								<label className="devtools-input-label">Gwei</label>
 								<input
 									type="text"
 									placeholder="1500000000"
@@ -285,29 +215,11 @@ const DevTools: React.FC = () => {
 										setGweiAmount(e.target.value);
 										convertEth(e.target.value, "gwei");
 									}}
-									style={{
-										width: "100%",
-										padding: "10px 12px",
-										border: "2px solid rgba(16, 185, 129, 0.2)",
-										borderRadius: "8px",
-										fontSize: "0.85rem",
-										outline: "none",
-										fontFamily: "monospace",
-									}}
+									className="devtools-input"
 								/>
 							</div>
 							<div>
-								<label
-									style={{
-										fontSize: "0.85rem",
-										fontWeight: "600",
-										color: "#6b7280",
-										marginBottom: "6px",
-										display: "block",
-									}}
-								>
-									Wei
-								</label>
+								<label className="devtools-input-label">Wei</label>
 								<input
 									type="text"
 									placeholder="1500000000000000000"
@@ -316,129 +228,48 @@ const DevTools: React.FC = () => {
 										setWeiAmount(e.target.value);
 										convertEth(e.target.value, "wei");
 									}}
-									style={{
-										width: "100%",
-										padding: "10px 12px",
-										border: "2px solid rgba(16, 185, 129, 0.2)",
-										borderRadius: "8px",
-										fontSize: "0.85rem",
-										outline: "none",
-										fontFamily: "monospace",
-									}}
+									className="devtools-input"
 								/>
 							</div>
 						</div>
 					</div>
 
 					{/* Hex Encoder/Decoder */}
-					<div
-						style={{
-							background: "#ffffff",
-							borderRadius: "16px",
-							padding: "24px",
-							boxShadow: "0 2px 8px rgba(0, 0, 0, 0.05)",
-							border: "1px solid rgba(16, 185, 129, 0.1)",
-							marginBottom: "24px",
-						}}
-					>
-						<h3
-							style={{
-								fontSize: "1.1rem",
-								fontWeight: "700",
-								color: "#10b981",
-								marginBottom: "16px",
-								display: "flex",
-								alignItems: "center",
-								gap: "8px",
-							}}
-						>
-							🔤 Hex Encoder/Decoder
-						</h3>
+					<div className="devtools-card">
+						<h3 className="devtools-tool-title">🔤 Hex Encoder/Decoder</h3>
 						<div className="flex-column" style={{ gap: "12px" }}>
 							<textarea
 								placeholder="Enter text or hex data"
 								value={encodedData}
 								onChange={(e) => setEncodedData(e.target.value)}
-								style={{
-									width: "100%",
-									padding: "10px 12px",
-									border: "2px solid rgba(16, 185, 129, 0.2)",
-									borderRadius: "8px",
-									fontSize: "0.85rem",
-									outline: "none",
-									fontFamily: "monospace",
-									minHeight: "80px",
-									resize: "vertical",
-								}}
+								className="devtools-textarea"
 							/>
 							<div className="flex-between" style={{ gap: "12px" }}>
 								<button
 									onClick={() => convertToHex(encodedData)}
-									style={{
-										flex: 1,
-										padding: "10px",
-										background:
-											"linear-gradient(135deg, #10b981 0%, #059669 100%)",
-										color: "white",
-										border: "none",
-										borderRadius: "8px",
-										fontWeight: "600",
-										fontSize: "0.9rem",
-										cursor: "pointer",
-									}}
+									className="devtools-btn"
 								>
 									Encode to Hex
 								</button>
 								<button
 									onClick={() => convertFromHex(encodedData)}
-									style={{
-										flex: 1,
-										padding: "10px",
-										background:
-											"linear-gradient(135deg, #10b981 0%, #059669 100%)",
-										color: "white",
-										border: "none",
-										borderRadius: "8px",
-										fontWeight: "600",
-										fontSize: "0.9rem",
-										cursor: "pointer",
-									}}
+									className="devtools-btn"
 								>
 									Decode from Hex
 								</button>
 							</div>
 							{decodedData && (
-								<div
-									style={{
-										padding: "12px",
-										background: "rgba(16, 185, 129, 0.04)",
-										borderRadius: "8px",
-										border: "1px solid rgba(16, 185, 129, 0.15)",
-										fontFamily: "monospace",
-										fontSize: "0.85rem",
-										wordBreak: "break-all",
-									}}
-								>
-									<div className="flex-between mb-small">
-										<span style={{ fontWeight: "600", color: "#6b7280" }}>
-											Result:
-										</span>
+								<div className="devtools-result">
+									<div className="devtools-result-header">
+										<span className="devtools-result-label">Result:</span>
 										<button
 											onClick={() => copyToClipboard(decodedData)}
-											style={{
-												background: "#10b981",
-												color: "white",
-												border: "none",
-												padding: "4px 8px",
-												borderRadius: "6px",
-												fontSize: "0.75rem",
-												cursor: "pointer",
-											}}
+											className="devtools-copy-btn"
 										>
 											📋 Copy
 										</button>
 									</div>
-									{decodedData}
+									<div className="devtools-result-value">{decodedData}</div>
 								</div>
 							)}
 						</div>
@@ -446,60 +277,14 @@ const DevTools: React.FC = () => {
 
 					{/* Results Section */}
 					{(blockResult || txResult || addressResult) && (
-						<div
-							style={{
-								background: "#ffffff",
-								borderRadius: "16px",
-								padding: "24px",
-								boxShadow: "0 2px 8px rgba(0, 0, 0, 0.05)",
-								border: "1px solid rgba(16, 185, 129, 0.1)",
-								marginBottom: "24px",
-							}}
-						>
+						<div className="devtools-card">
 							<div className="flex-between mb-medium">
-								<h3
-									style={{
-										fontSize: "1.1rem",
-										fontWeight: "700",
-										color: "#10b981",
-										margin: 0,
-										display: "flex",
-										alignItems: "center",
-										gap: "8px",
-									}}
-								>
-									📊 Results
-								</h3>
-								<button
-									onClick={clearAll}
-									style={{
-										background: "#ef4444",
-										color: "white",
-										border: "none",
-										padding: "6px 12px",
-										borderRadius: "8px",
-										fontSize: "0.85rem",
-										cursor: "pointer",
-										fontWeight: "600",
-									}}
-								>
+								<h3 className="devtools-tool-title-inline">📊 Results</h3>
+								<button onClick={clearAll} className="devtools-clear-btn">
 									Clear All
 								</button>
 							</div>
-							<pre
-								style={{
-									background: "rgba(16, 185, 129, 0.04)",
-									padding: "16px",
-									borderRadius: "10px",
-									fontSize: "0.75rem",
-									overflow: "auto",
-									border: "1px solid rgba(16, 185, 129, 0.15)",
-									color: "#1f2937",
-									fontFamily: "monospace",
-									lineHeight: "1.6",
-									maxHeight: "500px",
-								}}
-							>
+							<pre className="devtools-results-pre">
 								{JSON.stringify(
 									blockResult || txResult || addressResult,
 									null,
