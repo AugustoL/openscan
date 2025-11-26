@@ -18,3 +18,5 @@
 
 # Hardhat coverage reports
 /coverage
+
+hardhat-test-artifacts.zip

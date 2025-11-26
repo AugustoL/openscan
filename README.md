@@ -89,6 +89,27 @@ After following the installation steps here https://getfoundry.sh/introduction/i
 
 If you run any Hardhat node instance on the port 8545 it would be automatically detected by Openscan, if you run hardhat node on a different port make sure to change the RPC on the app settings.
 
+### Test Environment Script
+
+For development and testing, use the included script that starts a local node with sample transactions and OpenScan:
+
+```bash
+# Run with npm script
+npm run dev
+
+# Run the script directly
+bash scripts/run-test-env.sh
+
+# Add USE_ANVIL to use Anvil node
+USE_ANVIL=true bash scripts/run-test-env.sh
+```
+
+This script will:
+1. Start a Hardhat or Anvil node on port 8545.
+2. Deploy test contracts and generate sample transactions
+3. Start OpenScan with only Ethereum Mainnet and Localhost networks enabled
+4. Create a `hardhat-test-artifacts.zip` for importing contract ABIs
+
 ### Build for Production
 
 ```bash
