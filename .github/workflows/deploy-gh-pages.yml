@@ -32,7 +32,7 @@ jobs:
         run: npm install -g npm@11
 
       - name: Build Staging
-        run: ./scripts/build-staging.sh
+        run: GITHUB_PAGES=true ./scripts/build-staging.sh
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
