@@ -5,6 +5,9 @@ on:
     branches: [ "main" ]
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   build-hash-deploy:
     runs-on: ubuntu-latest
@@ -41,20 +44,38 @@ jobs:
           echo "IPFS Hash (v0): $HASH"
           echo "hash=$HASH" >> $GITHUB_OUTPUT
 
-      - name: Update IPFS Hash Gist
-        env:
-          GIST_TOKEN: ${{ secrets.GIST_TOKEN }}
+      - name: Update IPFS Hash in Repo
         run: |
           HASH="${{ steps.ipfs-hash.outputs.hash }}"
           
-          # Update the gist with the new hash (shields.io endpoint format)
-          curl -X PATCH \
-            -H "Authorization: token $GIST_TOKEN" \
-            -H "Accept: application/vnd.github.v3+json" \
-            https://api.github.com/gists/${{ vars.IPFS_HASH_GIST_ID }} \
-            -d "{\"files\":{\"ipfs-hash.json\":{\"content\":\"{\\\"schemaVersion\\\": 1, \\\"label\\\": \\\"IPFS\\\", \\\"message\\\": \\\"$HASH\\\", \\\"color\\\": \\\"blue\\\", \\\"namedLogo\\\": \\\"ipfs\\\"}\"}}}"
+          # Create shields.io endpoint format JSON
+          mkdir -p /tmp/ipfs-meta
+          echo "{\"schemaVersion\": 1, \"label\": \"IPFS\", \"message\": \"$HASH\", \"color\": \"blue\", \"namedLogo\": \"ipfs\"}" > /tmp/ipfs-meta/ipfs-hash.json
           
-          echo "Updated gist with IPFS hash: $HASH"
+          # Configure git
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          
+          # Fetch or create the meta branch
+          git fetch origin meta:meta 2>/dev/null || git checkout --orphan meta
+          git checkout meta || git checkout --orphan meta
+          
+          # Clean and add only the hash file
+          git rm -rf . 2>/dev/null || true
+          cp /tmp/ipfs-meta/ipfs-hash.json .
+          git add ipfs-hash.json
+          
+          if git diff --staged --quiet; then
+            echo "No changes to IPFS hash"
+          else
+            git commit -m "chore: update IPFS hash to $HASH"
+            git push origin meta
+          fi
+          
+          # Switch back to main
+          git checkout main
+          
+          echo "Updated meta branch with IPFS hash: $HASH"
 
       - name: Install action dependencies
         run: |
