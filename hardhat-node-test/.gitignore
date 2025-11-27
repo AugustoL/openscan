@@ -9,6 +9,7 @@
 
 # Hardhat Build Artifacts
 /artifacts
+/ignition/deployments
 
 # Hardhat compilation (v2) support directory
 /cache
@@ -19,4 +20,4 @@
 # Hardhat coverage reports
 /coverage
 
-hardhat-test-artifacts.zip
+/hardhat-test-artifacts.zip
