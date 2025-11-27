@@ -38,72 +38,49 @@ cleanup_ports() {
 
 cleanup_ports
 
-if $USE_ANVIL; then
 
-    # ========== START ANVIL NODE ==========
-    cd "$HARDHAT_DIR"
+# ========== START HARDHAT NODE ==========
+echo "🔨 Setting up hardhat node..."
+cd "$HARDHAT_DIR"
 
-    # Start Anvil node in background
-    echo "   Starting Anvil node..."
-    anvil --fork-url https://reth-ethereum.ithaca.xyz/rpc > /tmp/anvil-node.log 2>&1 &
-    NODE_PID=$!
+# Compile contracts
+echo "   Compiling contracts..."
+npx hardhat compile
 
-    # Wait for node to be ready
-    echo "   Waiting for Anvil node to start..."
-    sleep 5
+# Start hardhat node in background
+echo "   Starting Hardhat node..."
+npx hardhat node --network hardhatMainnet > /tmp/hardhat-node.log 2>&1 &
 
-    # Check if node started
-    if ! kill -0 $NODE_PID 2>/dev/null; then
-        echo "❌ Failed to start Anvil node. Check /tmp/anvil-node.log"
-        exit 1
-    fi
-    echo "   ✅ Anvil node running (PID: $NODE_PID)"
+# Here the network is set to localhost to target the running hardhat node via an HTTP node
+npx hardhat ignition deploy ignition/modules/TestSuite.ts --network localhost
 
-    # Run transaction generation script
-    echo ""
-    echo "📝 Generating test transactions..."
-    npx hardhat run scripts/generate-transactions.ts --network localhost
+# Create artifacts zip
+echo "   Creating artifacts zip..."
+rm -f hardhat-test-artifacts.zip
+zip -r hardhat-test-artifacts.zip contracts ignition -x "*.DS_Store" -x "*__pycache__*" > /dev/null
 
-else 
-
-    # ========== START HARDHAT NODE ==========
-    echo "🔨 Setting up Hardhat node..."
-    cd "$HARDHAT_DIR"
-
-    # Compile contracts
-    echo "   Compiling contracts..."
-    npx hardhat compile
-
-    # Create artifacts zip
-    echo "   Creating artifacts zip..."
-    rm -f hardhat-test-artifacts.zip
-    zip -r hardhat-test-artifacts.zip contracts ignition -x "*.DS_Store" -x "*__pycache__*" > /dev/null
-
-    # Start hardhat node in background
-    echo "   Starting Hardhat node..."
-    npx hardhat node --network hardhatMainnet > /tmp/hardhat-node.log 2>&1 &
-    NODE_PID=$!
-fi
+HARDHAT_PID=$!
 
 # Wait for node to be ready
-echo "   Waiting for node to start..."
-sleep 5
+echo "   Waiting for node to be ready..."
+sleep 2
 
 # Check if node started
-if ! kill -0 $NODE_PID 2>/dev/null; then
-    echo "❌ Failed to start Hardhat node. Check /tmp/hardhat-node.log"
+if ! kill -0 $HARDHAT_PID 2>/dev/null; then
+    echo "❌ Failed to start hardhat node. Check /tmp/hardhat-node.log"
     exit 1
 fi
-echo "   ✅ Hardhat node running (PID: $NODE_PID)"
+echo "   ✅ hardhat node running (PID: $HARDHAT_PID)"
 
 # Run transaction generation script
 echo ""
 echo "📝 Generating test transactions..."
+# Here the network is set to localhost to target the running hardhat node via an HTTP node
 npx hardhat run scripts/generate-transactions.ts --network localhost
 
 # ========== START OPENSCAN ==========
 echo ""
-echo "🔍 Starting OpenScan (Ethereum Mainnet + Localhost only)..."
+echo "🔍 Starting OpenScan (Ethereum Mainnet + hardhat only)..."
 cd "$OPENSCAN_DIR"
 
 # Start OpenScan - it will read .env.local on start
@@ -123,7 +100,7 @@ echo "📍 OpenScan:     http://localhost:3000"
 echo ""
 echo "🌐 Available Networks:"
 echo "   - Ethereum Mainnet (Chain ID: 1)"
-echo "   - Localhost/Test (Chain ID: 31337)"
+echo "   - Hardhat (Chain ID: 31337)"
 echo ""
 echo "📦 Hardhat Artifacts: $HARDHAT_DIR/hardhat-test-artifacts.zip"
 echo ""
@@ -133,7 +110,7 @@ echo "Press Ctrl+C to stop all services..."
 cleanup() {
     echo ""
     echo "🛑 Stopping services..."
-    kill $NODE_PID 2>/dev/null || true
+    kill $HARDHAT_PID 2>/dev/null || true
     kill $OPENSCAN_PID 2>/dev/null || true
     echo "   Done!"
     exit 0
@@ -142,4 +119,4 @@ cleanup() {
 trap cleanup SIGINT SIGTERM
 
 # Wait for either process to exit
-wait $NODE_PID $OPENSCAN_PID
+wait $HARDHAT_PID $OPENSCAN_PID

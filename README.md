@@ -98,10 +98,7 @@ For development and testing, use the included script that starts a local node wi
 npm run dev
 
 # Run the script directly
-bash scripts/run-test-env.sh
-
-# Add USE_ANVIL to use Anvil node
-USE_ANVIL=true bash scripts/run-test-env.sh
+bash scripts/run-test-hardhat-env.sh
 ```
 
 This script will:
