@@ -1,8 +1,5 @@
 import hardhatToolboxViemPlugin from "@nomicfoundation/hardhat-toolbox-viem";
 import { configVariable, defineConfig } from "hardhat/config";
-import { localhost } from "viem/chains";
-
-console.log(localhost);
 
 export default defineConfig({
 	plugins: [hardhatToolboxViemPlugin],
@@ -23,37 +20,17 @@ export default defineConfig({
 		},
 	},
 	networks: {
-		localhost: {
-			...localhost,
-			type: "edr-simulated",
-			chainType: "l1",
-		},
-		intervalMined: {
-			type: "edr-simulated",
-			mining: {
-				auto: false, // disable automining
-				interval: [3000, 6000], // mine blocks at random intervals between 3-6 seconds
-			},
-		},
+		// Network for running the node
 		hardhatMainnet: {
 			type: "edr-simulated",
 			chainType: "l1",
+			throwOnCallFailures: false,
+			throwOnTransactionFailures: false,
 		},
-		mainnetFork: {
-			type: "edr-simulated",
-			forking: {
-				url: "https://mainnet.infura.io/v3/a24572a24c2e4312a76c1e4212973fef",
-			},
-		},
-		hardhatOp: {
-			type: "edr-simulated",
-			chainType: "op",
-		},
-		sepolia: {
+		// HTTP connection to localhost node
+		localhost: {
 			type: "http",
-			chainType: "l1",
-			url: configVariable("SEPOLIA_RPC_URL"),
-			accounts: [configVariable("SEPOLIA_PRIVATE_KEY")],
-		},
+			url: "http://127.0.0.1:8545",
+		}
 	},
 });
