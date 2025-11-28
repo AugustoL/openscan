@@ -133,13 +133,14 @@ Navigate to Settings to configure custom RPC endpoints for each network. The app
 
 Default RPC endpoints:
 
-- **Ethereum**: `https://eth.llamarpc.com`, `https://rpc.ankr.com/eth`
-- **Sepolia**: `https://rpc.sepolia.org`, `https://ethereum-sepolia-rpc.publicnode.com`
-- **Arbitrum**: `https://arb1.arbitrum.io/rpc`, `https://arbitrum-one.publicnode.com`
-- **Optimism**: `https://mainnet.optimism.io`, `https://optimism.publicnode.com`
+- **Ethereum**: `https://eth.llamarpc.com`, `https://ethereum.publicnode.com`, `https://1rpc.io/eth`
+- **Sepolia**: `https://sepolia.infura.io`, `https://rpc.sepolia.org`, `"https://rpc2.sepolia.org`, `https://ethereum-sepolia.publicnode.com`
+- **Arbitrum**: `https://arb1.arbitrum.io/rpc`, `https://arbitrum.llamarpc.com`, `https://arbitrum-one.publicnode.com`
+- **Optimism**: `https://mainnet.optimism.io`, `https://optimism.llamarpc.com`, `https://optimism.publicnode.com`
+- **Base**: `https://mainnet.base.org`, `https://base.llamarpc.com`, `https://base.publicnode.com`
 - **BSC**: `https://bsc-dataseed.binance.org`, `https://bsc.publicnode.com`
 - **BSC Testnet**: `https://data-seed-prebsc-1-s1.binance.org:8545`, `https://bsc-testnet.publicnode.com`
-- **Polygon**: `https://polygon-rpc.com`, `https://polygon.llamarpc.com`
+- **Polygon**: `https://polygon-rpc.com`, `https://polygon.llamarpc.com`, `https://polygon-bor.publicnode.com`
 - **Localhost**: `http://localhost:8545`
 
 ### Supported Chain IDs
