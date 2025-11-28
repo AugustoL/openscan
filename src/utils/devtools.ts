@@ -271,3 +271,112 @@ export function isValidAddress(address: string): boolean {
 export function isValidHex(hex: string): boolean {
 	return /^0x[0-9a-fA-F]*$/i.test(hex);
 }
+
+/**
+ * Check if a hex string is a valid signature (64 or 65 bytes)
+ */
+export function isValidSignature(sig: string): { valid: boolean; length: number; format: string } {
+	if (!sig.startsWith("0x")) {
+		return { valid: false, length: 0, format: "Invalid" };
+	}
+	
+	const hexWithoutPrefix = sig.slice(2);
+	if (!/^[0-9a-fA-F]*$/i.test(hexWithoutPrefix)) {
+		return { valid: false, length: 0, format: "Invalid" };
+	}
+	
+	const byteLength = hexWithoutPrefix.length / 2;
+	
+	if (byteLength === 64) {
+		return { valid: true, length: 64, format: "EIP-2098 Compact (64 bytes)" };
+	} else if (byteLength === 65) {
+		return { valid: true, length: 65, format: "Standard (65 bytes)" };
+	}
+	
+	return { valid: false, length: byteLength, format: "Invalid" };
+}
+
+/**
+ * Detect the message format for signature verification
+ */
+export function detectMessageFormat(message: string): "hash" | "eip712" | "personal" {
+	if (message.startsWith("0x") && message.length === 66) {
+		// Check if it's a valid 32-byte hash
+		const hexWithoutPrefix = message.slice(2);
+		if (/^[0-9a-fA-F]{64}$/i.test(hexWithoutPrefix)) {
+			return "hash";
+		}
+	}
+	
+	if (message.trim().startsWith("{")) {
+		try {
+			const parsed = JSON.parse(message);
+			if (parsed.domain && parsed.types && parsed.message) {
+				return "eip712";
+			}
+		} catch {
+			// Not valid JSON
+		}
+	}
+	
+	return "personal";
+}
+
+/**
+ * Extract r, s, v components from a signature hex string
+ */
+export function parseSignatureComponents(sig: string): {
+	r: string;
+	s: string;
+	v: number;
+	yParity: number;
+} | null {
+	if (!sig.startsWith("0x")) return null;
+	
+	const hexWithoutPrefix = sig.slice(2);
+	
+	// Validate hex characters
+	if (!/^[0-9a-fA-F]*$/i.test(hexWithoutPrefix)) {
+		return null;
+	}
+	
+	const byteLength = hexWithoutPrefix.length / 2;
+	
+	// Only accept exactly 64 or 65 bytes
+	if (byteLength !== 64 && byteLength !== 65) {
+		return null;
+	}
+	
+	if (byteLength === 65) {
+		// Standard signature: r (32 bytes) || s (32 bytes) || v (1 byte)
+		const r = "0x" + hexWithoutPrefix.slice(0, 64);
+		const s = "0x" + hexWithoutPrefix.slice(64, 128);
+		const vByte = parseInt(hexWithoutPrefix.slice(128, 130), 16);
+		// v is either 27/28 or 0/1
+		const v = vByte < 27 ? vByte + 27 : vByte;
+		const yParity = v - 27;
+		return { r, s, v, yParity };
+	} else if (byteLength === 64) {
+		// EIP-2098 compact: r (32 bytes) || yParityAndS (32 bytes)
+		const r = "0x" + hexWithoutPrefix.slice(0, 64);
+		const yParityAndS = hexWithoutPrefix.slice(64, 128);
+		// yParity is encoded in the highest bit of s
+		const firstChar = yParityAndS.charAt(0);
+		const yParity = parseInt(firstChar, 16) >= 8 ? 1 : 0;
+		// Clear the highest bit to get s
+		const sFirstNibble = (parseInt(firstChar, 16) & 0x7).toString(16);
+		const s = "0x" + sFirstNibble + yParityAndS.slice(1);
+		const v = yParity + 27;
+		return { r, s, v, yParity };
+	}
+	
+	return null;
+}
+
+/**
+ * Check if two addresses match (case-insensitive)
+ */
+export function addressesMatch(addr1: string, addr2: string): boolean {
+	if (!addr1 || !addr2) return false;
+	return addr1.toLowerCase() === addr2.toLowerCase();
+}
