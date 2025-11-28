@@ -6,6 +6,7 @@ import {
 	AbiCoder,
 	solidityPackedKeccak256,
 } from "ethers";
+import { convertEthUnits, type EthUnit } from "../../utils/devtools";
 
 type SolidityType = "string" | "bytes" | "address" | "uint256" | "uint128" | "uint64" | "uint32" | "uint8" | "int256" | "bool" | "bytes32" | "bytes4";
 
@@ -40,48 +41,18 @@ const UtilsSection: React.FC = () => {
 	const [encodedData, setEncodedData] = useState("");
 	const [decodedData, setDecodedData] = useState("");
 
-	const convertEth = (value: string, from: "eth" | "finney" | "szabo" | "gwei" | "mwei" | "kwei" | "wei") => {
-		try {
-			const num = parseFloat(value);
-			if (isNaN(num)) return;
+	const convertEth = (value: string, from: EthUnit) => {
+		const result = convertEthUnits(value, from);
+		if (!result) return;
 
-			// Convert to wei first, then to all other units
-			let weiValue: number;
-			switch (from) {
-				case "eth":
-					weiValue = num * 1e18;
-					break;
-				case "finney":
-					weiValue = num * 1e15;
-					break;
-				case "szabo":
-					weiValue = num * 1e12;
-					break;
-				case "gwei":
-					weiValue = num * 1e9;
-					break;
-				case "mwei":
-					weiValue = num * 1e6;
-					break;
-				case "kwei":
-					weiValue = num * 1e3;
-					break;
-				case "wei":
-					weiValue = num;
-					break;
-			}
-
-			// Update all fields except the source
-			if (from !== "eth") setEthAmount((weiValue / 1e18).toString());
-			if (from !== "finney") setFinneyAmount((weiValue / 1e15).toString());
-			if (from !== "szabo") setSzaboAmount((weiValue / 1e12).toString());
-			if (from !== "gwei") setGweiAmount((weiValue / 1e9).toString());
-			if (from !== "mwei") setMweiAmount((weiValue / 1e6).toString());
-			if (from !== "kwei") setKweiAmount((weiValue / 1e3).toString());
-			if (from !== "wei") setWeiAmount(weiValue.toString());
-		} catch (err: any) {
-			// ignore
-		}
+		// Update all fields except the source
+		if (from !== "eth") setEthAmount(result.eth);
+		if (from !== "finney") setFinneyAmount(result.finney);
+		if (from !== "szabo") setSzaboAmount(result.szabo);
+		if (from !== "gwei") setGweiAmount(result.gwei);
+		if (from !== "mwei") setMweiAmount(result.mwei);
+		if (from !== "kwei") setKweiAmount(result.kwei);
+		if (from !== "wei") setWeiAmount(result.wei);
 	};
 
 	const parseInputValue = (input: string, type: SolidityType): any => {
