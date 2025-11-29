@@ -2608,3 +2608,55 @@
 	color: rgba(0, 0, 0, 0.6);
 }
 
+/* Version Warning Icon */
+.version-warning-icon {
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transition: transform 0.2s ease;
+}
+
+.version-warning-icon:hover {
+	transform: scale(1.2);
+}
+
+/* Custom tooltip that appears instantly */
+.version-warning-tooltip {
+	position: absolute;
+	top: 50%;
+	right: calc(100% + 8px);
+	transform: translateY(-50%);
+	background: rgba(0, 0, 0, 0.9);
+	color: white;
+	padding: 8px 12px;
+	border-radius: 6px;
+	font-size: 12px;
+	font-family: "Outfit", sans-serif;
+	white-space: nowrap;
+	z-index: 99999;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+	pointer-events: none;
+}
+
+/* Arrow pointing right (toward the icon) */
+.version-warning-tooltip::before {
+	content: "";
+	position: absolute;
+	top: 50%;
+	right: -4px;
+	transform: translateY(-50%);
+	border-top: 4px solid transparent;
+	border-bottom: 4px solid transparent;
+	border-left: 4px solid rgba(0, 0, 0, 0.9);
+}
+
+/* Footer version styling based on environment */
+.footer-version-staging .environment-tag {
+	color: #f59e0b !important;
+}
+
+.footer-version-development .environment-tag {
+	color: #ef4444 !important;
+}
+

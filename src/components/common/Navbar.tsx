@@ -3,6 +3,7 @@ import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useAccount } from "wagmi";
 import { useState } from "react";
 import { NetworkBlockIndicator } from "./NetworkBlockIndicator";
+import VersionWarningIcon from "./VersionWarningIcon";
 
 const Navbar = () => {
 	const { address } = useAccount();
@@ -140,6 +141,7 @@ const Navbar = () => {
 
 				<div className="navbar-right">
 					<NetworkBlockIndicator />
+					<VersionWarningIcon />
 					<ul>
 						<li>
 							<button
