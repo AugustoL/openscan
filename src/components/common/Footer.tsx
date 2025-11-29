@@ -21,13 +21,19 @@ const Footer: React.FC<FooterProps> = ({ className = "" }) => {
 	const repoUrl =
 		process.env.REACT_APP_GITHUB_REPO || "https://github.com/openscan-explorer/explorer";
 
+	// Determine footer version class based on environment
+	const getVersionClass = () => {
+		if (ENVIRONMENT === "staging") return "footer-version-staging";
+		if (ENVIRONMENT === "development") return "footer-version-development";
+		return "";
+	};
 	return (
 		<footer className={`app-footer ${className}`}>
 			<div className="footer-content">
 				<div className="footer-left">
 					<span className="footer-link">Donations: openscan.eth</span>
 				</div>
-				<div className="footer-version">
+				<div className={`footer-version ${getVersionClass()}`}>
 					<span className="version-label">Version:</span>
 					<a
 						href={`${repoUrl}/commit/${commitHash}`}
@@ -39,7 +45,7 @@ const Footer: React.FC<FooterProps> = ({ className = "" }) => {
 						{appVersion} {formattedCommitHash}
 					</a>
 					{ENVIRONMENT !== "production" && (
-						<span className="commit-link">{ENVIRONMENT}</span>
+						<span className="commit-link environment-tag">{ENVIRONMENT}</span>
 					)}
 					<a
 						href={repoUrl}
