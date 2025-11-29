@@ -127,6 +127,31 @@ npm run lint:fix
 
 ## Configuration
 
+### Environment Variables
+
+#### `REACT_APP_OPENSCAN_NETWORKS`
+
+Controls which networks are displayed in the application. This is useful for limiting the explorer to specific chains.
+
+**Format:** Comma-separated list of chain IDs
+
+**Default:** If not set, all supported networks are enabled.
+
+**Examples:**
+
+```bash
+# Show only Ethereum Mainnet and Localhost
+REACT_APP_OPENSCAN_NETWORKS="1,31337" npm start
+
+# Show only Layer 2 networks
+REACT_APP_OPENSCAN_NETWORKS="42161,10,8453" npm start
+
+# Show only testnets
+REACT_APP_OPENSCAN_NETWORKS="11155111,97" npm start
+```
+
+The networks will be displayed in the order specified in the environment variable.
+
 ### Custom RPC Endpoints
 
 Navigate to Settings to configure custom RPC endpoints for each network. The app supports multiple fallback URLs for reliability.
