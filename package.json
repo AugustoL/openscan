@@ -20,11 +20,14 @@
 	"scripts": {
 		"start": "NODE_ENV=development webpack serve --config webpack.config.js --mode development",
 		"build": "NODE_ENV=production webpack --config webpack.config.js --mode production",
-    	"test": "npx vitest",
+		"test": "npx vitest",
 		"test:run": "npx vitest run",
 		"dev": "bash scripts/run-test-env.sh",
 		"typecheck": "tsc --noEmit",
-		"format:fix": "npx @biomejs/biome format --write"
+		"format": "npx @biomejs/biome format",
+		"format:fix": "npx @biomejs/biome format --write",
+		"lint": "npx @biomejs/biome lint",
+		"lint:fix": "npx @biomejs/biome lint --write --max-diagnostics 1024"
 	},
 	"eslintConfig": {
 		"extends": [
