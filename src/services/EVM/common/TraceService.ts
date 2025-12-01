@@ -43,6 +43,7 @@ export class TraceService {
   /**
    * Trace a transaction with detailed execution logs
    */
+  // biome-ignore lint/suspicious/noExplicitAny: <TODO>
   async traceTransaction(txHash: string, tracerConfig?: any): Promise<TransactionTrace | null> {
     try {
       const result = await this.rpcClient.call("debug_traceTransaction", [
@@ -73,6 +74,7 @@ export class TraceService {
       data?: string;
     },
     blockNumber: string | "latest" = "latest",
+    // biome-ignore lint/suspicious/noExplicitAny: <TODO>
     tracerConfig?: any,
   ): Promise<TransactionTrace | null> {
     try {
@@ -144,6 +146,7 @@ export class TraceService {
   /**
    * Get prestate trace (shows state before execution)
    */
+  // biome-ignore lint/suspicious/noExplicitAny: <TODO>
   async getPrestateTrace(txHash: string): Promise<any> {
     try {
       const result = await this.rpcClient.call("debug_traceTransaction", [
@@ -165,7 +168,7 @@ export class TraceService {
       // Try a simple trace call to check availability
       await this.rpcClient.call("web3_clientVersion", []);
       return true;
-    } catch (error) {
+    } catch (_error) {
       return false;
     }
   }

@@ -6,7 +6,7 @@ import { useState } from "react";
  */
 export const useModalManager = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [transactionLoading, setIsTransactionLoading] = useState(false);
+  const [_transactionLoading, setIsTransactionLoading] = useState(false);
 
   // Main modal handlers
   const openModal = () => {

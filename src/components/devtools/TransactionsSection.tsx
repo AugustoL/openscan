@@ -1,16 +1,16 @@
-import type React from "react";
-import { useState, useEffect } from "react";
 import {
-  JsonRpcProvider,
   BrowserProvider,
-  Wallet,
-  parseEther,
   formatEther,
-  parseUnits,
   formatUnits,
-  type TransactionResponse,
+  JsonRpcProvider,
+  parseEther,
+  parseUnits,
   type TransactionRequest,
+  type TransactionResponse,
+  Wallet,
 } from "ethers";
+import type React from "react";
+import { useEffect, useState } from "react";
 
 const NETWORKS: Record<number, { name: string; rpc: string }> = {
   1: { name: "Ethereum Mainnet", rpc: "https://eth.llamarpc.com" },
@@ -38,6 +38,7 @@ const TransactionsSection: React.FC = () => {
   const [useMetaMask, setUseMetaMask] = useState(true);
   const [localPrivateKey, setLocalPrivateKey] = useState("");
   const [estimatedGas, setEstimatedGas] = useState<string | null>(null);
+  // biome-ignore lint/suspicious/noExplicitAny: <TODO>
   const [suggestedFees, setSuggestedFees] = useState<any>(null);
   const [ethUsdPrice, setEthUsdPrice] = useState<number | null>(null);
   const [estimatedCostEth, setEstimatedCostEth] = useState<string | null>(null);
@@ -60,7 +61,7 @@ const TransactionsSection: React.FC = () => {
         const json = await res.json();
         const price = json?.ethereum?.usd;
         if (price) setEthUsdPrice(price);
-      } catch (err) {
+      } catch (_err) {
         // ignore
       }
     };
@@ -90,6 +91,7 @@ const TransactionsSection: React.FC = () => {
 
       const to = txTo || undefined;
       const value = parseEtherSafe(txValue);
+      // biome-ignore lint/suspicious/noExplicitAny: <TODO>
       const txReq: any = { to, value, data: txData || undefined };
 
       let gas: bigint;
@@ -98,6 +100,7 @@ const TransactionsSection: React.FC = () => {
 
       try {
         await provider.call(txReq);
+        // biome-ignore lint/suspicious/noExplicitAny: <TODO>
       } catch (callErr: any) {
         willRevert = true;
         const errMsg = callErr.message || String(callErr);
@@ -114,6 +117,7 @@ const TransactionsSection: React.FC = () => {
 
       try {
         gas = await provider.estimateGas(txReq);
+        // biome-ignore lint/suspicious/noExplicitAny: <TODO>
       } catch (estErr: any) {
         gas = BigInt(500000);
         if (!willRevert) {
@@ -135,6 +139,7 @@ const TransactionsSection: React.FC = () => {
       setEstimatedCostEth(formatEthValue(cost));
       if (ethUsdPrice)
         setEstimatedCostUsd((parseFloat(formatEthValue(cost)) * ethUsdPrice).toFixed(6));
+      // biome-ignore lint/suspicious/noExplicitAny: <TODO>
     } catch (err: any) {
       setTxError(err.message || String(err));
     }
@@ -149,7 +154,7 @@ const TransactionsSection: React.FC = () => {
       const n = await provider.getTransactionCount(address);
       setTxNonce(n);
       return n;
-    } catch (err) {
+    } catch (_err) {
       return undefined;
     }
   };
@@ -199,8 +204,10 @@ const TransactionsSection: React.FC = () => {
         const wallet = new Wallet(localPrivateKey, provider);
         sentTx = await wallet.sendTransaction(txRequest);
       } else {
+        // biome-ignore lint/suspicious/noExplicitAny: <TODO>
         if (!(window as any).ethereum)
           throw new Error("No injected wallet (window.ethereum) found");
+        // biome-ignore lint/suspicious/noExplicitAny: <TODO>
         const web3Provider = new BrowserProvider((window as any).ethereum as any);
         const signer = await web3Provider.getSigner();
         sentTx = await signer.sendTransaction(txRequest);
@@ -208,6 +215,7 @@ const TransactionsSection: React.FC = () => {
 
       setTxHashResult(sentTx.hash);
       setTxSending(false);
+      // biome-ignore lint/suspicious/noExplicitAny: <TODO>
     } catch (err: any) {
       setTxError(err.message || String(err));
       setTxSending(false);
@@ -219,6 +227,7 @@ const TransactionsSection: React.FC = () => {
     setBuiltTx(null);
     try {
       const chainId = txChainId || 1;
+      // biome-ignore lint/suspicious/noExplicitAny: <TODO>
       const txObj: Record<string, any> = {
         type: txType,
         chainId: chainId,
@@ -241,6 +250,7 @@ const TransactionsSection: React.FC = () => {
       }
 
       setBuiltTx(JSON.stringify(txObj, null, 2));
+      // biome-ignore lint/suspicious/noExplicitAny: <TODO>
     } catch (err: any) {
       setTxError(err.message || String(err));
     }
@@ -256,6 +266,7 @@ const TransactionsSection: React.FC = () => {
       const provider = new JsonRpcProvider(net.rpc);
       const res = await provider.broadcastTransaction(rawRlp);
       setTxHashResult(res.hash);
+      // biome-ignore lint/suspicious/noExplicitAny: <TODO>
     } catch (err: any) {
       setTxError(err.message || String(err));
     } finally {
@@ -462,6 +473,7 @@ const TransactionsSection: React.FC = () => {
                     fetchNonceForAddress(
                       // biome-ignore lint/suspicious/noExplicitAny: <TODO>
                       (window as any).ethereum.selectedAddress ||
+                        // biome-ignore lint/suspicious/noExplicitAny: <TODO>
                         (window as any).ethereum?.accounts?.[0],
                     );
                 }}

@@ -1,5 +1,5 @@
-import React, { createContext, useContext, useState, useEffect, type ReactNode } from "react";
-import { type UserSettings, DEFAULT_SETTINGS } from "../types";
+import React, { createContext, type ReactNode, useContext, useEffect, useState } from "react";
+import { DEFAULT_SETTINGS, type UserSettings } from "../types";
 
 interface SettingsContextType {
   settings: UserSettings;

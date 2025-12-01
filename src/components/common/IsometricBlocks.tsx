@@ -1,5 +1,5 @@
 import type React from "react";
-import { useState, useEffect, useCallback, useMemo, useRef } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 // Network colors matching the logo - Ethereum weighted more heavily
 const NETWORKS = [

@@ -1,4 +1,4 @@
-import { keccak256, toUtf8Bytes, hexlify, AbiCoder, solidityPackedKeccak256 } from "ethers";
+import { AbiCoder, hexlify, keccak256, solidityPackedKeccak256, toUtf8Bytes } from "ethers";
 
 export type SolidityType =
   | "string"
@@ -132,6 +132,8 @@ export function convertEthUnits(value: string, from: EthUnit): Record<EthUnit, s
 /**
  * Parse an input value according to its Solidity type
  */
+
+// biome-ignore lint/suspicious/noExplicitAny: <TODO>
 export function parseInputValue(input: string, type: SolidityType): any {
   const trimmed = input.trim();
   switch (type) {
@@ -176,7 +178,7 @@ export function computeKeccak(input: string, inputType: SolidityType): KeccakRes
     if (inputType === "string") {
       encodedHex = hexlify(toUtf8Bytes(input));
     } else if (typeof parsedValue === "bigint") {
-      encodedHex = "0x" + parsedValue.toString(16).padStart(64, "0");
+      encodedHex = `0x${parsedValue.toString(16).padStart(64, "0")}`;
     } else {
       encodedHex = parsedValue;
     }
@@ -201,6 +203,7 @@ export function computeKeccak(input: string, inputType: SolidityType): KeccakRes
       functionSelector,
       isFunctionSignature,
     };
+    // biome-ignore lint/suspicious/noExplicitAny: <TODO>
   } catch (err: any) {
     return { error: err.message || "Failed to compute hash" };
   }
@@ -330,8 +333,8 @@ export function parseSignatureComponents(sig: string): {
 
   if (byteLength === 65) {
     // Standard signature: r (32 bytes) || s (32 bytes) || v (1 byte)
-    const r = "0x" + hexWithoutPrefix.slice(0, 64);
-    const s = "0x" + hexWithoutPrefix.slice(64, 128);
+    const r = `0x${hexWithoutPrefix.slice(0, 64)}`;
+    const s = `0x${hexWithoutPrefix.slice(64, 128)}`;
     const vByte = parseInt(hexWithoutPrefix.slice(128, 130), 16);
     // v is either 27/28 or 0/1
     const v = vByte < 27 ? vByte + 27 : vByte;
@@ -339,14 +342,14 @@ export function parseSignatureComponents(sig: string): {
     return { r, s, v, yParity };
   } else if (byteLength === 64) {
     // EIP-2098 compact: r (32 bytes) || yParityAndS (32 bytes)
-    const r = "0x" + hexWithoutPrefix.slice(0, 64);
+    const r = `0x${hexWithoutPrefix.slice(0, 64)}`;
     const yParityAndS = hexWithoutPrefix.slice(64, 128);
     // yParity is encoded in the highest bit of s
     const firstChar = yParityAndS.charAt(0);
     const yParity = parseInt(firstChar, 16) >= 8 ? 1 : 0;
     // Clear the highest bit to get s
     const sFirstNibble = (parseInt(firstChar, 16) & 0x7).toString(16);
-    const s = "0x" + sFirstNibble + yParityAndS.slice(1);
+    const s = `0x${sFirstNibble}${yParityAndS.slice(1)}`;
     const v = yParity + 27;
     return { r, s, v, yParity };
   }

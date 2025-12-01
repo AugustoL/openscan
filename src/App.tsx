@@ -1,8 +1,8 @@
-import { BrowserRouter as Router, HashRouter, Routes, Route, Navigate } from "react-router-dom";
-import { useCallback } from "react";
-import { WagmiProvider } from "wagmi";
+import { darkTheme, lightTheme, RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { RainbowKitProvider, darkTheme, lightTheme } from "@rainbow-me/rainbowkit";
+import { useCallback } from "react";
+import { HashRouter, Navigate, Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import { WagmiProvider } from "wagmi";
 import { networkConfig } from "./utils/networkConfig";
 import "./styles/rainbowkit.css";
 
@@ -22,33 +22,34 @@ function getBasename(): string {
   // For local development or custom domains, no basename needed
   return "";
 }
-import Navbar from "./components/common/Navbar";
-import Footer from "./components/common/Footer";
-import NotificationDisplay from "./components/common/NotificationDisplay";
+
 import ErrorBoundary from "./components/common/ErrorBoundary";
+import Footer from "./components/common/Footer";
 import { IsometricBlocks } from "./components/common/IsometricBlocks";
+import Navbar from "./components/common/Navbar";
+import NotificationDisplay from "./components/common/NotificationDisplay";
 import "./styles/styles.css";
 import "./styles/layouts.css";
 import "./styles/components.css";
 import "./styles/tables.css";
 import "./styles/forms.css";
-import { useAppReady, useOnAppReady } from "./hooks/useAppReady";
 import Loading from "./components/common/Loading";
 import {
-  LazyHome,
-  LazyChain,
-  LazyBlocks,
-  LazyBlock,
-  LazyTxs,
-  LazyTx,
+  LazyAbout,
   LazyAddress,
+  LazyBlock,
+  LazyBlocks,
+  LazyChain,
+  LazyDevTools,
+  LazyHome,
   LazyMempool,
   LazySettings,
-  LazyDevTools,
-  LazyAbout,
+  LazyTx,
+  LazyTxs,
 } from "./components/LazyComponents";
 import { NotificationProvider } from "./context/NotificationContext";
-import { SettingsProvider, useTheme, useSettings } from "./context/SettingsContext";
+import { SettingsProvider, useSettings, useTheme } from "./context/SettingsContext";
+import { useAppReady, useOnAppReady } from "./hooks/useAppReady";
 
 // Detect GH Pages once
 const isGhPages = typeof window !== "undefined" && window.location.hostname.includes("github.io");
@@ -63,7 +64,6 @@ function AppContent() {
   useOnAppReady(onAppReadyCallback);
 
   const { fullyReady } = useAppReady();
-  const { isDarkMode } = useTheme(); // Now this is inside ThemeProvider
   const { settings } = useSettings();
 
   return (

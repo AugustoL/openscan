@@ -1,9 +1,9 @@
-import { createContext, useState, type ReactNode, useEffect } from "react";
+import { createContext, type ReactNode, useEffect, useState } from "react";
 import { useAccount } from "wagmi";
 import { useWagmiConnection } from "../hooks/useWagmiConnection";
 import type { IAppContext, RpcUrlsContextType } from "../types";
-import { getEffectiveRpcUrls, saveRpcUrlsToStorage } from "../utils/rpcStorage";
 import { loadJsonFilesFromStorage, saveJsonFilesToStorage } from "../utils/artifactsStorage";
+import { getEffectiveRpcUrls, saveRpcUrlsToStorage } from "../utils/rpcStorage";
 
 // Alias exported for use across the app where a shorter/consistent name is preferred
 export type tRpcUrlsContextType = RpcUrlsContextType;
@@ -23,6 +23,7 @@ export const AppContextProvider = ({ children }: { children: ReactNode }) => {
   const [resourcesLoaded, setResourcesLoaded] = useState<boolean>(false);
   const [isHydrated, setIsHydrated] = useState<boolean>(false);
   const [rpcUrls, setRpcUrlsState] = useState<RpcUrlsContextType>(() => getEffectiveRpcUrls());
+  // biome-ignore lint/suspicious/noExplicitAny: <TODO>
   const [jsonFiles, setJsonFilesState] = useState<Record<string, any>>(() =>
     loadJsonFilesFromStorage(),
   );
@@ -36,6 +37,7 @@ export const AppContextProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
+  // biome-ignore lint/suspicious/noExplicitAny: <TODO>
   const setJsonFiles = (next: Record<string, any>) => {
     setJsonFilesState(next);
     try {
@@ -45,7 +47,7 @@ export const AppContextProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  const account = useAccount();
+  const _account = useAccount();
   const { isFullyConnected, address } = useWagmiConnection();
 
   // Mark as hydrated when component mounts (React has taken control)
@@ -60,7 +62,7 @@ export const AppContextProvider = ({ children }: { children: ReactNode }) => {
       const stylesheets = Array.from(document.querySelectorAll('link[rel="stylesheet"]'));
 
       const allImagesLoaded = images.every((img) => img.complete);
-      const allStylesheetsLoaded = stylesheets.every((link) => {
+      const allStylesheetsLoaded = stylesheets.every((_link) => {
         // For external stylesheets, we assume they're loaded if the element exists
         return true; // You can add more sophisticated checking if needed
       });

@@ -23,7 +23,7 @@ export default function BaseModal({
 }: BaseModalProps) {
   if (!isOpen) return null;
 
-  const handleOverlayClick = (e: React.MouseEvent) => {
+  const handleOverlayClick = (_e: React.MouseEvent) => {
     if (closeOnOverlayClick && !isLoading) {
       onClose();
     }

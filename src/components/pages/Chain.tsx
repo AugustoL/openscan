@@ -1,12 +1,12 @@
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useDataService } from "../../hooks/useDataService";
-import { useEffect, useState } from "react";
-import SearchBox from "../common/SearchBox";
-import NetworkStatsDisplay from "../common/NetworkStatsDisplay";
-import Loader from "../common/Loader";
-import type { NetworkStats, DataWithMetadata } from "../../types";
 import { useProviderSelection } from "../../hooks/useProviderSelection";
 import { useSelectedData } from "../../hooks/useSelectedData";
+import type { DataWithMetadata, NetworkStats } from "../../types";
+import Loader from "../common/Loader";
+import NetworkStatsDisplay from "../common/NetworkStatsDisplay";
+import SearchBox from "../common/SearchBox";
 
 export default function Chain() {
   const { chainId } = useParams<{ chainId?: string }>();

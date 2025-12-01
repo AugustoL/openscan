@@ -1,16 +1,16 @@
-import { describe, it, expect } from "vitest";
+import { describe, expect, it } from "vitest";
 import {
-  convertEthUnits,
-  parseInputValue,
+  addressesMatch,
   computeKeccak,
-  stringToHex,
+  convertEthUnits,
+  detectMessageFormat,
   hexToString,
   isValidAddress,
   isValidHex,
   isValidSignature,
-  detectMessageFormat,
+  parseInputValue,
   parseSignatureComponents,
-  addressesMatch,
+  stringToHex,
 } from "../../utils/devtools";
 
 describe("DevTools Utils", () => {
@@ -18,17 +18,17 @@ describe("DevTools Utils", () => {
     it("should convert 1 ETH to all units", () => {
       const result = convertEthUnits("1", "eth");
       expect(result).not.toBeNull();
-      expect(result!.eth).toBe("1");
-      expect(result!.gwei).toBe("1000000000");
-      expect(result!.wei).toBe("1000000000000000000");
+      expect(result?.eth).toBe("1");
+      expect(result?.gwei).toBe("1000000000");
+      expect(result?.wei).toBe("1000000000000000000");
     });
 
     it("should convert 1 gwei to all units", () => {
       const result = convertEthUnits("1", "gwei");
       expect(result).not.toBeNull();
-      expect(result!.gwei).toBe("1");
-      expect(result!.wei).toBe("1000000000");
-      expect(result!.eth).toBe("0.000000001");
+      expect(result?.gwei).toBe("1");
+      expect(result?.wei).toBe("1000000000");
+      expect(result?.eth).toBe("0.000000001");
     });
 
     it("should return null for invalid input", () => {
@@ -245,7 +245,7 @@ describe("DevTools Utils", () => {
 
     it("should recognize 64-byte EIP-2098 compact signature", () => {
       // 64 bytes = 128 hex chars + 0x prefix
-      const compactSig = "0x" + "b".repeat(128);
+      const compactSig = `0x${"b".repeat(128)}`;
       const result = isValidSignature(compactSig);
       expect(result.valid).toBe(true);
       expect(result.length).toBe(64);
@@ -259,13 +259,13 @@ describe("DevTools Utils", () => {
     });
 
     it("should reject signature with wrong length", () => {
-      const sig = "0x" + "a".repeat(100);
+      const sig = `0x${"a".repeat(100)}`;
       const result = isValidSignature(sig);
       expect(result.valid).toBe(false);
     });
 
     it("should reject signature with invalid hex characters", () => {
-      const sig = "0x" + "g".repeat(130);
+      const sig = `0x${"g".repeat(130)}`;
       const result = isValidSignature(sig);
       expect(result.valid).toBe(false);
     });
@@ -306,39 +306,39 @@ describe("DevTools Utils", () => {
     it("should parse simple message signature correctly", () => {
       const result = parseSignatureComponents(SIMPLE_SIGNATURE);
       expect(result).not.toBeNull();
-      expect(result!.r).toBe(SIMPLE_SIG_R);
-      expect(result!.s).toBe(SIMPLE_SIG_S);
-      expect(result!.v).toBe(SIMPLE_SIG_V);
-      expect(result!.yParity).toBe(1); // v=28 means yParity=1
+      expect(result?.r).toBe(SIMPLE_SIG_R);
+      expect(result?.s).toBe(SIMPLE_SIG_S);
+      expect(result?.v).toBe(SIMPLE_SIG_V);
+      expect(result?.yParity).toBe(1); // v=28 means yParity=1
     });
 
     it("should parse raw hash signature correctly", () => {
       const result = parseSignatureComponents(RAW_HASH_SIGNATURE);
       expect(result).not.toBeNull();
-      expect(result!.r).toBe("0x5d8bd006953f0e4e24843f6d70ac7100dfc272afbb7c6baedbcd8beeb7fdb949");
-      expect(result!.s).toBe("0x02d539f30fcb46a1ec63c6fdb8f9f51a9af1c2a01f8aaa1ed9f1a5c32f7b54fc");
-      expect(result!.v).toBe(28);
+      expect(result?.r).toBe("0x5d8bd006953f0e4e24843f6d70ac7100dfc272afbb7c6baedbcd8beeb7fdb949");
+      expect(result?.s).toBe("0x02d539f30fcb46a1ec63c6fdb8f9f51a9af1c2a01f8aaa1ed9f1a5c32f7b54fc");
+      expect(result?.v).toBe(28);
     });
 
     it("should parse EIP-712 signature correctly", () => {
       const result = parseSignatureComponents(EIP712_SIGNATURE);
       expect(result).not.toBeNull();
-      expect(result!.r).toBe("0x2d480fdcd216ca933662705a13a539a8f979b29d69ee83a92389db8dd9e7f36a");
-      expect(result!.s).toBe("0x0f1dca546b14b8af72cbb02ca81237e9474413f6506c792da060e9981373bd05");
-      expect(result!.v).toBe(28);
+      expect(result?.r).toBe("0x2d480fdcd216ca933662705a13a539a8f979b29d69ee83a92389db8dd9e7f36a");
+      expect(result?.s).toBe("0x0f1dca546b14b8af72cbb02ca81237e9474413f6506c792da060e9981373bd05");
+      expect(result?.v).toBe(28);
     });
 
     it("should parse EIP-191 signature correctly", () => {
       const result = parseSignatureComponents(EIP191_SIGNATURE);
       expect(result).not.toBeNull();
-      expect(result!.v).toBe(27); // 0x1b
-      expect(result!.yParity).toBe(0);
+      expect(result?.v).toBe(27); // 0x1b
+      expect(result?.yParity).toBe(0);
     });
 
     it("should parse emoji message signature correctly", () => {
       const result = parseSignatureComponents(EMOJI_SIGNATURE);
       expect(result).not.toBeNull();
-      expect(result!.v).toBe(27); // 0x1b
+      expect(result?.v).toBe(27); // 0x1b
     });
 
     it("should return null for invalid signature", () => {
@@ -459,17 +459,17 @@ describe("DevTools Utils", () => {
       const result = parseSignatureComponents(MALLEATED_SIGNATURE);
       expect(result).not.toBeNull();
       // Same r as original
-      expect(result!.r).toBe("0xf4a45954390e10d2db95527ecfaca14adfd74127e5a885fcaaaed2a1b5bd7325");
+      expect(result?.r).toBe("0xf4a45954390e10d2db95527ecfaca14adfd74127e5a885fcaaaed2a1b5bd7325");
       // Different s (high-s value)
-      expect(result!.s).toBe("0xb07d1d9596e8871bb3dc4253d5f43675859f1f9097ad80b13b6538f13814d962");
-      expect(result!.v).toBe(28);
+      expect(result?.s).toBe("0xb07d1d9596e8871bb3dc4253d5f43675859f1f9097ad80b13b6538f13814d962");
+      expect(result?.v).toBe(28);
     });
 
     it("should parse signature with bad v (returns raw v value)", () => {
       const result = parseSignatureComponents(BAD_V_SIGNATURE);
       expect(result).not.toBeNull();
       // v = 0x35 = 53, which is > 27 so stays as-is
-      expect(result!.v).toBe(53);
+      expect(result?.v).toBe(53);
     });
 
     it("should return null for too short signature", () => {

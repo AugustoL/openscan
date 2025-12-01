@@ -1,6 +1,6 @@
-import { useParams, Link, useSearchParams, useNavigate } from "react-router-dom";
-import { useDataService } from "../../hooks/useDataService";
 import { useEffect, useState } from "react";
+import { Link, useNavigate, useParams, useSearchParams } from "react-router-dom";
+import { useDataService } from "../../hooks/useDataService";
 import type { Block } from "../../types";
 import Loader from "../common/Loader";
 
@@ -53,6 +53,7 @@ export default function Blocks() {
         console.log("Fetched blocks:", blockResults);
         // Extract data from results
         setBlocks(blockResults.map((result) => result.data));
+        // biome-ignore lint/suspicious/noExplicitAny: <TODO>
       } catch (err: any) {
         console.error("Error fetching blocks:", err);
         setError(err.message || "Failed to fetch blocks");
@@ -74,7 +75,7 @@ export default function Blocks() {
     try {
       const date = new Date(Number(timestamp) * 1000);
       return date.toLocaleString();
-    } catch (e) {
+    } catch (_e) {
       return timestamp;
     }
   };

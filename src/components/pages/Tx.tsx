@@ -1,11 +1,11 @@
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useDataService } from "../../hooks/useDataService";
-import { useEffect, useState } from "react";
-import type { Transaction, DataWithMetadata } from "../../types";
-import TransactionDisplay from "../common/TransactionDisplay";
-import Loader from "../common/Loader";
 import { useProviderSelection } from "../../hooks/useProviderSelection";
 import { useSelectedData } from "../../hooks/useSelectedData";
+import type { DataWithMetadata, Transaction } from "../../types";
+import Loader from "../common/Loader";
+import TransactionDisplay from "../common/TransactionDisplay";
 
 export default function Tx() {
   const { chainId, filter } = useParams<{

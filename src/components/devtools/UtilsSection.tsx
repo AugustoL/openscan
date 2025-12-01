@@ -1,11 +1,11 @@
 import type React from "react";
 import { useState } from "react";
 import {
-  convertEthUnits,
   computeKeccak,
-  stringToHex,
-  hexToString,
+  convertEthUnits,
   type EthUnit,
+  hexToString,
+  stringToHex,
 } from "../../utils/devtools";
 
 type SolidityType =
@@ -76,8 +76,9 @@ const UtilsSection: React.FC = () => {
     try {
       const result = stringToHex(data);
       setDecodedData(result);
+      // biome-ignore lint/suspicious/noExplicitAny: <TODO>
     } catch (err: any) {
-      setDecodedData("Error: " + err.message);
+      setDecodedData(`Error: ${err.message}`);
     }
   };
 
@@ -85,8 +86,9 @@ const UtilsSection: React.FC = () => {
     try {
       const result = hexToString(hexData);
       setDecodedData(result);
+      // biome-ignore lint/suspicious/noExplicitAny: <TODO>
     } catch (err: any) {
-      setDecodedData("Error: " + err.message);
+      setDecodedData(`Error: ${err.message}`);
     }
   };
 
@@ -280,6 +282,7 @@ const UtilsSection: React.FC = () => {
                       <span className="keccak-result-label">Encoded Bytes</span>
                       {/** biome-ignore lint/a11y/useButtonType: <TODO> */}
                       <button
+                        // biome-ignore lint/style/noNonNullAssertion: <TODO>
                         onClick={() => copyToClipboard(keccakResults.encodedBytes!)}
                         className="devtools-copy-btn"
                       >
@@ -295,6 +298,7 @@ const UtilsSection: React.FC = () => {
                     <span className="keccak-result-label">Keccak256 Hash</span>
                     {/** biome-ignore lint/a11y/useButtonType: <TODO> */}
                     <button
+                      // biome-ignore lint/style/noNonNullAssertion: <TODO>
                       onClick={() => copyToClipboard(keccakResults.rawHash!)}
                       className="devtools-copy-btn"
                     >
@@ -309,6 +313,7 @@ const UtilsSection: React.FC = () => {
                     <span className="keccak-result-label">keccak256(abi.encodePacked(input))</span>
                     {/** biome-ignore lint/a11y/useButtonType: <TODO> */}
                     <button
+                      // biome-ignore lint/style/noNonNullAssertion: <TODO>
                       onClick={() => copyToClipboard(keccakResults.solidityEncodePacked!)}
                       className="devtools-copy-btn"
                     >
@@ -339,6 +344,7 @@ const UtilsSection: React.FC = () => {
                       <span className="keccak-result-label">🎯 Function Selector (bytes4)</span>
                       {/** biome-ignore lint/a11y/useButtonType: <TODO> */}
                       <button
+                        // biome-ignore lint/style/noNonNullAssertion: <TODO>
                         onClick={() => copyToClipboard(keccakResults.functionSelector!)}
                         className="devtools-copy-btn"
                       >

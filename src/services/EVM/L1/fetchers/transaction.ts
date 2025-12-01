@@ -1,6 +1,7 @@
 // src/services/EVM/L1/fetchers/mainnet/transaction.ts
-import type { RPCClient } from "../../common/RPCClient";
+
 import type { RPCTransaction, RPCTransactionReceipt } from "../../../../types";
+import type { RPCClient } from "../../common/RPCClient";
 
 export class TransactionFetcher {
   constructor(

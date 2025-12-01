@@ -93,7 +93,7 @@ function decodeUint256(hex: string): string {
   const cleaned = hex.startsWith("0x") ? hex.slice(2) : hex;
   // Use BigInt for large numbers
   try {
-    const value = BigInt("0x" + cleaned);
+    const value = BigInt(`0x${cleaned}`);
     return value.toString();
   } catch {
     return hex;
@@ -108,7 +108,7 @@ function decodeAddress(hex: string): string {
   const cleaned = hex.startsWith("0x") ? hex.slice(2) : hex;
   // Address is last 40 characters (20 bytes)
   const address = cleaned.slice(-40);
-  return "0x" + address;
+  return `0x${address}`;
 }
 
 /**
@@ -118,7 +118,7 @@ function decodeInt256(hex: string): string {
   if (!hex || hex === "0x") return "0";
   const cleaned = hex.startsWith("0x") ? hex.slice(2) : hex;
   try {
-    const value = BigInt("0x" + cleaned);
+    const value = BigInt(`0x${cleaned}`);
     // Check if negative (highest bit set)
     const maxPositive = BigInt(
       "0x7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
@@ -193,7 +193,7 @@ function decodeEventData(data: string, params: EventParam[]): string[] {
   for (const param of params) {
     if (offset >= cleaned.length) break;
 
-    const chunk = "0x" + cleaned.slice(offset, offset + chunkSize);
+    const chunk = `0x${cleaned.slice(offset, offset + chunkSize)}`;
     values.push(decodeValue(chunk, param.type));
     offset += chunkSize;
   }

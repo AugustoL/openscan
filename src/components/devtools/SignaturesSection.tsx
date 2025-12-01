@@ -1,13 +1,13 @@
-import type React from "react";
-import { useState } from "react";
 import {
+  AbiCoder,
+  getBytes,
   hashMessage,
-  TypedDataEncoder,
   recoverAddress,
   Signature,
-  getBytes,
-  AbiCoder,
+  TypedDataEncoder,
 } from "ethers";
+import type React from "react";
+import { useState } from "react";
 
 const SignaturesSection: React.FC = () => {
   const [showSignatureInspector, setShowSignatureInspector] = useState(false);
@@ -161,6 +161,7 @@ const SignaturesSection: React.FC = () => {
 
       setSigResults({
         format,
+        // biome-ignore lint/style/noNonNullAssertion: <TODO>
         messageFormat: detectedMessageFormat!,
         messageHash,
         recoveredAddress,
@@ -171,6 +172,7 @@ const SignaturesSection: React.FC = () => {
         yParity,
         addressMatch,
       });
+      // biome-ignore lint/suspicious/noExplicitAny: <TODO>
     } catch (err: any) {
       setSigResults({ error: err.message || "Failed to verify signature" });
     }
@@ -211,6 +213,7 @@ const SignaturesSection: React.FC = () => {
         messageHash,
         encodedData,
       });
+      // biome-ignore lint/suspicious/noExplicitAny: <TODO>
     } catch (err: any) {
       setEip712Results({ error: err.message || "Failed to encode EIP-712 data" });
     }
@@ -252,8 +255,9 @@ const SignaturesSection: React.FC = () => {
       const decoded = abiCoder.decode(abiTypes, data);
 
       // Build the decoded message object
+      // biome-ignore lint/suspicious/noExplicitAny: <TODO>
       const decodedMessage: Record<string, any> = {};
-      decodedMessage["_typeHash"] = decoded[0]; // First value is the type hash
+      decodedMessage._typeHash = decoded[0]; // First value is the type hash
 
       for (let i = 0; i < typeFields.length; i++) {
         const field = typeFields[i];
@@ -275,6 +279,7 @@ const SignaturesSection: React.FC = () => {
       setEip712Results({
         decodedMessage: JSON.stringify(decodedMessage, null, 2),
       });
+      // biome-ignore lint/suspicious/noExplicitAny: <TODO>
     } catch (err: any) {
       setEip712Results({ error: err.message || "Failed to decode EIP-712 data" });
     }

@@ -3,9 +3,11 @@ export interface RPCRequest {
   jsonrpc: "2.0";
   id: number;
   method: string;
+  // biome-ignore lint/suspicious/noExplicitAny: <TODO>
   params: any[];
 }
 
+// biome-ignore lint/suspicious/noExplicitAny: <TODO>
 export interface RPCResponse<T = any> {
   jsonrpc: "2.0";
   id: number;
@@ -13,14 +15,16 @@ export interface RPCResponse<T = any> {
   error?: {
     code: number;
     message: string;
+    // biome-ignore lint/suspicious/noExplicitAny: <TODO>
     data?: any;
   };
 }
-
+// biome-ignore lint/suspicious/noExplicitAny: <TODO>
 export interface ParallelRequestResult<T = any> {
   url: string;
   status: "fulfilled" | "rejected";
   response?: T;
+  // biome-ignore lint/suspicious/noExplicitAny: <TODO>
   error?: any;
 }
 
@@ -58,6 +62,7 @@ export class RPCClient {
    * Get the current RPC URL being used
    */
   getCurrentUrl(): string {
+    // biome-ignore lint/style/noNonNullAssertion: <TODO>
     return this.rpcUrls[this.currentUrlIndex]!;
   }
 
@@ -86,6 +91,7 @@ export class RPCClient {
   /**
    * Make a single RPC request to a specific URL without fallback
    */
+  // biome-ignore lint/suspicious/noExplicitAny: <TODO>
   private async makeRequest<T = any>(url: string, method: string, params: any[] = []): Promise<T> {
     const request: RPCRequest = {
       jsonrpc: "2.0",
@@ -122,8 +128,10 @@ export class RPCClient {
   /**
    * Attempt an RPC call with automatic fallback to other URLs on failure
    */
+  // biome-ignore lint/suspicious/noExplicitAny: <TODO>
   private async callWithFallback<T = any>(
     method: string,
+    // biome-ignore lint/suspicious/noExplicitAny: <TODO>
     params: any[] = [],
     urlIndex = 0,
     errors: Error[] = [],
@@ -155,7 +163,7 @@ export class RPCClient {
       return this.callWithFallback<T>(method, params, urlIndex + 1, errors);
     }
   }
-
+  // biome-ignore lint/suspicious/noExplicitAny: <TODO>
   async call<T = any>(method: string, params: any[] = []): Promise<T> {
     console.log(
       `RPCClient.call: ${method}`,
@@ -215,6 +223,7 @@ export class RPCClient {
   /**
    * Batch multiple RPC calls with fallback support
    */
+  // biome-ignore lint/suspicious/noExplicitAny: <TODO>
   async batchCall<T = any>(calls: Array<{ method: string; params: any[] }>): Promise<T[]> {
     const orderedIndices = [
       this.currentUrlIndex,
@@ -287,8 +296,10 @@ export class RPCClient {
    * @param params - The parameters for the RPC method
    * @returns Array of results containing the status and response/error for each URL
    */
+  // biome-ignore lint/suspicious/noExplicitAny: <TODO>
   async parallelCall<T = any>(
     method: string,
+    // biome-ignore lint/suspicious/noExplicitAny: <TODO>
     params: any[] = [],
   ): Promise<ParallelRequestResult<T>[]> {
     console.log(
@@ -307,6 +318,7 @@ export class RPCClient {
 
     // Map the results to our typed format
     return results.map((result, index) => {
+      // biome-ignore lint/style/noNonNullAssertion: <TODO>
       const url = this.rpcUrls[index]!;
 
       if (result.status === "fulfilled") {

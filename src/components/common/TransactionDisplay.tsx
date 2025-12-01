@@ -1,21 +1,21 @@
-import React, { useState, useEffect, useRef, useMemo, useCallback } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
+import type { DataService } from "../../services/DataService";
+import type { TraceResult } from "../../services/EVM/L1/fetchers/trace";
 import type {
+  RPCMetadata,
   Transaction,
   TransactionArbitrum,
   TransactionReceiptArbitrum,
   TransactionReceiptOptimism,
-  RPCMetadata,
 } from "../../types";
-import LongString from "./LongString";
-import type { DataService } from "../../services/DataService";
-import type { TraceResult } from "../../services/EVM/L1/fetchers/trace";
 import {
-  decodeEventLog,
   type DecodedEvent,
+  decodeEventLog,
   formatDecodedValue,
   getEventTypeColor,
 } from "../../utils/eventDecoder";
+import LongString from "./LongString";
 import { RPCIndicator } from "./RPCIndicator";
 
 interface TransactionDisplayProps {
@@ -38,13 +38,14 @@ const TransactionDisplay: React.FC<TransactionDisplayProps> = React.memo(
     selectedProvider,
     onProviderSelect,
   }) => {
-    const [showRawData, setShowRawData] = useState(false);
-    const [showLogs, setShowLogs] = useState(false);
+    const [_showRawData, _setShowRawData] = useState(false);
+    const [_showLogs, _setShowLogs] = useState(false);
     const [showTrace, setShowTrace] = useState(false);
     const [traceData, setTraceData] = useState<TraceResult | null>(null);
+    // biome-ignore lint/suspicious/noExplicitAny: <TODO>
     const [callTrace, setCallTrace] = useState<any>(null);
     const [loadingTrace, setLoadingTrace] = useState(false);
-    const [copiedField, setCopiedField] = useState<string | null>(null);
+    const [_copiedField, _setCopiedField] = useState<string | null>(null);
     const copyTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
     // Check if trace is available (localhost only)
@@ -84,16 +85,18 @@ const TransactionDisplay: React.FC<TransactionDisplayProps> = React.memo(
     );
 
     // Check if receipt is Arbitrum receipt
+    // biome-ignore lint/suspicious/noExplicitAny: <TODO>
     const isArbitrumReceipt = useCallback((receipt: any): receipt is TransactionReceiptArbitrum => {
       return receipt && "l1BlockNumber" in receipt;
     }, []);
 
     // Check if receipt is Optimism receipt
+    // biome-ignore lint/suspicious/noExplicitAny: <TODO>
     const isOptimismReceipt = useCallback((receipt: any): receipt is TransactionReceiptOptimism => {
       return receipt && "l1Fee" in receipt;
     }, []);
 
-    const truncate = useCallback((str: string, start = 6, end = 4) => {
+    const _truncate = useCallback((str: string, start = 6, end = 4) => {
       if (!str) return "";
       if (str.length <= start + end) return str;
       return `${str.slice(0, start)}...${str.slice(-end)}`;
@@ -103,7 +106,7 @@ const TransactionDisplay: React.FC<TransactionDisplayProps> = React.memo(
       try {
         const eth = Number(value) / 1e18;
         return `${eth.toFixed(6)} ETH`;
-      } catch (e) {
+      } catch (_e) {
         return value;
       }
     }, []);
@@ -112,7 +115,7 @@ const TransactionDisplay: React.FC<TransactionDisplayProps> = React.memo(
       try {
         const gwei = Number(value) / 1e9;
         return `${gwei.toFixed(2)} Gwei`;
-      } catch (e) {
+      } catch (_e) {
         return value;
       }
     }, []);
@@ -135,7 +138,7 @@ const TransactionDisplay: React.FC<TransactionDisplayProps> = React.memo(
           second: "2-digit",
           timeZoneName: "short",
         }).format(new Date(timestampMs));
-      } catch (error) {
+      } catch (_error) {
         return new Date(timestampMs).toISOString();
       }
     }, []);
@@ -452,6 +455,7 @@ const TransactionDisplay: React.FC<TransactionDisplayProps> = React.memo(
               </span>
             </div>
             <div className="tx-logs">
+              {/** biome-ignore lint/suspicious/noExplicitAny: <TODO> */}
               {transaction.receipt.logs.map((log: any, index: number) => {
                 const decoded: DecodedEvent | null = log.topics
                   ? decodeEventLog(log.topics, log.data || "0x")

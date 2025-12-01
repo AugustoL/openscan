@@ -1,11 +1,13 @@
 // src/services/EVM/Arbitrum/adapters/transaction.ts
-import type { RPCTransaction, RPCTransactionReceipt } from "../../../../types";
 import type { TransactionArbitrum, TransactionReceiptArbitrum } from "../../../../types";
 
+// biome-ignore lint/complexity/noStaticOnlyClass: <TODO>
 export class TransactionArbitrumAdapter {
   static fromRPCTransaction(
+    // biome-ignore lint/suspicious/noExplicitAny: <TODO>
     rpcTx: any,
-    chainId: number,
+    _chainId: number,
+    // biome-ignore lint/suspicious/noExplicitAny: <TODO>
     receipt?: any | null,
   ): TransactionArbitrum {
     const transaction: TransactionArbitrum = {

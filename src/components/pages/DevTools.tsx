@@ -1,11 +1,11 @@
 import type React from "react";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import TransactionsSection from "../devtools/TransactionsSection";
-import SignaturesSection from "../devtools/SignaturesSection";
-import UtilsSection from "../devtools/UtilsSection";
 import ContractsSection from "../devtools/ContractsSection";
 import DevelopmentSection from "../devtools/DevelopmentSection";
+import SignaturesSection from "../devtools/SignaturesSection";
+import TransactionsSection from "../devtools/TransactionsSection";
+import UtilsSection from "../devtools/UtilsSection";
 import "../../styles/devtools.css";
 
 const DevTools: React.FC = () => {

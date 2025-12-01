@@ -1,6 +1,7 @@
 // src/services/EVM/Arbitrum/fetchers/address.ts
+
+import type { AddressTransactionsResult, LogEntry, TraceFilterResult } from "../../../../types";
 import type { RPCClient } from "../../common/RPCClient";
-import type { TraceFilterResult, LogEntry, AddressTransactionsResult } from "../../../../types";
 
 export class AddressFetcher {
   constructor(
@@ -81,7 +82,7 @@ export class AddressFetcher {
   ): Promise<LogEntry[]> {
     const fromBlockParam = fromBlock === "earliest" ? "earliest" : `0x${fromBlock.toString(16)}`;
     const toBlockParam = toBlock === "latest" ? "latest" : `0x${toBlock.toString(16)}`;
-    const paddedAddress = "0x" + address.toLowerCase().slice(2).padStart(64, "0");
+    const paddedAddress = `0x${address.toLowerCase().slice(2).padStart(64, "0")}`;
 
     // Get logs emitted BY this address (for contracts)
     const logsFromContract = await this.rpcClient.call<LogEntry[]>("eth_getLogs", [
@@ -145,6 +146,7 @@ export class AddressFetcher {
         source: "trace_filter",
         isComplete: true,
       };
+      // biome-ignore lint/suspicious/noExplicitAny: <TODO>
     } catch (error: any) {
       console.log("trace_filter not available on Arbitrum, falling back to logs:", error.message);
     }
@@ -171,6 +173,7 @@ export class AddressFetcher {
         message:
           "Showing transactions from event logs only. ETH transfers and transactions without events are not included.",
       };
+      // biome-ignore lint/suspicious/noExplicitAny: <TODO>
     } catch (error: any) {
       console.error("eth_getLogs failed on Arbitrum:", error.message);
     }

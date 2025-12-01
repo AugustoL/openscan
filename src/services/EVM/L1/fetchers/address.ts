@@ -1,6 +1,7 @@
 // src/services/EVM/L1/fetchers/mainnet/address.ts
+
+import type { AddressTransactionsResult, LogEntry, TraceFilterResult } from "../../../../types";
 import type { RPCClient } from "../../common/RPCClient";
-import type { TraceFilterResult, LogEntry, AddressTransactionsResult } from "../../../../types";
 
 export class AddressFetcher {
   constructor(
@@ -94,7 +95,7 @@ export class AddressFetcher {
     // Approval: 0x8c5be1e5ebec7d5bd14f714f211d1fdf2f9d4b67e8936cfd6c3b6c0e16b3b4f2
 
     // Pad address to 32 bytes for topic filtering
-    const paddedAddress = "0x" + address.toLowerCase().slice(2).padStart(64, "0");
+    const paddedAddress = `0x${address.toLowerCase().slice(2).padStart(64, "0")}`;
 
     // Get logs emitted BY this address (for contracts)
     const logsFromContract = await this.rpcClient.call<LogEntry[]>("eth_getLogs", [
@@ -171,6 +172,7 @@ export class AddressFetcher {
         source: "trace_filter",
         isComplete: true,
       };
+      // biome-ignore lint/suspicious/noExplicitAny: <TODO>
     } catch (error: any) {
       // trace_filter not supported, try logs
       console.log("trace_filter not available, falling back to logs:", error.message);
@@ -208,6 +210,7 @@ export class AddressFetcher {
         message:
           "Showing transactions from event logs only. ETH transfers and transactions without events are not included. Full history requires a node with trace_filter support.",
       };
+      // biome-ignore lint/suspicious/noExplicitAny: <TODO>
     } catch (error: any) {
       console.error("eth_getLogs failed:", error.message);
     }

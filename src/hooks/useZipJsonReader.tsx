@@ -1,5 +1,5 @@
-import { useState } from "react";
 import JSZip from "jszip";
+import { useState } from "react";
 
 export function useZipJsonReader() {
   const [loading, setLoading] = useState(false);
@@ -11,21 +11,25 @@ export function useZipJsonReader() {
 
     try {
       const zip = await JSZip.loadAsync(file);
+      // biome-ignore lint/suspicious/noExplicitAny: <TODO>
       const results: any = {};
       const entries = Object.keys(zip.files);
       console.log(entries);
 
+      // biome-ignore lint/suspicious/noExplicitAny: <TODO>
       let deployments: any = {};
       for (const path of entries) {
         const zipFile = zip.files[path];
         if (!zipFile) continue;
         if (path.includes("deployed_addresses.json") && !zipFile.dir) {
+          // biome-ignore lint/style/noNonNullAssertion: <TODO>
           const deploymentsFile = zip.files[path!];
           if (!deploymentsFile) continue;
           deployments = JSON.parse(await deploymentsFile.async("string"));
         }
       }
 
+      // biome-ignore lint/suspicious/noExplicitAny: <TODO>
       const contractDeployments: any = {};
       Object.keys(deployments).forEach((key) => {
         const name = key.split("#")[1];
@@ -47,18 +51,20 @@ export function useZipJsonReader() {
 
           // Add build info file into big object
           const buildInfoPath = entries.find((e) => e.includes(results[key].buildInfoId));
+          // biome-ignore lint/style/noNonNullAssertion: <TODO>
           const buildInfoFile = zip.files[buildInfoPath!];
           if (!buildInfoFile) continue;
           const buildInfo = JSON.parse(await buildInfoFile.async("string"));
-          results[key]["buildInfo"] = buildInfo;
+          results[key].buildInfo = buildInfo;
 
           // Add source code files into big object
           const sourceCodePath = entries.find((e) => e.includes(results[key].sourceName));
+          // biome-ignore lint/style/noNonNullAssertion: <TODO>
           const sourceCodeFile = zip.files[sourceCodePath!];
           if (!sourceCodeFile) continue;
           const sourceCode = await sourceCodeFile.async("string");
-          results[key]["sourceCode"] = sourceCode;
-          results[key]["deployments"] = [contractDeployments[results[key].contractName]];
+          results[key].sourceCode = sourceCode;
+          results[key].deployments = [contractDeployments[results[key].contractName]];
         }
       }
 
@@ -66,8 +72,10 @@ export function useZipJsonReader() {
       console.log(results);
 
       // Build an address -> artifact map based on each entry's `deployments`
+      // biome-ignore lint/suspicious/noExplicitAny: <TODO>
       const addressMap: Record<string, any> = {};
 
+      // biome-ignore lint/suspicious/noExplicitAny: <TODO>
       const extractAddresses = (input: any): string[] => {
         if (!input) return [];
         if (typeof input === "string") {
@@ -84,6 +92,7 @@ export function useZipJsonReader() {
           if (Array.isArray(input.addresses)) {
             res.push(
               ...input.addresses
+                // biome-ignore lint/suspicious/noExplicitAny: <TODO>
                 .filter((a: any) => typeof a === "string" && /^0x[0-9a-fA-F]{40}$/.test(a))
                 .map((a: string) => a.toLowerCase()),
             );

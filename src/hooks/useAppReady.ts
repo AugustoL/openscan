@@ -29,6 +29,7 @@ export const useAppReady = () => {
 /**
  * Hook to execute code when app is fully ready
  */
+// biome-ignore lint/suspicious/noExplicitAny: <TODO>
 export const useOnAppReady = (callback: () => void, deps: any[] = []) => {
   const { fullyReady } = useAppReady();
 

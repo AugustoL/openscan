@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { RPCMetadata } from "../../types";
 
 interface RPCIndicatorProps {
@@ -118,11 +118,11 @@ function truncateUrl(url: string): string {
     const urlObj = new URL(url);
     const hostname = urlObj.hostname;
     if (hostname.length > 30) {
-      return hostname.slice(0, 15) + "..." + hostname.slice(-12);
+      return `${hostname.slice(0, 15)}...${hostname.slice(-12)}`;
     }
     return hostname;
   } catch {
-    return url.length > 30 ? url.slice(0, 15) + "..." + url.slice(-12) : url;
+    return url.length > 30 ? `${url.slice(0, 15)}...${url.slice(-12)}` : url;
   }
 }
 

@@ -86,6 +86,7 @@ export class TraceFetcher {
       const blockNum =
         typeof blockNumber === "number" ? `0x${blockNumber.toString(16)}` : blockNumber;
 
+      // biome-ignore lint/suspicious/noExplicitAny: <TODO>
       const result = await this.rpcClient.call<any>("debug_traceBlockByNumber", [
         blockNum,
         config || {},
@@ -112,6 +113,7 @@ export class TraceFetcher {
    */
   async traceBlockByHash(blockHash: string, config?: TraceCallConfig): Promise<TraceResult[]> {
     try {
+      // biome-ignore lint/suspicious/noExplicitAny: <TODO>
       const result = await this.rpcClient.call<any>("debug_traceBlockByHash", [
         blockHash,
         config || {},
@@ -144,7 +146,7 @@ export class TraceFetcher {
         {},
       ]);
       return true;
-    } catch (error) {
+    } catch (_error) {
       // If the method doesn't exist or returns an error, traces aren't available
       return false;
     }
@@ -164,6 +166,7 @@ export class TraceFetcher {
       input: string;
       output: string;
       error?: string;
+      // biome-ignore lint/suspicious/noExplicitAny: <TODO>
       calls?: any[];
     }>;
     gasUsed: number;
@@ -178,6 +181,7 @@ export class TraceFetcher {
         },
       });
 
+      // biome-ignore lint/suspicious/noExplicitAny: <TODO>
       return trace as any;
     } catch (error) {
       console.error("Error getting call trace:", error);

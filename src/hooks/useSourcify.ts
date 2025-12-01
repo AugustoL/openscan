@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export interface SourcifyMatch {
   match: "perfect" | "partial" | null;
@@ -24,7 +24,9 @@ export interface SourcifyContractDetails extends SourcifyMatch {
       content: string;
     }
   >;
+  // biome-ignore lint/suspicious/noExplicitAny: <TODO>
   metadata?: any;
+  // biome-ignore lint/suspicious/noExplicitAny: <TODO>
   abi?: any[];
 }
 

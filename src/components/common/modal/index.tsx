@@ -35,6 +35,6 @@
  * - Responsive design
  */
 
+export type { BaseModalProps } from "./BaseModal";
 // Base modal components
 export { default as BaseModal } from "./BaseModal";
-export type { BaseModalProps } from "./BaseModal";

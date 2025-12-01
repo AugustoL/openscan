@@ -1,20 +1,16 @@
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useDataService } from "../../hooks/useDataService";
-import { useEffect, useState } from "react";
+import { useProviderSelection } from "../../hooks/useProviderSelection";
+import { useSelectedData } from "../../hooks/useSelectedData";
 import type { Block, DataWithMetadata } from "../../types";
 import BlockDisplay from "../common/BlockDisplay";
 import Loader from "../common/Loader";
-import { useProviderSelection } from "../../hooks/useProviderSelection";
-import { useSelectedData } from "../../hooks/useSelectedData";
 
 export default function BlockPage() {
   const { chainId, filter } = useParams<{
     chainId?: string;
     filter?: string;
-  }>();
-  const { chainId: chainIdParam, blockNumber: blockNumberParam } = useParams<{
-    chainId: string;
-    blockNumber: string;
   }>();
 
   const blockNumber = filter === "latest" ? "latest" : Number(filter);

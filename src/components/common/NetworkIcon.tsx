@@ -1,8 +1,8 @@
 import type React from "react";
 import arbitrumLogo from "../../assets/arbitrum-logo.svg";
-import optimismLogo from "../../assets/optimism-logo.svg";
 import baseLogo from "../../assets/base-logo.svg";
 import hardhatLogo from "../../assets/hardhat-logo.svg";
+import optimismLogo from "../../assets/optimism-logo.svg";
 import type { NetworkConfig } from "../../config/networks";
 
 interface NetworkIconProps {

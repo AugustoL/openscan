@@ -1,6 +1,7 @@
 // src/services/EVM/L1/fetchers/networkStats.ts
-import type { RPCClient } from "../../common/RPCClient";
+
 import type { NetworkStats } from "../../../../types";
+import type { RPCClient } from "../../common/RPCClient";
 
 export class NetworkStatsFetcher {
   constructor(

@@ -1,5 +1,5 @@
 import type React from "react";
-import { useState, useCallback, useContext } from "react";
+import { useCallback, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AppContext } from "../../context/AppContext";
 import { useZipJsonReader } from "../../hooks/useZipJsonReader";
@@ -42,6 +42,7 @@ const DevelopmentSection: React.FC = () => {
         if (file.name.endsWith(".zip")) {
           const jsonData = await processZip(file);
           // Merge new JSON files with existing ones
+          // biome-ignore lint/suspicious/noExplicitAny: <TODO>
           setJsonFiles((prev: Record<string, any>) => ({
             ...prev,
             ...jsonData,
@@ -88,7 +89,7 @@ const DevelopmentSection: React.FC = () => {
     const k = 1024;
     const sizes = ["Bytes", "KB", "MB", "GB"];
     const i = Math.floor(Math.log(bytes) / Math.log(k));
-    return Math.round((bytes / k ** i) * 100) / 100 + " " + sizes[i];
+    return `${Math.round((bytes / k ** i) * 100) / 100} ${sizes[i]}`;
   };
 
   return (

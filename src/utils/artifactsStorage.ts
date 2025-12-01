@@ -1,10 +1,13 @@
 const STORAGE_KEY = "OPENSCAN_ARTIFACTS_JSON_V1";
 
+// biome-ignore lint/suspicious/noExplicitAny: <TODO>
 type JsonFilesMap = Record<string, any>;
 
 /**
  * Validates that the object is a valid JSON files map
  */
+
+// biome-ignore lint/suspicious/noExplicitAny: <TODO>
 function isValidJsonFilesMap(obj: any): obj is JsonFilesMap {
   if (!obj || typeof obj !== "object") return false;
   // Basic validation - ensure all keys are strings

@@ -1,6 +1,6 @@
-import jsonConfig from "./config.json";
-import { mainnet, polygon, optimism, arbitrum, base, sepolia, hardhat } from "wagmi/chains";
 import type { Chain } from "wagmi/chains";
+import { arbitrum, base, hardhat, mainnet, optimism, polygon, sepolia } from "wagmi/chains";
+import jsonConfig from "./config.json";
 
 export interface Network {
   chainId: number;

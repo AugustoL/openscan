@@ -1,9 +1,10 @@
 // src/services/EVM/Arbitrum/adapters/block.ts
-import type { RPCBlock } from "../../../../types";
 import type { BlockArbitrum } from "../../../../types";
 
+// biome-ignore lint/complexity/noStaticOnlyClass: <TODO>
 export class BlockArbitrumAdapter {
-  static fromRPCBlock(rpcBlock: any, chainId: number): BlockArbitrum {
+  // biome-ignore lint/suspicious/noExplicitAny: <TODO>
+  static fromRPCBlock(rpcBlock: any, _chainId: number): BlockArbitrum {
     console.log("Arbitrum block:", rpcBlock);
     const timestamp = rpcBlock.timestamp
       ? parseInt(rpcBlock.timestamp, rpcBlock.timestamp.startsWith("0x") ? 16 : 10).toString()
@@ -21,7 +22,8 @@ export class BlockArbitrumAdapter {
       miner: rpcBlock.miner,
       extraData: rpcBlock.extraData,
       transactions: Array.isArray(rpcBlock.transactions)
-        ? rpcBlock.transactions.map((tx: any) => (typeof tx === "string" ? tx : tx.hash))
+        ? // biome-ignore lint/suspicious/noExplicitAny: <TODO>
+          rpcBlock.transactions.map((tx: any) => (typeof tx === "string" ? tx : tx.hash))
         : [],
       size: rpcBlock.size,
       logsBloom: rpcBlock.logsBloom,

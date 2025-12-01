@@ -1,5 +1,5 @@
-import { useAccount, useConnections } from "wagmi";
 import { useEffect, useState } from "react";
+import { useAccount, useConnections } from "wagmi";
 
 /**
  * Custom hook to track wagmi connection state with detailed information
@@ -55,6 +55,7 @@ export const useWagmiConnection = () => {
 /**
  * Hook to execute callback when wagmi is fully connected
  */
+// biome-ignore lint/suspicious/noExplicitAny: <TODO>
 export const useOnWagmiConnected = (callback: (address: string) => void, deps: any[] = []) => {
   const { isFullyConnected, address } = useWagmiConnection();
 

@@ -1,11 +1,11 @@
 // src/services/EVM/L1/adapters/transaction.ts
-import type { RPCTransaction, RPCTransactionReceipt } from "../../../../types";
-import type { Transaction } from "../../../../types";
+import type { RPCTransaction, RPCTransactionReceipt, Transaction } from "../../../../types";
 
+// biome-ignore lint/complexity/noStaticOnlyClass: <TODO>
 export class TransactionAdapter {
   static fromRPCTransaction(
     rpcTx: RPCTransaction,
-    chainId: number,
+    _chainId: number,
     receipt?: RPCTransactionReceipt | null,
   ): Transaction {
     const transaction: Transaction = {

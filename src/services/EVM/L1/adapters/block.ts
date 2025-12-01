@@ -1,9 +1,9 @@
 // src/services/EVM/L1/adapters/block.ts
-import type { RPCBlock } from "../../../../types";
-import type { Block } from "../../../../types";
+import type { Block, RPCBlock } from "../../../../types";
 
+// biome-ignore lint/complexity/noStaticOnlyClass: <TODO>
 export class BlockAdapter {
-  static fromRPCBlock(rpcBlock: RPCBlock, chainId: number): Block {
+  static fromRPCBlock(rpcBlock: RPCBlock, _chainId: number): Block {
     console.log(rpcBlock);
     const timestamp = rpcBlock.timestamp
       ? parseInt(rpcBlock.timestamp, rpcBlock.timestamp.startsWith("0x") ? 16 : 10).toString()

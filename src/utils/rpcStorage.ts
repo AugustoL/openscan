@@ -66,6 +66,7 @@ export const RPC_ENDPOINTS: RpcUrlsContextType = {
 };
 type RpcMap = Record<number, string[]>;
 
+// biome-ignore lint/suspicious/noExplicitAny: <TODO>
 function isValidRpcMap(obj: any): obj is RpcMap {
   if (!obj || typeof obj !== "object") return false;
   for (const k of Object.keys(obj)) {

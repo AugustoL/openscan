@@ -9,7 +9,8 @@ const SearchBox = () => {
 
   // Extract chainId from the pathname (e.g., /1/blocks -> 1)
   const pathSegments = location.pathname.split("/").filter(Boolean);
-  const chainId = pathSegments[0] && !isNaN(Number(pathSegments[0])) ? pathSegments[0] : undefined;
+  const chainId =
+    pathSegments[0] && !Number.isNaN(Number(pathSegments[0])) ? pathSegments[0] : undefined;
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -28,7 +29,7 @@ const SearchBox = () => {
       } else if (searchTerm.length === 66) {
         navigate(`/${chainId}/tx/${searchTerm}`);
       }
-    } else if (!isNaN(Number(searchTerm))) {
+    } else if (!Number.isNaN(Number(searchTerm))) {
       navigate(`/${chainId}/block/${searchTerm}`);
     }
   };

@@ -1,13 +1,12 @@
-import React, { useContext, useState, useMemo, useCallback } from "react";
-import { Link } from "react-router-dom";
-import { useSourcify } from "../../hooks/useSourcify";
-import type { Address, AddressTransactionsResult, Transaction, RPCMetadata } from "../../types";
-import { AppContext } from "../../context";
-import { useWriteContract, useWaitForTransactionReceipt } from "wagmi";
-import { parseEther, encodeFunctionData } from "viem";
-import { RPCIndicator } from "./RPCIndicator";
-
 import { ConnectButton } from "@rainbow-me/rainbowkit";
+import React, { useCallback, useContext, useMemo, useState } from "react";
+import { Link } from "react-router-dom";
+import { encodeFunctionData, parseEther } from "viem";
+import { useWaitForTransactionReceipt, useWriteContract } from "wagmi";
+import { AppContext } from "../../context";
+import { useSourcify } from "../../hooks/useSourcify";
+import type { Address, AddressTransactionsResult, RPCMetadata, Transaction } from "../../types";
+import { RPCIndicator } from "./RPCIndicator";
 
 interface AddressDisplayProps {
   address: Address;
@@ -36,9 +35,12 @@ const AddressDisplay: React.FC<AddressDisplayProps> = React.memo(
     const [storageSlot, setStorageSlot] = useState("");
     const [storageValue, setStorageValue] = useState("");
     const [showContractDetails, setShowContractDetails] = useState(false);
+    // biome-ignore lint/suspicious/noExplicitAny: <TODO>
     const [selectedWriteFunction, setSelectedWriteFunction] = useState<any>(null);
+    // biome-ignore lint/suspicious/noExplicitAny: <TODO>
     const [selectedReadFunction, setSelectedReadFunction] = useState<any>(null);
     const [functionInputs, setFunctionInputs] = useState<Record<string, string>>({});
+    // biome-ignore lint/suspicious/noExplicitAny: <TODO>
     const [readFunctionResult, setReadFunctionResult] = useState<any>(null);
     const [isReadingFunction, setIsReadingFunction] = useState(false);
     const { jsonFiles, rpcUrls } = useContext(AppContext);
@@ -69,7 +71,7 @@ const AddressDisplay: React.FC<AddressDisplayProps> = React.memo(
       try {
         const eth = Number(balance) / 1e18;
         return `${eth.toFixed(6)} ETH`;
-      } catch (e) {
+      } catch (_e) {
         return balance;
       }
     }, []);
@@ -78,13 +80,13 @@ const AddressDisplay: React.FC<AddressDisplayProps> = React.memo(
       try {
         const eth = Number(value) / 1e18;
         return `${eth.toFixed(6)} ETH`;
-      } catch (e) {
+      } catch (_e) {
         return "0 ETH";
       }
     }, []);
 
     // Memoized formatted balance
-    const formattedBalance = useMemo(
+    const _formattedBalance = useMemo(
       () => formatBalance(address.balance),
       [address.balance, formatBalance],
     );
@@ -146,6 +148,7 @@ const AddressDisplay: React.FC<AddressDisplayProps> = React.memo(
 
       try {
         // Prepare function arguments
+        // biome-ignore lint/suspicious/noExplicitAny: <TODO>
         const args: any[] = [];
         if (selectedWriteFunction.inputs && selectedWriteFunction.inputs.length > 0) {
           for (const input of selectedWriteFunction.inputs) {
@@ -163,10 +166,10 @@ const AddressDisplay: React.FC<AddressDisplayProps> = React.memo(
 
         // Prepare transaction value for payable functions
         let txValue: bigint | undefined;
-        if (selectedWriteFunction.stateMutability === "payable" && functionInputs["_value"]) {
+        if (selectedWriteFunction.stateMutability === "payable" && functionInputs._value) {
           try {
-            txValue = parseEther(functionInputs["_value"]);
-          } catch (e) {
+            txValue = parseEther(functionInputs._value);
+          } catch (_e) {
             alert("Invalid ETH value");
             return;
           }
@@ -210,6 +213,7 @@ const AddressDisplay: React.FC<AddressDisplayProps> = React.memo(
         }
 
         // Prepare function arguments
+        // biome-ignore lint/suspicious/noExplicitAny: <TODO>
         const args: any[] = [];
         if (selectedReadFunction.inputs && selectedReadFunction.inputs.length > 0) {
           for (const input of selectedReadFunction.inputs) {
@@ -323,31 +327,29 @@ const AddressDisplay: React.FC<AddressDisplayProps> = React.memo(
 
             {/* Verification Status (only for contracts) */}
             {isContract && (
-              <>
-                <div className="tx-row">
-                  <span className="tx-label">Contract Verified:</span>
-                  <span className="tx-value">
-                    {sourcifyLoading ? (
-                      <span className="verification-checking">Checking Sourcify...</span>
-                    ) : isVerified || parsedLocalData ? (
-                      <span className="flex-align-center-gap-8">
-                        <span className="tx-value-highlight">✓ Verified</span>
-                        {contractData?.match && (
-                          <span className="match-badge match-badge-full">
-                            {contractData.match === "perfect"
-                              ? parsedLocalData
-                                ? "Local JSON"
-                                : "Perfect Match"
-                              : "Partial Match"}
-                          </span>
-                        )}
-                      </span>
-                    ) : (
-                      <span className="verification-not-verified">Not Verified</span>
-                    )}
-                  </span>
-                </div>
-              </>
+              <div className="tx-row">
+                <span className="tx-label">Contract Verified:</span>
+                <span className="tx-value">
+                  {sourcifyLoading ? (
+                    <span className="verification-checking">Checking Sourcify...</span>
+                  ) : isVerified || parsedLocalData ? (
+                    <span className="flex-align-center-gap-8">
+                      <span className="tx-value-highlight">✓ Verified</span>
+                      {contractData?.match && (
+                        <span className="match-badge match-badge-full">
+                          {contractData.match === "perfect"
+                            ? parsedLocalData
+                              ? "Local JSON"
+                              : "Perfect Match"
+                            : "Partial Match"}
+                        </span>
+                      )}
+                    </span>
+                  ) : (
+                    <span className="verification-not-verified">Not Verified</span>
+                  )}
+                </span>
+              </div>
             )}
 
             {/* Contract Name (if verified) */}
@@ -493,15 +495,18 @@ const AddressDisplay: React.FC<AddressDisplayProps> = React.memo(
 
                   {/* Source Code */}
                   {((contractData.files && contractData.files.length > 0) ||
+                    // biome-ignore lint/suspicious/noExplicitAny: <TODO>
                     (contractData as any).sources) &&
                     (() => {
                       // Prepare source files array - either from files or sources object
+                      // biome-ignore lint/suspicious/noExplicitAny: <TODO>
                       const sources = (contractData as any).sources;
                       const sourceFiles =
                         contractData.files && contractData.files.length > 0
                           ? contractData.files
                           : sources
-                            ? Object.entries(sources).map(([path, source]: [string, any]) => ({
+                            ? // biome-ignore lint/suspicious/noExplicitAny: <TODO>
+                              Object.entries(sources).map(([path, source]: [string, any]) => ({
                                 name: path,
                                 path: path,
                                 content: source.content || "",
@@ -534,6 +539,7 @@ const AddressDisplay: React.FC<AddressDisplayProps> = React.memo(
                             className="margin-top-8"
                             style={{ display: "none" }}
                           >
+                            {/** biome-ignore lint/suspicious/noExplicitAny: <TODO> */}
                             {sourceFiles.map((file: any, idx: number) => (
                               // biome-ignore lint/suspicious/noArrayIndexKey: <TODO>
                               <div key={idx} className="source-file-container">
@@ -601,6 +607,7 @@ const AddressDisplay: React.FC<AddressDisplayProps> = React.memo(
                             openConnectModal,
                             authenticationStatus,
                             mounted,
+                            // biome-ignore lint/suspicious/noExplicitAny: <TODO>
                           }: any) => {
                             const ready = mounted && authenticationStatus !== "loading";
                             const connected =
@@ -737,6 +744,7 @@ const AddressDisplay: React.FC<AddressDisplayProps> = React.memo(
                         {/* Read Functions (view/pure) */}
                         {(() => {
                           const readFunctions = contractData.abi.filter(
+                            // biome-ignore lint/suspicious/noExplicitAny: <TODO>
                             (item: any) =>
                               item.type === "function" &&
                               (item.stateMutability === "view" || item.stateMutability === "pure"),
@@ -761,6 +769,7 @@ const AddressDisplay: React.FC<AddressDisplayProps> = React.memo(
                                     gap: "8px",
                                   }}
                                 >
+                                  {/** biome-ignore lint/suspicious/noExplicitAny: <TODO> */}
                                   {readFunctions.map((func: any, idx: number) => (
                                     // biome-ignore lint/a11y/useButtonType: <TODO>
                                     <button
@@ -814,6 +823,7 @@ const AddressDisplay: React.FC<AddressDisplayProps> = React.memo(
                         {/* Write Functions (payable/nonpayable) */}
                         {(() => {
                           const writeFunctions = contractData.abi.filter(
+                            // biome-ignore lint/suspicious/noExplicitAny: <TODO>
                             (item: any) =>
                               item.type === "function" &&
                               (item.stateMutability === "payable" ||
@@ -840,6 +850,7 @@ const AddressDisplay: React.FC<AddressDisplayProps> = React.memo(
                                     gap: "8px",
                                   }}
                                 >
+                                  {/** biome-ignore lint/suspicious/noExplicitAny: <TODO> */}
                                   {writeFunctions.map((func: any, idx: number) => (
                                     // biome-ignore lint/a11y/useButtonType: <TODO>
                                     <button
@@ -891,6 +902,7 @@ const AddressDisplay: React.FC<AddressDisplayProps> = React.memo(
                         })()}
 
                         {/* Events */}
+                        {/** biome-ignore lint/suspicious/noExplicitAny: <TODO> */}
                         {contractData.abi.filter((item: any) => item.type === "event").length >
                           0 && (
                           <div style={{ marginBottom: "12px" }}>
@@ -902,7 +914,7 @@ const AddressDisplay: React.FC<AddressDisplayProps> = React.memo(
                                 fontWeight: "600",
                               }}
                             >
-                              Events (
+                              Events ({/** biome-ignore lint/suspicious/noExplicitAny: <TODO> */}
                               {contractData.abi.filter((item: any) => item.type === "event").length}
                               )
                             </div>
@@ -914,8 +926,10 @@ const AddressDisplay: React.FC<AddressDisplayProps> = React.memo(
                               }}
                             >
                               {contractData.abi
+                                // biome-ignore lint/suspicious/noExplicitAny: <TODO>
                                 .filter((item: any) => item.type === "event")
                                 .slice(0, 10)
+                                // biome-ignore lint/suspicious/noExplicitAny: <TODO>
                                 .map((event: any, idx: number) => (
                                   <span
                                     // biome-ignore lint/suspicious/noArrayIndexKey: <TODO>
@@ -932,6 +946,7 @@ const AddressDisplay: React.FC<AddressDisplayProps> = React.memo(
                                     {event.name}
                                   </span>
                                 ))}
+                              {/** biome-ignore lint/suspicious/noExplicitAny: <TODO> */}
                               {contractData.abi.filter((item: any) => item.type === "event")
                                 .length > 10 && (
                                 <span
@@ -941,7 +956,7 @@ const AddressDisplay: React.FC<AddressDisplayProps> = React.memo(
                                     alignSelf: "center",
                                   }}
                                 >
-                                  +
+                                  +{/** biome-ignore lint/suspicious/noExplicitAny: <TODO> */}
                                   {contractData.abi.filter((item: any) => item.type === "event")
                                     .length - 10}{" "}
                                   more
@@ -977,6 +992,7 @@ const AddressDisplay: React.FC<AddressDisplayProps> = React.memo(
                             {selectedReadFunction.inputs &&
                             selectedReadFunction.inputs.length > 0 ? (
                               <div style={{ marginBottom: "12px" }}>
+                                {/** biome-ignore lint/suspicious/noExplicitAny: <TODO> */}
                                 {selectedReadFunction.inputs.map((input: any, idx: number) => (
                                   // biome-ignore lint/suspicious/noArrayIndexKey: <TODO>
                                   <div key={idx} style={{ marginBottom: "10px" }}>
@@ -1169,6 +1185,7 @@ const AddressDisplay: React.FC<AddressDisplayProps> = React.memo(
                             {selectedWriteFunction.inputs &&
                             selectedWriteFunction.inputs.length > 0 ? (
                               <div style={{ marginBottom: "12px" }}>
+                                {/** biome-ignore lint/suspicious/noExplicitAny: <TODO> */}
                                 {selectedWriteFunction.inputs.map((input: any, idx: number) => (
                                   // biome-ignore lint/suspicious/noArrayIndexKey: <TODO>
                                   <div key={idx} style={{ marginBottom: "10px" }}>
@@ -1237,7 +1254,7 @@ const AddressDisplay: React.FC<AddressDisplayProps> = React.memo(
                                 </label>
                                 <input
                                   type="text"
-                                  value={functionInputs["_value"] || ""}
+                                  value={functionInputs._value || ""}
                                   onChange={(e) =>
                                     setFunctionInputs({
                                       ...functionInputs,

@@ -1,6 +1,6 @@
-import { useParams, Link, useSearchParams, useNavigate } from "react-router-dom";
-import { useDataService } from "../../hooks/useDataService";
 import { useEffect, useState } from "react";
+import { Link, useNavigate, useParams, useSearchParams } from "react-router-dom";
+import { useDataService } from "../../hooks/useDataService";
 import type { Transaction } from "../../types";
 import Loader from "../common/Loader";
 
@@ -57,6 +57,7 @@ export default function Txs() {
 
         console.log("Fetched transactions:", fetchedTransactions);
         setTransactions(fetchedTransactions);
+        // biome-ignore lint/suspicious/noExplicitAny: <TODO>
       } catch (err: any) {
         console.error("Error fetching transactions:", err);
         setError(err.message || "Failed to fetch transactions");
@@ -78,7 +79,7 @@ export default function Txs() {
     try {
       const eth = Number(value) / 1e18;
       return `${eth.toFixed(6)} ETH`;
-    } catch (e) {
+    } catch (_e) {
       return value;
     }
   };
@@ -87,7 +88,7 @@ export default function Txs() {
     try {
       const gwei = Number(gasPrice) / 1e9;
       return `${gwei.toFixed(2)} Gwei`;
-    } catch (e) {
+    } catch (_e) {
       return gasPrice;
     }
   };

@@ -1,6 +1,7 @@
 // src/services/EVM/Optimism/fetchers/block.ts
-import type { RPCClient } from "../../common/RPCClient";
+
 import type { RPCBlock } from "../../../../types";
+import type { RPCClient } from "../../common/RPCClient";
 
 export class BlockFetcher {
   constructor(

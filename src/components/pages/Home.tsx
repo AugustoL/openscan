@@ -1,5 +1,5 @@
+import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { useState, useMemo } from "react";
 import { getEnabledNetworks, type NetworkConfig } from "../../config/networks";
 import NetworkIcon from "../common/NetworkIcon";
 
@@ -54,12 +54,10 @@ export default function Home() {
 
     // Check if Hardhat (31337) is explicitly enabled in REACT_APP_OPENSCAN_NETWORKS
     const hardhatChainId = 31337;
-    const isHardhatExplicitlyEnabled =
-      envNetworks &&
-      envNetworks
-        .split(",")
-        .map((id) => parseInt(id.trim(), 10))
-        .includes(hardhatChainId);
+    const isHardhatExplicitlyEnabled = envNetworks
+      ?.split(",")
+      .map((id) => parseInt(id.trim(), 10))
+      .includes(hardhatChainId);
 
     // Filter out Hardhat from home page if not in development and not explicitly enabled
     if (!isDevelopment && !isHardhatExplicitlyEnabled) {

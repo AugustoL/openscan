@@ -1,4 +1,3 @@
-import { ethers } from "ethers";
 import type React from "react";
 
 // ==================== CORE DOMAIN TYPES ====================
@@ -8,6 +7,7 @@ export interface NetworkStats {
   isSyncing: boolean;
   currentBlockNumber: string;
   clientVersion: string;
+  // biome-ignore lint/suspicious/noExplicitAny: <TODO>
   metadata: any;
 }
 
@@ -32,6 +32,7 @@ export interface Block {
   totalDifficulty: string;
   transactions: string[];
   transactionsRoot: string;
+  // biome-ignore lint/suspicious/noExplicitAny: <TODO>
   uncles: any[];
   blobGasUsed: string;
   excessBlobGas: string;
@@ -80,11 +81,13 @@ export interface TransactionArbitrum extends Transaction {
 export interface TransactionReceipt {
   blockHash: string;
   blockNumber: string;
+  // biome-ignore lint/suspicious/noExplicitAny: <TODO>
   contractAddress: any;
   cumulativeGasUsed: string;
   effectiveGasPrice: string;
   from: string;
   gasUsed: string;
+  // biome-ignore lint/suspicious/noExplicitAny: <TODO>
   logs: any[];
   logsBloom: string;
   status: string;
@@ -186,7 +189,9 @@ export interface IAppContext {
   isHydrated: boolean;
   rpcUrls: RpcUrlsContextType;
   setRpcUrls: (rpcUrls: RpcUrlsContextType) => void;
+  // biome-ignore lint/suspicious/noExplicitAny: <TODO>
   jsonFiles: Record<string, any>;
+  // biome-ignore lint/suspicious/noExplicitAny: <TODO>
   setJsonFiles: (jsonFiles: Record<string, any>) => void;
 }
 
@@ -251,6 +256,7 @@ export interface RPCProviderResponse {
   url: string;
   status: "success" | "error";
   responseTime: number;
+  // biome-ignore lint/suspicious/noExplicitAny: <TODO>
   data?: any;
   error?: string;
   hash?: string;

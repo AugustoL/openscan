@@ -1,9 +1,9 @@
 // src/services/EVM/Optimism/adapters/block.ts
-import type { RPCBlock } from "../../../../types";
-import type { Block } from "../../../../types";
+import type { Block, RPCBlock } from "../../../../types";
 
+// biome-ignore lint/complexity/noStaticOnlyClass: <TODO>
 export class BlockOptimismAdapter {
-  static fromRPCBlock(rpcBlock: RPCBlock, chainId: number): Block {
+  static fromRPCBlock(rpcBlock: RPCBlock, _chainId: number): Block {
     console.log("Optimism block:", rpcBlock);
     const timestamp = rpcBlock.timestamp
       ? parseInt(rpcBlock.timestamp, rpcBlock.timestamp.startsWith("0x") ? 16 : 10).toString()
@@ -22,7 +22,8 @@ export class BlockOptimismAdapter {
       miner: rpcBlock.miner,
       extraData: rpcBlock.extraData,
       transactions: Array.isArray(rpcBlock.transactions)
-        ? rpcBlock.transactions.map((tx: any) => (typeof tx === "string" ? tx : tx.hash))
+        ? // biome-ignore lint/suspicious/noExplicitAny: <TODO>
+          rpcBlock.transactions.map((tx: any) => (typeof tx === "string" ? tx : tx.hash))
         : [],
       size: rpcBlock.size,
       logsBloom: rpcBlock.logsBloom,

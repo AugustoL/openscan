@@ -1,16 +1,16 @@
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useDataService } from "../../hooks/useDataService";
-import { useEffect, useState } from "react";
+import { useProviderSelection } from "../../hooks/useProviderSelection";
+import { useSelectedData } from "../../hooks/useSelectedData";
 import type {
-  Address as AddressType,
   AddressTransactionsResult,
-  Transaction,
+  Address as AddressType,
   DataWithMetadata,
+  Transaction,
 } from "../../types";
 import AddressDisplay from "../common/AddressDisplay";
 import Loader from "../common/Loader";
-import { useProviderSelection } from "../../hooks/useProviderSelection";
-import { useSelectedData } from "../../hooks/useSelectedData";
 
 export default function Address() {
   const { chainId, address } = useParams<{
@@ -93,7 +93,7 @@ export default function Address() {
           transactions: [],
           source: "none",
           isComplete: false,
-          message: "Failed to fetch transaction history: " + err.message,
+          message: `Failed to fetch transaction history: ${err.message}`,
         });
       });
   }, [dataService, address, numericChainId]);

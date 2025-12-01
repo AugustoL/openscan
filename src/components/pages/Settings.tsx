@@ -1,9 +1,9 @@
 import type React from "react";
-import { useContext, useState, useMemo } from "react";
+import { useContext, useMemo, useState } from "react";
+import { getEnabledNetworks } from "../../config/networks";
 import { AppContext } from "../../context/AppContext";
 import { useSettings } from "../../context/SettingsContext";
-import { getEnabledNetworks } from "../../config/networks";
-import type { RpcUrlsContextType, RPCUrls } from "../../types";
+import type { RPCUrls, RpcUrlsContextType } from "../../types";
 
 const Settings: React.FC = () => {
   const { rpcUrls, setRpcUrls } = useContext(AppContext);
@@ -21,14 +21,17 @@ const Settings: React.FC = () => {
     // Convert comma-separated strings into arrays for each chainId
     const parsed: RpcUrlsContextType = Object.keys(localRpc).reduce((acc, key) => {
       const k = Number(key) as unknown as keyof RpcUrlsContextType;
+      // biome-ignore lint/suspicious/noExplicitAny: <TODO>
       const val = (localRpc as any)[k];
       if (typeof val === "string") {
         const arr = val
           .split(",")
           .map((s) => s.trim())
           .filter(Boolean); // Previene errores por multiples comas (,,,)
+        // biome-ignore lint/suspicious/noExplicitAny: <TODO>
         (acc as any)[k] = arr;
       } else {
+        // biome-ignore lint/suspicious/noExplicitAny: <TODO>
         (acc as any)[k] = val;
       }
       return acc;

@@ -4,6 +4,8 @@ import type { ParallelRequestResult } from "./EVM/common/RPCClient";
 /**
  * Service for processing RPC parallel request metadata
  */
+
+// biome-ignore lint/complexity/noStaticOnlyClass: <TODO>
 export class RPCMetadataService {
   /**
    * Convert parallel results to metadata structure
@@ -32,6 +34,7 @@ export class RPCMetadataService {
    * Generate hash of data for comparison
    * Uses JSON.stringify for simple but effective comparison
    */
+  // biome-ignore lint/suspicious/noExplicitAny: <TODO>
   private static hashData(data: any): string {
     if (!data) return "";
     try {

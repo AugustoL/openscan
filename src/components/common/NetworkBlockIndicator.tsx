@@ -1,14 +1,13 @@
-import { useEffect, useState, useContext, useMemo } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { AppContext } from "../../context/AppContext";
-import { RPCClient } from "../../services/EVM/common/RPCClient";
-import { getRPCUrls } from "../../config/rpcConfig";
-
 // Network configuration with logos
 import arbitrumLogo from "../../assets/arbitrum-logo.svg";
-import optimismLogo from "../../assets/optimism-logo.svg";
 import baseLogo from "../../assets/base-logo.svg";
 import hardhatLogo from "../../assets/hardhat-logo.svg";
+import optimismLogo from "../../assets/optimism-logo.svg";
+import { getRPCUrls } from "../../config/rpcConfig";
+import { AppContext } from "../../context/AppContext";
+import { RPCClient } from "../../services/EVM/common/RPCClient";
 
 interface NetworkInfo {
   name: string;
@@ -80,7 +79,9 @@ export function NetworkBlockIndicator({ className }: NetworkBlockIndicatorProps)
   // Extract chainId from the pathname (e.g., /1/blocks -> 1)
   const chainId = useMemo(() => {
     const pathSegments = location.pathname.split("/").filter(Boolean);
-    return pathSegments[0] && !isNaN(Number(pathSegments[0])) ? Number(pathSegments[0]) : null;
+    return pathSegments[0] && !Number.isNaN(Number(pathSegments[0]))
+      ? Number(pathSegments[0])
+      : null;
   }, [location.pathname]);
 
   const networkInfo = chainId ? NETWORK_INFO[chainId] : null;

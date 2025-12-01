@@ -36,7 +36,7 @@ const BlockDisplay: React.FC<BlockDisplayProps> = React.memo(
           second: "2-digit",
           timeZoneName: "short",
         }).format(date);
-      } catch (e) {
+      } catch (_e) {
         return timestamp;
       }
     };
@@ -75,7 +75,7 @@ const BlockDisplay: React.FC<BlockDisplayProps> = React.memo(
       try {
         const gwei = Number(value) / 1e9;
         return `${gwei.toFixed(9)} Gwei`;
-      } catch (e) {
+      } catch (_e) {
         return value;
       }
     };
@@ -84,7 +84,7 @@ const BlockDisplay: React.FC<BlockDisplayProps> = React.memo(
       try {
         const eth = Number(value) / 1e18;
         return `${eth.toFixed(12)} ETH`;
-      } catch (e) {
+      } catch (_e) {
         return value;
       }
     };

@@ -1,42 +1,43 @@
 // src/services/DataService.ts
-import { RPCClient } from "./EVM/common/RPCClient";
+
 import { getRPCUrls } from "../config/rpcConfig";
-import { BlockFetcher } from "./EVM/L1/fetchers/block";
-import { TransactionFetcher } from "./EVM/L1/fetchers/transaction";
-import { AddressFetcher } from "./EVM/L1/fetchers/address";
-import { NetworkStatsFetcher } from "./EVM/L1/fetchers/networkStats";
-import { TraceFetcher, type TraceResult } from "./EVM/L1/fetchers/trace";
-import { BlockAdapter } from "./EVM/L1/adapters/block";
-import { TransactionAdapter } from "./EVM/L1/adapters/transaction";
-import { AddressAdapter } from "./EVM/L1/adapters/address";
-import { RPCMetadataService } from "./RPCMetadataService";
-// Arbitrum imports
-import { BlockFetcher as BlockFetcherArbitrum } from "./EVM/Arbitrum/fetchers/block";
-import { TransactionFetcher as TransactionFetcherArbitrum } from "./EVM/Arbitrum/fetchers/transaction";
-import { AddressFetcher as AddressFetcherArbitrum } from "./EVM/Arbitrum/fetchers/address";
-import { NetworkStatsFetcher as NetworkStatsFetcherArbitrum } from "./EVM/Arbitrum/fetchers/networkStats";
+import type {
+  Address,
+  AddressTransactionsResult,
+  Block,
+  DataWithMetadata,
+  NetworkStats,
+  RPCMetadata,
+  RPCStrategy,
+  RpcUrlsContextType,
+  Transaction,
+} from "../types";
+import { AddressAdapter as AddressAdapterArbitrum } from "./EVM/Arbitrum/adapters/address";
 import { BlockArbitrumAdapter } from "./EVM/Arbitrum/adapters/block";
 import { TransactionArbitrumAdapter } from "./EVM/Arbitrum/adapters/transaction";
-import { AddressAdapter as AddressAdapterArbitrum } from "./EVM/Arbitrum/adapters/address";
-// Optimism imports
-import { BlockFetcher as BlockFetcherOptimism } from "./EVM/Optimism/fetchers/block";
-import { TransactionFetcher as TransactionFetcherOptimism } from "./EVM/Optimism/fetchers/transaction";
-import { AddressFetcher as AddressFetcherOptimism } from "./EVM/Optimism/fetchers/address";
-import { NetworkStatsFetcher as NetworkStatsFetcherOptimism } from "./EVM/Optimism/fetchers/networkStats";
+import { AddressFetcher as AddressFetcherArbitrum } from "./EVM/Arbitrum/fetchers/address";
+// Arbitrum imports
+import { BlockFetcher as BlockFetcherArbitrum } from "./EVM/Arbitrum/fetchers/block";
+import { NetworkStatsFetcher as NetworkStatsFetcherArbitrum } from "./EVM/Arbitrum/fetchers/networkStats";
+import { TransactionFetcher as TransactionFetcherArbitrum } from "./EVM/Arbitrum/fetchers/transaction";
+import { RPCClient } from "./EVM/common/RPCClient";
+import { AddressAdapter } from "./EVM/L1/adapters/address";
+import { BlockAdapter } from "./EVM/L1/adapters/block";
+import { TransactionAdapter } from "./EVM/L1/adapters/transaction";
+import { AddressFetcher } from "./EVM/L1/fetchers/address";
+import { BlockFetcher } from "./EVM/L1/fetchers/block";
+import { NetworkStatsFetcher } from "./EVM/L1/fetchers/networkStats";
+import { TraceFetcher, type TraceResult } from "./EVM/L1/fetchers/trace";
+import { TransactionFetcher } from "./EVM/L1/fetchers/transaction";
+import { AddressAdapter as AddressAdapterOptimism } from "./EVM/Optimism/adapters/address";
 import { BlockOptimismAdapter } from "./EVM/Optimism/adapters/block";
 import { TransactionOptimismAdapter } from "./EVM/Optimism/adapters/transaction";
-import { AddressAdapter as AddressAdapterOptimism } from "./EVM/Optimism/adapters/address";
-import type {
-  Block,
-  Transaction,
-  Address,
-  NetworkStats,
-  RpcUrlsContextType,
-  AddressTransactionsResult,
-  RPCStrategy,
-  DataWithMetadata,
-  RPCMetadata,
-} from "../types";
+import { AddressFetcher as AddressFetcherOptimism } from "./EVM/Optimism/fetchers/address";
+// Optimism imports
+import { BlockFetcher as BlockFetcherOptimism } from "./EVM/Optimism/fetchers/block";
+import { NetworkStatsFetcher as NetworkStatsFetcherOptimism } from "./EVM/Optimism/fetchers/networkStats";
+import { TransactionFetcher as TransactionFetcherOptimism } from "./EVM/Optimism/fetchers/transaction";
+import { RPCMetadataService } from "./RPCMetadataService";
 
 interface CacheEntry<T> {
   data: T;
@@ -61,6 +62,7 @@ export class DataService {
   private isLocalhost: boolean;
 
   // Simple in-memory cache with chainId in key
+  // biome-ignore lint/suspicious/noExplicitAny: <TODO>
   private cache = new Map<string, CacheEntry<any>>();
   private cacheTimeout = 30000; // 30 seconds
 
@@ -210,10 +212,13 @@ export class DataService {
       .filter((tx) => typeof tx !== "string")
       .map((tx) =>
         this.isArbitrum
-          ? TransactionArbitrumAdapter.fromRPCTransaction(tx as any, this.chainId)
+          ? // biome-ignore lint/suspicious/noExplicitAny: <TODO>
+            TransactionArbitrumAdapter.fromRPCTransaction(tx as any, this.chainId)
           : this.isOptimism
-            ? TransactionOptimismAdapter.fromRPCTransaction(tx as any, this.chainId)
-            : TransactionAdapter.fromRPCTransaction(tx as any, this.chainId),
+            ? // biome-ignore lint/suspicious/noExplicitAny: <TODO>
+              TransactionOptimismAdapter.fromRPCTransaction(tx as any, this.chainId)
+            : // biome-ignore lint/suspicious/noExplicitAny: <TODO>
+              TransactionAdapter.fromRPCTransaction(tx as any, this.chainId),
       );
 
     return { ...block, transactionDetails };
@@ -686,6 +691,7 @@ export class DataService {
     return await this.traceFetcher.getOpcodeTrace(txHash);
   }
 
+  // biome-ignore lint/suspicious/noExplicitAny: <TODO>
   async getCallTrace(txHash: string): Promise<any> {
     if (!this.isLocalhost) {
       console.warn("Trace methods are only available on localhost networks");

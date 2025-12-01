@@ -45,6 +45,7 @@ const ContractsSection: React.FC = () => {
     ),
   );
   const [stdVerifying, setStdVerifying] = useState(false);
+  // biome-ignore lint/suspicious/noExplicitAny: <TODO>
   const [stdResult, setStdResult] = useState<any>(null);
   const [stdError, setStdError] = useState<string | null>(null);
 
@@ -54,6 +55,7 @@ const ContractsSection: React.FC = () => {
   const [metaAddress, setMetaAddress] = useState("");
   const [metadataJson, setMetadataJson] = useState("");
   const [metaVerifying, setMetaVerifying] = useState(false);
+  // biome-ignore lint/suspicious/noExplicitAny: <TODO>
   const [metaResult, setMetaResult] = useState<any>(null);
   const [metaError, setMetaError] = useState<string | null>(null);
 
@@ -63,6 +65,7 @@ const ContractsSection: React.FC = () => {
   const [etherscanAddress, setEtherscanAddress] = useState("");
   const [etherscanApiKey, setEtherscanApiKey] = useState("");
   const [etherscanImporting, setEtherscanImporting] = useState(false);
+  // biome-ignore lint/suspicious/noExplicitAny: <TODO>
   const [etherscanResult, setEtherscanResult] = useState<any>(null);
   const [etherscanError, setEtherscanError] = useState<string | null>(null);
 
@@ -71,6 +74,7 @@ const ContractsSection: React.FC = () => {
   const [simChainId, setSimChainId] = useState<number>(1);
   const [simAddress, setSimAddress] = useState("");
   const [simVerifying, setSimVerifying] = useState(false);
+  // biome-ignore lint/suspicious/noExplicitAny: <TODO>
   const [simResult, setSimResult] = useState<any>(null);
   const [simError, setSimError] = useState<string | null>(null);
 
@@ -113,6 +117,7 @@ const ContractsSection: React.FC = () => {
       if (data.verificationId) {
         pollVerificationStatus(data.verificationId, setStdResult, setStdError);
       }
+      // biome-ignore lint/suspicious/noExplicitAny: <TODO>
     } catch (err: any) {
       setStdError(err.message || String(err));
     } finally {
@@ -157,6 +162,7 @@ const ContractsSection: React.FC = () => {
       if (data.verificationId) {
         pollVerificationStatus(data.verificationId, setMetaResult, setMetaError);
       }
+      // biome-ignore lint/suspicious/noExplicitAny: <TODO>
     } catch (err: any) {
       setMetaError(err.message || String(err));
     } finally {
@@ -197,6 +203,7 @@ const ContractsSection: React.FC = () => {
       if (data.verificationId) {
         pollVerificationStatus(data.verificationId, setEtherscanResult, setEtherscanError);
       }
+      // biome-ignore lint/suspicious/noExplicitAny: <TODO>
     } catch (err: any) {
       setEtherscanError(err.message || String(err));
     } finally {
@@ -233,6 +240,7 @@ const ContractsSection: React.FC = () => {
       if (data.verificationId) {
         pollVerificationStatus(data.verificationId, setSimResult, setSimError);
       }
+      // biome-ignore lint/suspicious/noExplicitAny: <TODO>
     } catch (err: any) {
       setSimError(err.message || String(err));
     } finally {
@@ -243,6 +251,7 @@ const ContractsSection: React.FC = () => {
   // Poll verification status
   const pollVerificationStatus = async (
     verificationId: string,
+    // biome-ignore lint/suspicious/noExplicitAny: <TODO>
     setResult: (data: any) => void,
     setError: (error: string) => void,
   ) => {
@@ -266,6 +275,7 @@ const ContractsSection: React.FC = () => {
         } else {
           setError("Verification timed out. Check status manually.");
         }
+        // biome-ignore lint/suspicious/noExplicitAny: <TODO>
       } catch (err: any) {
         setError(err.message || String(err));
       }
@@ -274,6 +284,7 @@ const ContractsSection: React.FC = () => {
     poll();
   };
 
+  // biome-ignore lint/suspicious/noExplicitAny: <TODO>
   const renderResult = (result: any) => {
     if (!result) return null;
     return (

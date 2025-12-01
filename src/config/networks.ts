@@ -128,7 +128,7 @@ export function getEnabledNetworks(): NetworkConfig[] {
   const enabledChainIds = envNetworks
     .split(",")
     .map((id) => parseInt(id.trim(), 10))
-    .filter((id) => !isNaN(id));
+    .filter((id) => !Number.isNaN(id));
 
   console.log("Enabled chain IDs:", enabledChainIds);
 

@@ -1,6 +1,7 @@
 // src/services/EVM/Optimism/fetchers/transaction.ts
-import type { RPCClient } from "../../common/RPCClient";
+
 import type { RPCTransaction, RPCTransactionReceipt } from "../../../../types";
+import type { RPCClient } from "../../common/RPCClient";
 
 export class TransactionFetcher {
   constructor(

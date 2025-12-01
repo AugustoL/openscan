@@ -1,19 +1,17 @@
-import { Link, useNavigate, useLocation } from "react-router-dom";
-import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { useAccount } from "wagmi";
 import { useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { NetworkBlockIndicator } from "./NetworkBlockIndicator";
 import VersionWarningIcon from "./VersionWarningIcon";
 
 const Navbar = () => {
-  const { address } = useAccount();
   const navigate = useNavigate();
   const location = useLocation();
   const [searchInput, setSearchInput] = useState("");
 
   // Extract chainId from the pathname (e.g., /1/blocks -> 1)
   const pathSegments = location.pathname.split("/").filter(Boolean);
-  const chainId = pathSegments[0] && !isNaN(Number(pathSegments[0])) ? pathSegments[0] : undefined;
+  const chainId =
+    pathSegments[0] && !Number.isNaN(Number(pathSegments[0])) ? pathSegments[0] : undefined;
 
   // Check if we should show the search box (on blocks, block, txs, tx pages)
   const shouldShowSearch =
