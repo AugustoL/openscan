@@ -1194,7 +1194,7 @@ const AddressDisplay: React.FC<AddressDisplayProps> = React.memo(
                                       style={{
                                         display: "block",
                                         fontSize: "0.8rem",
-                                        color: "rgba(255, 255, 255, 0.7)",
+                                        color: "rgba(0, 118, 4, 0.7)",
                                         marginBottom: "4px",
                                         fontFamily: "monospace",
                                       }}
@@ -1245,7 +1245,7 @@ const AddressDisplay: React.FC<AddressDisplayProps> = React.memo(
                                   style={{
                                     display: "block",
                                     fontSize: "0.8rem",
-                                    color: "rgba(255, 255, 255, 0.7)",
+                                    color: "rgba(0, 118, 4, 0.7)",
                                     marginBottom: "4px",
                                     fontFamily: "monospace",
                                   }}
