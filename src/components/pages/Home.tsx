@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { getEnabledNetworks, type NetworkConfig } from "../../config/networks";
+import type { NetworkConfig } from "../../config/networks";
+import { useNetworks } from "../../context/AppContext";
 import NetworkIcon from "../common/NetworkIcon";
 
 interface NetworkCardProps {
@@ -46,8 +47,9 @@ const NetworkCard: React.FC<NetworkCardProps> = ({ network }) => {
 };
 
 export default function Home() {
-  const enabledNetworks = useMemo(() => {
-    const allNetworks = getEnabledNetworks();
+  const { enabledNetworks: allNetworks, isLoading } = useNetworks();
+
+  const displayNetworks = useMemo(() => {
     const environment = process.env.REACT_APP_ENVIRONMENT;
     const isDevelopment = environment === "development";
     const envNetworks = process.env.REACT_APP_OPENSCAN_NETWORKS;
@@ -65,7 +67,7 @@ export default function Home() {
     }
 
     return allNetworks;
-  }, []);
+  }, [allNetworks]);
 
   return (
     <div className="home-container">
@@ -74,9 +76,13 @@ export default function Home() {
         <p className="subtitle">Select a blockchain network to explore</p>
 
         <div className="network-grid">
-          {enabledNetworks.map((network) => (
-            <NetworkCard key={network.chainId} network={network} />
-          ))}
+          {isLoading && displayNetworks.length === 0 ? (
+            <p className="loading-text">Loading networks...</p>
+          ) : (
+            displayNetworks.map((network) => (
+              <NetworkCard key={network.chainId} network={network} />
+            ))
+          )}
         </div>
       </div>
     </div>
