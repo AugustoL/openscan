@@ -44,6 +44,10 @@ export default buildModule("TestSuiteModule", (m) => {
 	// Deploy Counter
 	const counter = m.contract("Counter");
 
+	// Deploy OpenScanPayment
+	const deployer = m.getAccount(0);
+	const openScanPayment = m.contract("OpenScanPayment", [deployer]);
+
 	return {
 		tokenA,
 		tokenB,
@@ -53,5 +57,6 @@ export default buildModule("TestSuiteModule", (m) => {
 		vault,
 		multicall,
 		counter,
+		openScanPayment,
 	};
 });
