@@ -1,31 +1,33 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export interface SourcifyMatch {
-	match: "perfect" | "partial" | null;
-	creation_match: "perfect" | "partial" | null;
-	runtime_match: "perfect" | "partial" | null;
-	chainId: string;
-	address: string;
-	verifiedAt?: string;
+  match: "perfect" | "partial" | null;
+  creation_match: "perfect" | "partial" | null;
+  runtime_match: "perfect" | "partial" | null;
+  chainId: string;
+  address: string;
+  verifiedAt?: string;
 }
 
 export interface SourcifyContractDetails extends SourcifyMatch {
-	name?: string;
-	compilerVersion?: string;
-	evmVersion?: string;
-	files?: {
-		name: string;
-		path: string;
-		content: string;
-	}[];
-	sources?: Record<
-		string,
-		{
-			content: string;
-		}
-	>;
-	metadata?: any;
-	abi?: any[];
+  name?: string;
+  compilerVersion?: string;
+  evmVersion?: string;
+  files?: {
+    name: string;
+    path: string;
+    content: string;
+  }[];
+  sources?: Record<
+    string,
+    {
+      content: string;
+    }
+  >;
+  // biome-ignore lint/suspicious/noExplicitAny: <TODO>
+  metadata?: any;
+  // biome-ignore lint/suspicious/noExplicitAny: <TODO>
+  abi?: any[];
 }
 
 const SOURCIFY_API_BASE = "https://repo.sourcify.dev/contracts";
@@ -38,69 +40,67 @@ const SOURCIFY_API_V2_BASE = "https://sourcify.dev/server";
  * @param enabled - Whether to fetch data (default: true)
  */
 export const useSourcify = (
-	chainId: number,
-	address: string | undefined,
-	enabled: boolean = true,
+  chainId: number,
+  address: string | undefined,
+  enabled: boolean = true,
 ) => {
-	const [data, setData] = useState<SourcifyContractDetails | null>(null);
-	const [loading, setLoading] = useState<boolean>(false);
-	const [error, setError] = useState<string | null>(null);
-	const [isVerified, setIsVerified] = useState<boolean>(false);
+  const [data, setData] = useState<SourcifyContractDetails | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+  const [isVerified, setIsVerified] = useState<boolean>(false);
 
-	useEffect(() => {
-		if (!enabled || !address || !chainId) {
-			return;
-		}
+  useEffect(() => {
+    if (!enabled || !address || !chainId) {
+      return;
+    }
 
-		const fetchContractData = async () => {
-			setLoading(true);
-			setError(null);
+    const fetchContractData = async () => {
+      setLoading(true);
+      setError(null);
 
-			try {
-				// Build query params
-				const params = new URLSearchParams();
-				params.append("fields", "all");
+      try {
+        // Build query params
+        const params = new URLSearchParams();
+        params.append("fields", "all");
 
-				const queryString = params.toString();
-				const url = `${SOURCIFY_API_V2_BASE}/v2/contract/${chainId}/${address}${queryString ? `?${queryString}` : ""}`;
+        const queryString = params.toString();
+        const url = `${SOURCIFY_API_V2_BASE}/v2/contract/${chainId}/${address}${queryString ? `?${queryString}` : ""}`;
 
-				const response = await fetch(url);
+        const response = await fetch(url);
 
-				if (!response.ok) {
-					if (response.status === 404) {
-						setIsVerified(false);
-						setData(null);
-						setError("Contract not verified on Sourcify");
-					} else {
-						throw new Error(
-							`Failed to fetch contract data: ${response.statusText}`,
-						);
-					}
-					return;
-				}
+        if (!response.ok) {
+          if (response.status === 404) {
+            setIsVerified(false);
+            setData(null);
+            setError("Contract not verified on Sourcify");
+          } else {
+            throw new Error(`Failed to fetch contract data: ${response.statusText}`);
+          }
+          return;
+        }
 
-				const contractData: SourcifyContractDetails = await response.json();
-				setData(contractData);
-				setIsVerified(!!contractData.match);
-			} catch (err) {
-				console.error("Error fetching Sourcify data:", err);
-				setError(err instanceof Error ? err.message : "Unknown error occurred");
-				setIsVerified(false);
-				setData(null);
-			} finally {
-				setLoading(false);
-			}
-		};
+        const contractData: SourcifyContractDetails = await response.json();
+        setData(contractData);
+        setIsVerified(!!contractData.match);
+      } catch (err) {
+        console.error("Error fetching Sourcify data:", err);
+        setError(err instanceof Error ? err.message : "Unknown error occurred");
+        setIsVerified(false);
+        setData(null);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-		fetchContractData();
-	}, [chainId, address, enabled]);
+    fetchContractData();
+  }, [chainId, address, enabled]);
 
-	return {
-		data,
-		loading,
-		error,
-		isVerified,
-	};
+  return {
+    data,
+    loading,
+    error,
+    isVerified,
+  };
 };
 
 /**
@@ -111,79 +111,77 @@ export const useSourcify = (
  * @param enabled - Whether to fetch data (default: true)
  */
 export const useSourcifyFiles = (
-	chainId: number,
-	address: string | undefined,
-	matchType: "full_match" | "partial_match" = "full_match",
-	enabled: boolean = true,
+  chainId: number,
+  address: string | undefined,
+  matchType: "full_match" | "partial_match" = "full_match",
+  enabled: boolean = true,
 ) => {
-	const [files, setFiles] = useState<
-		{ name: string; content: string; path: string }[]
-	>([]);
-	const [loading, setLoading] = useState<boolean>(false);
-	const [error, setError] = useState<string | null>(null);
+  const [files, setFiles] = useState<{ name: string; content: string; path: string }[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
 
-	useEffect(() => {
-		if (!enabled || !address || !chainId) {
-			return;
-		}
+  useEffect(() => {
+    if (!enabled || !address || !chainId) {
+      return;
+    }
 
-		const fetchFiles = async () => {
-			setLoading(true);
-			setError(null);
+    const fetchFiles = async () => {
+      setLoading(true);
+      setError(null);
 
-			try {
-				// Fetch the file tree first
-				const treeUrl = `${SOURCIFY_API_BASE}/${matchType}/${chainId}/${address}/`;
-				const treeResponse = await fetch(treeUrl);
+      try {
+        // Fetch the file tree first
+        const treeUrl = `${SOURCIFY_API_BASE}/${matchType}/${chainId}/${address}/`;
+        const treeResponse = await fetch(treeUrl);
 
-				if (!treeResponse.ok) {
-					throw new Error("Files not found");
-				}
+        if (!treeResponse.ok) {
+          throw new Error("Files not found");
+        }
 
-				const treeText = await treeResponse.text();
+        const treeText = await treeResponse.text();
 
-				// Parse the directory listing (this is a simplified parser)
-				// In production, you might want to use the API v2 files endpoint instead
-				const fileMatches = treeText.match(/href="([^"]+)"/g);
+        // Parse the directory listing (this is a simplified parser)
+        // In production, you might want to use the API v2 files endpoint instead
+        const fileMatches = treeText.match(/href="([^"]+)"/g);
 
-				if (fileMatches) {
-					const fileList = fileMatches
-						.map((match) => match.match(/href="([^"]+)"/)?.[1])
-						.filter((file): file is string => !!file && !file.endsWith("/"));
+        if (fileMatches) {
+          const fileList = fileMatches
+            .map((match) => match.match(/href="([^"]+)"/)?.[1])
+            .filter((file): file is string => !!file && !file.endsWith("/"));
 
-					// Fetch each file content
-					const fileContents = await Promise.all(
-						fileList.map(async (fileName) => {
-							const fileUrl = `${treeUrl}${fileName}`;
-							const fileResponse = await fetch(fileUrl);
-							const content = await fileResponse.text();
-							return {
-								name: fileName,
-								path: fileName,
-								content,
-							};
-						}),
-					);
+          // Fetch each file content
+          const fileContents = await Promise.all(
+            fileList.map(async (fileName) => {
+              const fileUrl = `${treeUrl}${fileName}`;
+              const fileResponse = await fetch(fileUrl);
+              const content = await fileResponse.text();
+              return {
+                name: fileName,
+                path: fileName,
+                content,
+              };
+            }),
+          );
 
-					setFiles(fileContents);
-				}
-			} catch (err) {
-				console.error("Error fetching Sourcify files:", err);
-				setError(err instanceof Error ? err.message : "Unknown error occurred");
-				setFiles([]);
-			} finally {
-				setLoading(false);
-			}
-		};
+          setFiles(fileContents);
+        }
+      } catch (err) {
+        console.error("Error fetching Sourcify files:", err);
+        setError(err instanceof Error ? err.message : "Unknown error occurred");
+        setFiles([]);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-		fetchFiles();
-	}, [chainId, address, matchType, enabled]);
+    fetchFiles();
+  }, [chainId, address, matchType, enabled]);
 
-	return {
-		files,
-		loading,
-		error,
-	};
+  return {
+    files,
+    loading,
+    error,
+  };
 };
 
 /**
@@ -193,20 +191,20 @@ export const useSourcifyFiles = (
  * @returns Promise<boolean>
  */
 export const checkSourcifyVerification = async (
-	chainId: number,
-	address: string,
+  chainId: number,
+  address: string,
 ): Promise<boolean> => {
-	try {
-		const url = `${SOURCIFY_API_V2_BASE}/v2/contract/${chainId}/${address}`;
-		const response = await fetch(url);
+  try {
+    const url = `${SOURCIFY_API_V2_BASE}/v2/contract/${chainId}/${address}`;
+    const response = await fetch(url);
 
-		if (response.ok) {
-			const data = await response.json();
-			return !!data.match;
-		}
-		return false;
-	} catch (err) {
-		console.error("Error checking Sourcify verification:", err);
-		return false;
-	}
+    if (response.ok) {
+      const data = await response.json();
+      return !!data.match;
+    }
+    return false;
+  } catch (err) {
+    console.error("Error checking Sourcify verification:", err);
+    return false;
+  }
 };

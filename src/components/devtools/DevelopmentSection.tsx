@@ -1,10 +1,10 @@
-import React, { useState, useCallback, useContext } from "react";
+import type React from "react";
+import { useCallback, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AppContext } from "../../context/AppContext";
 import { useZipJsonReader } from "../../hooks/useZipJsonReader";
 
 const DevelopmentSection: React.FC = () => {
-
   const [files, setFiles] = useState<File[]>([]);
   const [isDragging, setIsDragging] = useState(false);
   const { jsonFiles, setJsonFiles } = useContext(AppContext);
@@ -42,6 +42,7 @@ const DevelopmentSection: React.FC = () => {
         if (file.name.endsWith(".zip")) {
           const jsonData = await processZip(file);
           // Merge new JSON files with existing ones
+          // biome-ignore lint/suspicious/noExplicitAny: <TODO>
           setJsonFiles((prev: Record<string, any>) => ({
             ...prev,
             ...jsonData,
@@ -88,11 +89,11 @@ const DevelopmentSection: React.FC = () => {
     const k = 1024;
     const sizes = ["Bytes", "KB", "MB", "GB"];
     const i = Math.floor(Math.log(bytes) / Math.log(k));
-    return Math.round((bytes / Math.pow(k, i)) * 100) / 100 + " " + sizes[i];
+    return `${Math.round((bytes / k ** i) * 100) / 100} ${sizes[i]}`;
   };
 
-	return (
-		<div className="devtools-section">
+  return (
+    <div className="devtools-section">
       <div
         className="info-box"
         style={{
@@ -126,26 +127,22 @@ const DevelopmentSection: React.FC = () => {
             marginTop: 0,
           }}
         >
-          Provide a .zip file with the project’s <b>contracts/</b> and{" "}
-          <b>ignition/</b> directories inside. This will be used as local
-          verification method
+          Provide a .zip file with the project’s <b>contracts/</b> and <b>ignition/</b> directories
+          inside. This will be used as local verification method
         </p>
 
+        {/** biome-ignore lint/a11y/noStaticElementInteractions: <TODO> */}
         <div
           onDragEnter={handleDragEnter}
           onDragOver={handleDragOver}
           onDragLeave={handleDragLeave}
           onDrop={handleDrop}
           style={{
-            border: isDragging
-              ? "2px dashed #10b981"
-              : "2px dashed rgba(16, 185, 129, 0.3)",
+            border: isDragging ? "2px dashed #10b981" : "2px dashed rgba(16, 185, 129, 0.3)",
             borderRadius: 12,
             padding: 40,
             textAlign: "center",
-            backgroundColor: isDragging
-              ? "rgba(16, 185, 129, 0.05)"
-              : "rgba(16, 185, 129, 0.02)",
+            backgroundColor: isDragging ? "rgba(16, 185, 129, 0.05)" : "rgba(16, 185, 129, 0.02)",
             transition: "all 0.3s ease",
             cursor: "pointer",
             marginBottom: 20,
@@ -211,6 +208,7 @@ const DevelopmentSection: React.FC = () => {
               >
                 Uploaded Files ({files.length})
               </h4>
+              {/** biome-ignore lint/a11y/useButtonType: <TODO> */}
               <button
                 onClick={handleClearAll}
                 style={{
@@ -267,6 +265,7 @@ const DevelopmentSection: React.FC = () => {
                       <span>Type: {file.type || "Unknown"}</span>
                     </div>
                   </div>
+                  {/** biome-ignore lint/a11y/useButtonType: <TODO> */}
                   <button
                     onClick={() => handleRemoveFile(index)}
                     style={{
@@ -289,22 +288,20 @@ const DevelopmentSection: React.FC = () => {
           </div>
         )}
 
-        {files.length === 0 &&
-          !loading &&
-          Object.keys(jsonFiles).length === 0 && (
-            <div
-              style={{
-                textAlign: "center",
-                padding: 32,
-                color: "#6b7280",
-                backgroundColor: "rgba(16, 185, 129, 0.02)",
-                borderRadius: 8,
-                fontSize: "0.85rem",
-              }}
-            >
-              No files uploaded yet. Drag and drop or browse to add files.
-            </div>
-          )}
+        {files.length === 0 && !loading && Object.keys(jsonFiles).length === 0 && (
+          <div
+            style={{
+              textAlign: "center",
+              padding: 32,
+              color: "#6b7280",
+              backgroundColor: "rgba(16, 185, 129, 0.02)",
+              borderRadius: 8,
+              fontSize: "0.85rem",
+            }}
+          >
+            No files uploaded yet. Drag and drop or browse to add files.
+          </div>
+        )}
 
         {loading && (
           <div
@@ -319,9 +316,7 @@ const DevelopmentSection: React.FC = () => {
             }}
           >
             <div style={{ fontSize: 32, marginBottom: 12 }}>⏳</div>
-            <div style={{ fontSize: "0.9rem", fontWeight: "600" }}>
-              Processing ZIP file...
-            </div>
+            <div style={{ fontSize: "0.9rem", fontWeight: "600" }}>Processing ZIP file...</div>
           </div>
         )}
 
@@ -355,6 +350,7 @@ const DevelopmentSection: React.FC = () => {
               >
                 Extracted JSON Files ({Object.keys(jsonFiles).length})
               </h4>
+              {/** biome-ignore lint/a11y/useButtonType: <TODO> */}
               <button
                 onClick={handleClearArtifacts}
                 style={{
@@ -383,6 +379,8 @@ const DevelopmentSection: React.FC = () => {
                     boxShadow: "0 1px 3px rgba(0,0,0,0.03)",
                   }}
                 >
+                  {/** biome-ignore lint/a11y/noStaticElementInteractions: <TODO> */}
+                  {/** biome-ignore lint/a11y/useKeyWithClickEvents: <TODO> */}
                   <div
                     onClick={() => navigate(`/31337/address/${path}`)}
                     style={{
@@ -433,8 +431,8 @@ const DevelopmentSection: React.FC = () => {
           </div>
         )}
       </div>
-		</div>
-	);
+    </div>
+  );
 };
 
 export default DevelopmentSection;

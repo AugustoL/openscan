@@ -10,38 +10,36 @@ import type { DataWithMetadata } from "../types";
  * @returns The actual data to display
  */
 export function useSelectedData<T>(
-	result: DataWithMetadata<T> | null,
-	selectedProvider: string | null,
+  result: DataWithMetadata<T> | null,
+  selectedProvider: string | null,
 ): T | null {
-	return useMemo(() => {
-		if (!result) {
-			return null;
-		}
+  return useMemo(() => {
+    if (!result) {
+      return null;
+    }
 
-		// No metadata = fallback mode, return data as-is
-		if (!result.metadata) {
-			return result.data;
-		}
+    // No metadata = fallback mode, return data as-is
+    if (!result.metadata) {
+      return result.data;
+    }
 
-		// No provider selected = use default (first successful)
-		if (!selectedProvider) {
-			return result.data;
-		}
+    // No provider selected = use default (first successful)
+    if (!selectedProvider) {
+      return result.data;
+    }
 
-		// Find selected provider's response
-		const providerResponse = result.metadata.responses.find(
-			(r) => r.url === selectedProvider && r.status === "success",
-		);
+    // Find selected provider's response
+    const providerResponse = result.metadata.responses.find(
+      (r) => r.url === selectedProvider && r.status === "success",
+    );
 
-		if (!providerResponse || !providerResponse.data) {
-			// Fallback to default if selected provider not found
-			console.warn(
-				`Selected provider ${selectedProvider} not found or failed, using default`,
-			);
-			return result.data;
-		}
+    if (!providerResponse || !providerResponse.data) {
+      // Fallback to default if selected provider not found
+      console.warn(`Selected provider ${selectedProvider} not found or failed, using default`);
+      return result.data;
+    }
 
-		// Return the selected provider's data
-		return providerResponse.data;
-	}, [result, selectedProvider]);
+    // Return the selected provider's data
+    return providerResponse.data;
+  }, [result, selectedProvider]);
 }

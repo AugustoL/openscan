@@ -1,5 +1,15 @@
 {
-	"files": {
-		"includes": ["**", "!**/*.css"]
-	}
+  "files": {
+    "includes": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.json", "!**/*.css"]
+  },
+  "linter": {
+    "rules": {
+      "recommended": true
+    }
+  },
+  "formatter": {
+    "lineWidth": 100,
+    "indentStyle": "space",
+    "indentWidth": 2
+  }
 }

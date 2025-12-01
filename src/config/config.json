@@ -1,49 +1,49 @@
 {
-	"networks": [
-		{
-			"chainId": 1,
-			"name": "Mainnet",
-			"currency": "ETH"
-		},
-		{
-			"chainId": 11155111,
-			"name": "Sepolia",
-			"currency": "ETH"
-		},
-		{
-			"chainId": 42161,
-			"name": "Arbitrum One",
-			"currency": "ETH"
-		},
-		{
-			"chainId": 10,
-			"name": "Optimism",
-			"currency": "ETH"
-		},
-		{
-			"chainId": 8453,
-			"name": "Base",
-			"currency": "ETH"
-		},
-		{
-			"chainId": 56,
-			"name": "BSC",
-			"currency": "BNB"
-		},
-		{
-			"chainId": 97,
-			"name": "BSC Testnet",
-			"currency": "tBNB"
-		},
-		{
-			"chainId": 137,
-			"name": "Polygon",
-			"currency": "POL"
-		},
-		{
-			"chainId": 31337,
-			"name": "Localhost",
-			"currency": "ETH"
-		}
-	]
+  "networks": [
+    {
+      "chainId": 1,
+      "name": "Mainnet",
+      "currency": "ETH"
+    },
+    {
+      "chainId": 11155111,
+      "name": "Sepolia",
+      "currency": "ETH"
+    },
+    {
+      "chainId": 42161,
+      "name": "Arbitrum One",
+      "currency": "ETH"
+    },
+    {
+      "chainId": 10,
+      "name": "Optimism",
+      "currency": "ETH"
+    },
+    {
+      "chainId": 8453,
+      "name": "Base",
+      "currency": "ETH"
+    },
+    {
+      "chainId": 56,
+      "name": "BSC",
+      "currency": "BNB"
+    },
+    {
+      "chainId": 97,
+      "name": "BSC Testnet",
+      "currency": "tBNB"
+    },
+    {
+      "chainId": 137,
+      "name": "Polygon",
+      "currency": "POL"
+    },
+    {
+      "chainId": 31337,
+      "name": "Localhost",
+      "currency": "ETH"
+    }
+  ]
 }

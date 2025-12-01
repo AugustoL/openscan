@@ -1,52 +1,50 @@
 // src/services/EVM/Optimism/fetchers/networkStats.ts
-import { RPCClient } from "../../common/RPCClient";
+
 import type { NetworkStats } from "../../../../types";
+import type { RPCClient } from "../../common/RPCClient";
 
 export class NetworkStatsFetcher {
-	constructor(
-		private rpcClient: RPCClient,
-		private chainId: number,
-	) {}
+  constructor(
+    private rpcClient: RPCClient,
+    private chainId: number,
+  ) {}
 
-	async getNetworkStats(): Promise<NetworkStats> {
-		const [gasPrice, syncing, blockNumber, clientVersion] = await Promise.all([
-			this.rpcClient.call<string>("eth_gasPrice", []),
-			this.rpcClient.call<boolean | object>("eth_syncing", []),
-			this.rpcClient.call<string>("eth_blockNumber", []),
-			this.rpcClient.call<string>("web3_clientVersion", []).catch(() => "Unknown"),
-		]);
+  async getNetworkStats(): Promise<NetworkStats> {
+    const [gasPrice, syncing, blockNumber, clientVersion] = await Promise.all([
+      this.rpcClient.call<string>("eth_gasPrice", []),
+      this.rpcClient.call<boolean | object>("eth_syncing", []),
+      this.rpcClient.call<string>("eth_blockNumber", []),
+      this.rpcClient.call<string>("web3_clientVersion", []).catch(() => "Unknown"),
+    ]);
 
-		const metadata = "";
+    const metadata = "";
 
-		// eth_syncing returns false when not syncing, or an object with sync status when syncing
-		const isSyncing = typeof syncing === "object";
+    // eth_syncing returns false when not syncing, or an object with sync status when syncing
+    const isSyncing = typeof syncing === "object";
 
-		return {
-			currentGasPrice: gasPrice,
-			isSyncing,
-			currentBlockNumber: blockNumber,
-			clientVersion,
-			metadata: metadata,
-		};
-	}
+    return {
+      currentGasPrice: gasPrice,
+      isSyncing,
+      currentBlockNumber: blockNumber,
+      clientVersion,
+      metadata: metadata,
+    };
+  }
 
-	async getGasPrice(): Promise<string> {
-		return await this.rpcClient.call<string>("eth_gasPrice", []);
-	}
+  async getGasPrice(): Promise<string> {
+    return await this.rpcClient.call<string>("eth_gasPrice", []);
+  }
 
-	async getSyncingStatus(): Promise<boolean> {
-		const result = await this.rpcClient.call<boolean | object>(
-			"eth_syncing",
-			[],
-		);
-		return typeof result === "object";
-	}
+  async getSyncingStatus(): Promise<boolean> {
+    const result = await this.rpcClient.call<boolean | object>("eth_syncing", []);
+    return typeof result === "object";
+  }
 
-	async getBlockNumber(): Promise<string> {
-		return await this.rpcClient.call<string>("eth_blockNumber", []);
-	}
+  async getBlockNumber(): Promise<string> {
+    return await this.rpcClient.call<string>("eth_blockNumber", []);
+  }
 
-	getChainId(): number {
-		return this.chainId;
-	}
+  getChainId(): number {
+    return this.chainId;
+  }
 }

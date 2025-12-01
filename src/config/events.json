@@ -1,124 +1,124 @@
 {
-	"0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef": {
-		"event": "Transfer(address,address,uint256)",
-		"type": "erc",
-		"description": "ERC-20 / ERC-721 / ERC-1155 token transfer."
-	},
-	"0x8c5be1e5ebec7d5bd14f714f211d1fdf2f9d4b67e8936cfd6c3b6c0e16b3b4f2": {
-		"event": "Approval(address,address,uint256)",
-		"type": "erc",
-		"description": "ERC-20 approval to spend tokens."
-	},
-	"0x17307eab39ab6107e8899845ad3d59bd5caad93f77e3f70ca1a1f7a1e1d6a2ae": {
-		"event": "ApprovalForAll(address,address,bool)",
-		"type": "erc",
-		"description": "ERC-721/1155 approval for marketplaces or operators."
-	},
+  "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef": {
+    "event": "Transfer(address,address,uint256)",
+    "type": "erc",
+    "description": "ERC-20 / ERC-721 / ERC-1155 token transfer."
+  },
+  "0x8c5be1e5ebec7d5bd14f714f211d1fdf2f9d4b67e8936cfd6c3b6c0e16b3b4f2": {
+    "event": "Approval(address,address,uint256)",
+    "type": "erc",
+    "description": "ERC-20 approval to spend tokens."
+  },
+  "0x17307eab39ab6107e8899845ad3d59bd5caad93f77e3f70ca1a1f7a1e1d6a2ae": {
+    "event": "ApprovalForAll(address,address,bool)",
+    "type": "erc",
+    "description": "ERC-721/1155 approval for marketplaces or operators."
+  },
 
-	"0xd78ad95fa46c994b6551d0da85fc275fe613560b7d5a7f08f9d9f9f8f7f3f3f9": {
-		"event": "Swap(address,uint256,uint256,uint256,uint256,address)",
-		"type": "dex_v2",
-		"description": "Uniswap V2 swap between token0 and token1."
-	},
-	"0x783cca1c0412dd0d695e784568c76e539bbd5d50a35e62382c1f7e6d4a6e3c8c": {
-		"event": "Mint(address,uint256,uint256)",
-		"type": "dex_v2",
-		"description": "Uniswap V2 LP tokens minted (liquidity added)."
-	},
-	"0x0c396cd989aecc4b9b7f46a3665a2b9e898b85bbff1dd6ec8abca0f1f3e0f5f1": {
-		"event": "Burn(address,uint256,uint256,address)",
-		"type": "dex_v2",
-		"description": "Uniswap V2 LP tokens burned (liquidity removed)."
-	},
-	"0x1c411e9a96e071241c2f2b1b2c0d0a93d7d593af7e2c1d1bbf2c7e0d8d7f5d2f": {
-		"event": "Sync(uint112,uint112)",
-		"type": "dex_v2",
-		"description": "Uniswap V2 reserves updated."
-	},
+  "0xd78ad95fa46c994b6551d0da85fc275fe613560b7d5a7f08f9d9f9f8f7f3f3f9": {
+    "event": "Swap(address,uint256,uint256,uint256,uint256,address)",
+    "type": "dex_v2",
+    "description": "Uniswap V2 swap between token0 and token1."
+  },
+  "0x783cca1c0412dd0d695e784568c76e539bbd5d50a35e62382c1f7e6d4a6e3c8c": {
+    "event": "Mint(address,uint256,uint256)",
+    "type": "dex_v2",
+    "description": "Uniswap V2 LP tokens minted (liquidity added)."
+  },
+  "0x0c396cd989aecc4b9b7f46a3665a2b9e898b85bbff1dd6ec8abca0f1f3e0f5f1": {
+    "event": "Burn(address,uint256,uint256,address)",
+    "type": "dex_v2",
+    "description": "Uniswap V2 LP tokens burned (liquidity removed)."
+  },
+  "0x1c411e9a96e071241c2f2b1b2c0d0a93d7d593af7e2c1d1bbf2c7e0d8d7f5d2f": {
+    "event": "Sync(uint112,uint112)",
+    "type": "dex_v2",
+    "description": "Uniswap V2 reserves updated."
+  },
 
-	"0xc4109843e0eec84a56b1eaa1b3e20f5cfcaf70f9137bac9cd0ed912055e29463": {
-		"event": "Swap(address,address,int256,int256,uint160,uint128,int24)",
-		"type": "dex_v3",
-		"description": "Uniswap V3 swap event inside a concentrated position."
-	},
-	"0x7a53096c25c826f3ddf3418b9a64f0b504e8f8221cc4fddaa68d2d44c7755f17": {
-		"event": "Mint(address,int24,int24,uint128,uint256,uint256)",
-		"type": "dex_v3",
-		"description": "Uniswap V3 liquidity added to a tick range."
-	},
-	"0x0fbf0b979284fae0eaa90bf4cf5cf2d80a3c63239c5bbf7a9d490c8c7cc1a3f8": {
-		"event": "Burn(address,int24,int24,uint128,uint256,uint256)",
-		"type": "dex_v3",
-		"description": "Uniswap V3 liquidity removed from a tick range."
-	},
-	"0x4fd2bba771d7b5f90f9f55143a4d6acdfb5a12dd0b201cd1e386bc3f8e0529ce": {
-		"event": "Collect(address,address,int24,int24,uint128,uint256,uint256)",
-		"type": "dex_v3",
-		"description": "Uniswap V3 fees collected."
-	},
+  "0xc4109843e0eec84a56b1eaa1b3e20f5cfcaf70f9137bac9cd0ed912055e29463": {
+    "event": "Swap(address,address,int256,int256,uint160,uint128,int24)",
+    "type": "dex_v3",
+    "description": "Uniswap V3 swap event inside a concentrated position."
+  },
+  "0x7a53096c25c826f3ddf3418b9a64f0b504e8f8221cc4fddaa68d2d44c7755f17": {
+    "event": "Mint(address,int24,int24,uint128,uint256,uint256)",
+    "type": "dex_v3",
+    "description": "Uniswap V3 liquidity added to a tick range."
+  },
+  "0x0fbf0b979284fae0eaa90bf4cf5cf2d80a3c63239c5bbf7a9d490c8c7cc1a3f8": {
+    "event": "Burn(address,int24,int24,uint128,uint256,uint256)",
+    "type": "dex_v3",
+    "description": "Uniswap V3 liquidity removed from a tick range."
+  },
+  "0x4fd2bba771d7b5f90f9f55143a4d6acdfb5a12dd0b201cd1e386bc3f8e0529ce": {
+    "event": "Collect(address,address,int24,int24,uint128,uint256,uint256)",
+    "type": "dex_v3",
+    "description": "Uniswap V3 fees collected."
+  },
 
-	"0xe1fffcc4923d6e1059071a65c65d6c7dfb015bbaa2e855d3bc373f3efb3cf7c7": {
-		"event": "Deposit(address,address,uint256,uint256)",
-		"type": "vault",
-		"description": "ERC-4626 deposit into yield vault."
-	},
-	"0x9dc29facdfd23f85aa8c2fda8db36805b97d2519d8c12c325a4e7d182d4c3fbf": {
-		"event": "Withdraw(address,address,uint256,uint256)",
-		"type": "vault",
-		"description": "ERC-4626 withdrawal from yield vault."
-	},
+  "0xe1fffcc4923d6e1059071a65c65d6c7dfb015bbaa2e855d3bc373f3efb3cf7c7": {
+    "event": "Deposit(address,address,uint256,uint256)",
+    "type": "vault",
+    "description": "ERC-4626 deposit into yield vault."
+  },
+  "0x9dc29facdfd23f85aa8c2fda8db36805b97d2519d8c12c325a4e7d182d4c3fbf": {
+    "event": "Withdraw(address,address,uint256,uint256)",
+    "type": "vault",
+    "description": "ERC-4626 withdrawal from yield vault."
+  },
 
-	"0x8c5be1e5ebec7d5bd14f714f211d1fdf2f9d4b67e8936cfd6c3b6c0e16b3b4f2-lend": {
-		"event": "Deposit(address,address,uint256,uint16)",
-		"type": "lending",
-		"description": "Aave deposit event (v2/v3 variants)."
-	},
-	"0xc0ba7bbccb3ef5df76e8c1d112d1e1f345962f8d833b0dff78eaefdd8f2fa52c": {
-		"event": "Borrow(address,uint256,uint256,uint16)",
-		"type": "lending",
-		"description": "Aave borrow event."
-	},
-	"0xe9f0c8f49fe32f010d585d7fe54cb6975b7b6d504f3e6d6cf6f6e7c10e6e3d16": {
-		"event": "Repay(address,address,uint256)",
-		"type": "lending",
-		"description": "Aave repayment event."
-	},
-	"0xe48d41e67d97e50cbe1e3e32da583b60a06d2f8ab0d70cfb6d063906d8f8f4b9": {
-		"event": "LiquidationCall(address,address,address,uint256,uint256)",
-		"type": "lending",
-		"description": "Aave liquidation event."
-	},
+  "0x8c5be1e5ebec7d5bd14f714f211d1fdf2f9d4b67e8936cfd6c3b6c0e16b3b4f2-lend": {
+    "event": "Deposit(address,address,uint256,uint16)",
+    "type": "lending",
+    "description": "Aave deposit event (v2/v3 variants)."
+  },
+  "0xc0ba7bbccb3ef5df76e8c1d112d1e1f345962f8d833b0dff78eaefdd8f2fa52c": {
+    "event": "Borrow(address,uint256,uint256,uint16)",
+    "type": "lending",
+    "description": "Aave borrow event."
+  },
+  "0xe9f0c8f49fe32f010d585d7fe54cb6975b7b6d504f3e6d6cf6f6e7c10e6e3d16": {
+    "event": "Repay(address,address,uint256)",
+    "type": "lending",
+    "description": "Aave repayment event."
+  },
+  "0xe48d41e67d97e50cbe1e3e32da583b60a06d2f8ab0d70cfb6d063906d8f8f4b9": {
+    "event": "LiquidationCall(address,address,address,uint256,uint256)",
+    "type": "lending",
+    "description": "Aave liquidation event."
+  },
 
-	"0x2f4adfe744ebc7dfe07bf678f3f98ab9bca525df98659b75aa20f59f9e1a3f1c": {
-		"event": "MessagePassed(bytes32,address,address,uint256,bytes)",
-		"type": "l2_bridge",
-		"description": "Optimism / Base L2 message bridge event."
-	},
-	"0x6d53f44cb2f881e90df2f72ccb3164068aee2b5e09e2d1d854c5b8f67bdc6f16": {
-		"event": "SentMessage(address,address,bytes,uint256,uint256)",
-		"type": "l2_bridge",
-		"description": "Optimism L1 → L2 message relay event."
-	},
+  "0x2f4adfe744ebc7dfe07bf678f3f98ab9bca525df98659b75aa20f59f9e1a3f1c": {
+    "event": "MessagePassed(bytes32,address,address,uint256,bytes)",
+    "type": "l2_bridge",
+    "description": "Optimism / Base L2 message bridge event."
+  },
+  "0x6d53f44cb2f881e90df2f72ccb3164068aee2b5e09e2d1d854c5b8f67bdc6f16": {
+    "event": "SentMessage(address,address,bytes,uint256,uint256)",
+    "type": "l2_bridge",
+    "description": "Optimism L1 → L2 message relay event."
+  },
 
-	"0x9a1fc3d7ad15303ef1bd1e2e7c318e44b81e5a2122b1657bf78490a3a0421d7a": {
-		"event": "OrderFulfilled(bytes32,address,address,(address,uint256)[],(address,uint256)[])",
-		"type": "nft_market",
-		"description": "OpenSea Seaport order execution."
-	},
+  "0x9a1fc3d7ad15303ef1bd1e2e7c318e44b81e5a2122b1657bf78490a3a0421d7a": {
+    "event": "OrderFulfilled(bytes32,address,address,(address,uint256)[],(address,uint256)[])",
+    "type": "nft_market",
+    "description": "OpenSea Seaport order execution."
+  },
 
-	"0x8be0079c531659141344cd1fd0a4f28419497f9722f07e2e23c7d4d22d91c3a5": {
-		"event": "OwnershipTransferred(address,address)",
-		"type": "admin",
-		"description": "OpenZeppelin ownership updated."
-	},
-	"0x2f8788117e7af2f4c44cc979f409775888b8597f5b8bfeb3c5c50411c276d0b3": {
-		"event": "RoleGranted(bytes32,address,address)",
-		"type": "admin",
-		"description": "AccessControl role granted."
-	},
-	"0x1f3a5b13e0de318da36fb1a0e0b6bbefd66007f5258fa40a7c4fa2f2b1760c50": {
-		"event": "RoleRevoked(bytes32,address,address)",
-		"type": "admin",
-		"description": "AccessControl role revoked."
-	}
+  "0x8be0079c531659141344cd1fd0a4f28419497f9722f07e2e23c7d4d22d91c3a5": {
+    "event": "OwnershipTransferred(address,address)",
+    "type": "admin",
+    "description": "OpenZeppelin ownership updated."
+  },
+  "0x2f8788117e7af2f4c44cc979f409775888b8597f5b8bfeb3c5c50411c276d0b3": {
+    "event": "RoleGranted(bytes32,address,address)",
+    "type": "admin",
+    "description": "AccessControl role granted."
+  },
+  "0x1f3a5b13e0de318da36fb1a0e0b6bbefd66007f5258fa40a7c4fa2f2b1760c50": {
+    "event": "RoleRevoked(bytes32,address,address)",
+    "type": "admin",
+    "description": "AccessControl role revoked."
+  }
 }

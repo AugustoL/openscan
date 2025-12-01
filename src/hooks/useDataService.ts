@@ -11,32 +11,29 @@ import { DataService } from "../services/DataService";
  * @returns DataService instance
  */
 export function useDataService(chainId: number) {
-	const targetChainId = chainId;
-	const { rpcUrls } = useContext(AppContext);
-	const { settings } = useSettings();
+  const targetChainId = chainId;
+  const { rpcUrls } = useContext(AppContext);
+  const { settings } = useSettings();
 
-	console.log(
-		"useDataService called with chainId:",
-		chainId,
-		"targetChainId:",
-		targetChainId,
-		"strategy:",
-		settings.rpcStrategy,
-	);
+  console.log(
+    "useDataService called with chainId:",
+    chainId,
+    "targetChainId:",
+    targetChainId,
+    "strategy:",
+    settings.rpcStrategy,
+  );
 
-	const dataService = useMemo(() => {
-		console.log(
-			"useMemo creating new DataService for chainId:",
-			targetChainId,
-			"with strategy:",
-			settings.rpcStrategy,
-		);
-		return new DataService(targetChainId, rpcUrls, settings.rpcStrategy);
-	}, [targetChainId, rpcUrls, settings.rpcStrategy]);
+  const dataService = useMemo(() => {
+    console.log(
+      "useMemo creating new DataService for chainId:",
+      targetChainId,
+      "with strategy:",
+      settings.rpcStrategy,
+    );
+    return new DataService(targetChainId, rpcUrls, settings.rpcStrategy);
+  }, [targetChainId, rpcUrls, settings.rpcStrategy]);
 
-	console.log(
-		"useDataService returning dataService for chainId:",
-		targetChainId,
-	);
-	return dataService;
+  console.log("useDataService returning dataService for chainId:", targetChainId);
+  return dataService;
 }

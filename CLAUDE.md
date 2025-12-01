@@ -28,10 +28,20 @@ npm run build
 npm run typecheck
 ```
 
-### Formatting
+### Formatting and Linting
 
 ```bash
+# Check formatting (dry run)
+npm run format
+
+# Fix formatting issues automatically
 npm run format:fix
+
+# Check linting issues (dry run)
+npm run lint
+
+# Fix linting issues automatically
+npm run lint:fix
 ```
 
 ### Test Environment with Local Node
@@ -166,8 +176,49 @@ OpenScan includes special support for localhost development:
 ## Code Style
 
 - **Biome** for formatting and linting (config: `biome.json`)
+  - Line width: 100 characters
+  - Indentation: 2 spaces
+  - Scope: `src/**/*.ts`, `src/**/*.tsx`, `src/**/*.json` (excludes CSS files)
+  - Enabled rules: All recommended Biome linting rules
+  - Use `npm run format:fix` to auto-format code before committing
+  - Use `npm run lint:fix` to auto-fix linting issues (max 1024 diagnostics shown)
 - **TypeScript** with strict mode (`noImplicitAny`, `noImplicitReturns`, `noUncheckedIndexedAccess`)
 - **React 19** with functional components and hooks
+
+## Coding Standards and Workflow
+
+### Before Committing Code
+
+ALWAYS run these commands before committing to ensure code quality:
+
+```bash
+# 1. Fix formatting issues
+npm run format:fix
+
+# 2. Fix linting issues
+npm run lint:fix
+
+# 3. Verify type safety
+npm run typecheck
+
+# 4. Run tests (if applicable)
+npm run test:run
+```
+
+### Code Quality Requirements
+
+- All code must pass Biome formatting and linting checks
+- All TypeScript code must pass type checking with zero errors
+- Follow the 100-character line width limit
+- Use 2-space indentation consistently
+- Adhere to Biome's recommended linting rules
+
+### When Claude Code Modifies Files
+
+- Run `npm run format:fix` and `npm run lint:fix` after making changes
+- Address any remaining linting warnings that cannot be auto-fixed
+- Ensure TypeScript compilation succeeds with `npm run typecheck`
+- Do not commit code with formatting, linting, or type errors
 
 ## Important Patterns
 

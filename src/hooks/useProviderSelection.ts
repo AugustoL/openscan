@@ -10,35 +10,33 @@ const STORAGE_KEY_PREFIX = "rpc_selected_provider_";
  * @returns [selectedProvider, setSelectedProvider] tuple
  */
 export function useProviderSelection(
-	pageKey: string,
+  pageKey: string,
 ): [string | null, (provider: string | null) => void] {
-	const storageKey = `${STORAGE_KEY_PREFIX}${pageKey}`;
+  const storageKey = `${STORAGE_KEY_PREFIX}${pageKey}`;
 
-	const [selectedProvider, setSelectedProvider] = useState<string | null>(
-		() => {
-			try {
-				return sessionStorage.getItem(storageKey);
-			} catch {
-				return null;
-			}
-		},
-	);
+  const [selectedProvider, setSelectedProvider] = useState<string | null>(() => {
+    try {
+      return sessionStorage.getItem(storageKey);
+    } catch {
+      return null;
+    }
+  });
 
-	useEffect(() => {
-		if (selectedProvider) {
-			try {
-				sessionStorage.setItem(storageKey, selectedProvider);
-			} catch (error) {
-				console.warn("Failed to save provider selection:", error);
-			}
-		} else {
-			try {
-				sessionStorage.removeItem(storageKey);
-			} catch (error) {
-				console.warn("Failed to remove provider selection:", error);
-			}
-		}
-	}, [selectedProvider, storageKey]);
+  useEffect(() => {
+    if (selectedProvider) {
+      try {
+        sessionStorage.setItem(storageKey, selectedProvider);
+      } catch (error) {
+        console.warn("Failed to save provider selection:", error);
+      }
+    } else {
+      try {
+        sessionStorage.removeItem(storageKey);
+      } catch (error) {
+        console.warn("Failed to remove provider selection:", error);
+      }
+    }
+  }, [selectedProvider, storageKey]);
 
-	return [selectedProvider, setSelectedProvider];
+  return [selectedProvider, setSelectedProvider];
 }
