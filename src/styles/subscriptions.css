@@ -496,6 +496,78 @@
 	color: #10b981;
 }
 
+/* Collapsible Help Images Section */
+.subscriptions-help-images {
+	margin-top: 32px;
+	margin-bottom: 32px;
+}
+
+.subscriptions-help-toggle {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 8px;
+	width: 100%;
+	padding: 12px 20px;
+	background: rgba(16, 185, 129, 0.1);
+	border: 1px solid rgba(16, 185, 129, 0.3);
+	border-radius: 8px;
+	color: #10b981;
+	font-family: "Outfit", sans-serif;
+	font-weight: 600;
+	font-size: 0.95rem;
+	cursor: pointer;
+	transition: all 0.2s ease;
+}
+
+.subscriptions-help-toggle:hover {
+	background: rgba(16, 185, 129, 0.15);
+	border-color: rgba(16, 185, 129, 0.5);
+}
+
+.subscriptions-help-toggle-icon {
+	font-size: 0.8rem;
+}
+
+.subscriptions-help-images-content {
+	margin-top: 24px;
+	display: flex;
+	flex-direction: column;
+	gap: 32px;
+}
+
+.subscriptions-help-image-wrapper {
+	background: rgba(0, 0, 0, 0.2);
+	border: 1px solid rgba(16, 185, 129, 0.2);
+	border-radius: 12px;
+	padding: 20px;
+}
+
+.subscriptions-help-image-wrapper h4 {
+	font-family: "Outfit", sans-serif;
+	font-weight: 600;
+	font-size: 1rem;
+	color: #10b981;
+	margin: 0 0 16px 0;
+}
+
+.subscriptions-help-image-wrapper h4 a {
+	color: white;
+	text-decoration: underline;
+}
+
+.subscriptions-help-image-wrapper h4 a:hover {
+	color: #10b981;
+}
+
+.subscriptions-help-image {
+	width: 100%;
+	max-width: 100%;
+	border-radius: 8px;
+	border: 1px solid rgba(16, 185, 129, 0.3);
+	box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+}
+
 .subscriptions-cta-buttons {
 	display: flex;
 	justify-content: center;

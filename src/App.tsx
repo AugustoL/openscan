@@ -44,6 +44,7 @@ import {
   LazyHome,
   LazyMempool,
   LazySettings,
+  LazySubscriptions,
   LazyTx,
   LazyTxs,
 } from "./components/LazyComponents";
@@ -93,6 +94,7 @@ function AppContent() {
               <Route path="settings" element={<LazySettings />} />
               <Route path="about" element={<LazyAbout />} />
               <Route path="devtools" element={<LazyDevTools />} />
+              <Route path="subscriptions" element={<LazySubscriptions />} />
               <Route path=":chainId" element={<LazyChain />} />
               <Route path=":chainId/blocks" element={<LazyBlocks />} />
               <Route path=":chainId/block/:filter" element={<LazyBlock />} />

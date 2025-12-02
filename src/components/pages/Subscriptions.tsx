@@ -1,5 +1,9 @@
 import type React from "react";
 import { useState } from "react";
+import paymentHelp1 from "../../assets/paymentHelp1.png";
+import paymentHelp2 from "../../assets/paymentHelp2.png";
+import paymentHelp3 from "../../assets/paymentHelp3.png";
+import { OPENSCAN_PAYMENT_ADDRESS } from "../../config/index";
 import "../../styles/subscriptions.css";
 
 type SubscriptionCategory = "tokens" | "networks" | "apps" | "companies";
@@ -171,6 +175,7 @@ const isEarlyAdopterPeriod = (): boolean => {
 
 const Subscriptions: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<SubscriptionCategory>("tokens");
+  const [showHelpImages, setShowHelpImages] = useState(false);
 
   const selectedSubscription = subscriptionTypes.find((s) => s.id === selectedCategory);
 
@@ -404,26 +409,100 @@ const Subscriptions: React.FC = () => {
             <div className="subscriptions-step">
               <div className="subscriptions-step-number">2</div>
               <div className="subscriptions-step-content">
-                <h4>Submit Pull Request</h4>
+                <h4>Sign Payment Transaction</h4>
                 <p>
-                  Create a PR to the explorer-metadata repository with your project information and
-                  payment transaction hash.
+                  Use OpenScan devtools to sign the tx hash of the payment transaction, save it to
+                  use on the next step to request the start of the subscription.
                 </p>
               </div>
             </div>
             <div className="subscriptions-step">
               <div className="subscriptions-step-number">3</div>
               <div className="subscriptions-step-content">
+                <h4>Submit Github Pull Request or Issue</h4>
+                <p>
+                  Create a pull request or issue to the explorer-metadata repository with your
+                  project information and payment transaction hash.
+                </p>
+              </div>
+            </div>
+            <div className="subscriptions-step">
+              <div className="subscriptions-step-number">4</div>
+              <div className="subscriptions-step-content">
                 <h4>Get Verified</h4>
                 <p>
-                  Once your payment is confirmed and PR is reviewed, your subscription benefits will
-                  be activated.
+                  Once your payment is confirmed and your pull request or issue is reviewed, your
+                  subscription benefits will be activated.
                 </p>
               </div>
             </div>
           </div>
+
+          {/* Collapsible Help Images */}
+          <div className="subscriptions-help-images">
+            {/* biome-ignore lint/a11y/useButtonType: toggle button */}
+            <button
+              className="subscriptions-help-toggle"
+              onClick={() => setShowHelpImages(!showHelpImages)}
+            >
+              {showHelpImages ? "Hide" : "Show"} Visual Guide
+              <span className="subscriptions-help-toggle-icon">{showHelpImages ? "▲" : "▼"}</span>
+            </button>
+            {showHelpImages && (
+              <div className="subscriptions-help-images-content">
+                <div className="subscriptions-help-image-wrapper">
+                  <h4>
+                    Step 1: Make Payment on{" "}
+                    <a
+                      href={`/1/address/${OPENSCAN_PAYMENT_ADDRESS}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      OpenScanPayment Contract
+                    </a>
+                  </h4>
+                  <img
+                    src={paymentHelp1}
+                    alt="Payment help step 1 - How to make payment to the contract"
+                    className="subscriptions-help-image"
+                  />
+                </div>
+                <div className="subscriptions-help-image-wrapper">
+                  <h4>
+                    Step 2: Sign Transaction Hash on{" "}
+                    <a href="/devtools" target="_blank" rel="noopener noreferrer">
+                      Devtools
+                    </a>
+                  </h4>
+                  <img
+                    src={paymentHelp2}
+                    alt="Payment help step 2 - How to sign the transaction hash"
+                    className="subscriptions-help-image"
+                  />
+                </div>
+                <div className="subscriptions-help-image-wrapper">
+                  <h4>
+                    Step 3: Submit Github Issue on{" "}
+                    <a
+                      href="https://github.com/openscan-explorer/explorer-metadata"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      explorer-metadata
+                    </a>
+                  </h4>
+                  <img
+                    src={paymentHelp3}
+                    alt="Payment help step 3 - How to submit an issue request"
+                    className="subscriptions-help-image"
+                  />
+                </div>
+              </div>
+            )}
+          </div>
+
           <div className="subscriptions-cta-buttons">
-            <a href="/1/address/openscan-payment.eth" className="button-primary-inline">
+            <a href={`/1/address/${OPENSCAN_PAYMENT_ADDRESS}`} className="button-primary-inline">
               View Payment Contract
             </a>
             <a

@@ -29,7 +29,9 @@ const Footer: React.FC<FooterProps> = ({ className = "" }) => {
     <footer className={`app-footer ${className}`}>
       <div className="footer-content">
         <div className="footer-left">
-          <span className="footer-link">Donations: openscan.eth</span>
+          <a href="/subscriptions" className="footer-link">
+            Subscribe
+          </a>
         </div>
         <div className={`footer-version ${getVersionClass()}`}>
           <span className="version-label">Version:</span>
