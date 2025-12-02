@@ -211,6 +211,10 @@
 	font-weight: 600;
 }
 
+.table-left {
+	text-align: left;
+}
+
 .table-center {
 	text-align: center;
 }
@@ -255,6 +259,39 @@
 
 .recent-transactions-table td {
 	padding: 12px;
+	text-align: center;
+}
+
+/* Method Badges */
+.method-badge {
+	display: inline-block;
+	padding: 4px 8px;
+	border-radius: 4px;
+	font-size: 0.75rem;
+	font-family: monospace;
+	font-weight: 600;
+	max-width: 100px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.method-badge-decoded {
+	background: rgba(16, 185, 129, 0.15);
+	color: #10b981;
+	border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.method-badge-selector {
+	background: rgba(107, 114, 128, 0.15);
+	color: #9ca3af;
+	border: 1px solid rgba(107, 114, 128, 0.3);
+}
+
+.method-badge-transfer {
+	background: rgba(59, 130, 246, 0.15);
+	color: #3b82f6;
+	border: 1px solid rgba(59, 130, 246, 0.3);
 }
 
 /* Responsive Table */

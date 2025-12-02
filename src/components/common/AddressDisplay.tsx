@@ -1,7 +1,7 @@
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import React, { useCallback, useContext, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { encodeFunctionData, parseEther } from "viem";
+import { encodeFunctionData, parseEther, toFunctionSelector } from "viem";
 import { useWaitForTransactionReceipt, useWriteContract } from "wagmi";
 import { AppContext } from "../../context";
 import { useSourcify } from "../../hooks/useSourcify";
@@ -141,6 +141,38 @@ const AddressDisplay: React.FC<AddressDisplayProps> = React.memo(
     const contractData = useMemo(
       () => (isVerified && sourcifyData ? sourcifyData : parsedLocalData),
       [isVerified, sourcifyData, parsedLocalData],
+    );
+
+    // Decode function name from calldata using ABI
+    const decodeFunctionName = useCallback(
+      (data: string | undefined): string | null => {
+        if (!data || data === "0x" || data.length < 10) return null;
+        if (!contractData?.abi) return null;
+
+        const selector = data.slice(0, 10).toLowerCase();
+
+        // Find matching function in ABI
+        for (const item of contractData.abi) {
+          // biome-ignore lint/suspicious/noExplicitAny: ABI item type
+          const abiItem = item as any;
+          if (abiItem.type !== "function") continue;
+
+          // Calculate function selector: keccak256(name(type1,type2,...))
+          const inputs = abiItem.inputs || [];
+          // biome-ignore lint/suspicious/noExplicitAny: ABI input type
+          const signature = `${abiItem.name}(${inputs.map((i: any) => i.type).join(",")})`;
+
+          try {
+            const computedSelector = toFunctionSelector(signature).toLowerCase();
+            if (computedSelector === selector) {
+              return abiItem.name;
+            }
+          } catch {}
+        }
+
+        return null;
+      },
+      [contractData?.abi],
     );
 
     const handleWriteFunction = useCallback(async () => {
@@ -1506,6 +1538,7 @@ const AddressDisplay: React.FC<AddressDisplayProps> = React.memo(
                   <thead>
                     <tr>
                       <th>TX Hash</th>
+                      {contractData && <th>Method</th>}
                       <th>From</th>
                       <th>To</th>
                       <th>Value</th>
@@ -1520,6 +1553,41 @@ const AddressDisplay: React.FC<AddressDisplayProps> = React.memo(
                             {truncate(tx.hash, 8, 6)}
                           </Link>
                         </td>
+                        {contractData && (
+                          <td>
+                            {tx.to?.toLowerCase() === addressHash.toLowerCase() ? (
+                              (() => {
+                                const funcName = decodeFunctionName(tx.data);
+                                const selector = tx.data?.slice(0, 10);
+                                return funcName ? (
+                                  <span className="method-badge method-badge-decoded">
+                                    {funcName}
+                                  </span>
+                                ) : selector && selector !== "0x" ? (
+                                  <span
+                                    className="method-badge method-badge-selector"
+                                    title={selector}
+                                  >
+                                    {selector}
+                                  </span>
+                                ) : (
+                                  <span className="method-badge method-badge-transfer">
+                                    Transfer
+                                  </span>
+                                );
+                              })()
+                            ) : !tx.data || tx.data === "0x" ? (
+                              <span className="method-badge method-badge-transfer">Transfer</span>
+                            ) : (
+                              <span
+                                className="method-badge method-badge-selector"
+                                title={tx.data?.slice(0, 10)}
+                              >
+                                {tx.data?.slice(0, 10)}
+                              </span>
+                            )}
+                          </td>
+                        )}
                         <td>
                           <Link
                             to={`/${chainId}/address/${tx.from}`}
@@ -1552,10 +1620,10 @@ const AddressDisplay: React.FC<AddressDisplayProps> = React.memo(
                             <span className="contract-creation-badge">Contract Creation</span>
                           )}
                         </td>
-                        <td className="table-right">
+                        <td>
                           <span className="address-table-value">{formatValue(tx.value)}</span>
                         </td>
-                        <td className="table-center">
+                        <td>
                           {tx.receipt?.status === "0x1" ? (
                             <span className="table-status-badge table-status-success">
                               ✓ Success
