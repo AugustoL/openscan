@@ -1094,12 +1094,31 @@
 	background: #059669;
 }
 
+.button-secondary-inline {
+	display: inline-flex;
+	padding: 12px 24px;
+	background: transparent;
+	color: #10b981;
+	border: 1px solid #10b981;
+	border-radius: 8px;
+	cursor: pointer;
+	font-family: "Outfit", sans-serif;
+	font-weight: 600;
+	font-size: 0.9rem;
+	text-decoration: none;
+	transition: all 0.2s ease;
+}
+
+.button-secondary-inline:hover {
+	background: rgba(16, 185, 129, 0.1);
+}
+
 /* License Footer */
 .license-footer {
 	padding: 20px;
 	color: rgba(255, 255, 255, 0.5);
 	font-family: "Outfit", sans-serif;
-	font-size: 0.9rem;
+	font-size: 2rem;
 }
 
 .license-footer p {

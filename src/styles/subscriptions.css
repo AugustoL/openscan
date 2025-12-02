@@ -1,0 +1,582 @@
+/* Subscriptions Page Styles */
+
+.subscriptions-intro {
+	background: rgba(16, 185, 129, 0.04);
+	border: 1px solid rgba(16, 185, 129, 0.2);
+	border-radius: 12px;
+	padding: 24px;
+	margin-bottom: 32px;
+	text-align: center;
+}
+
+.subscriptions-intro p {
+	font-size: 1.1rem;
+	color: rgba(255, 255, 255, 0.8);
+	font-family: "Outfit", sans-serif;
+	line-height: 1.6;
+	margin: 0;
+}
+
+.subscriptions-intro strong {
+	color: #10b981;
+}
+
+/* Category Tabs */
+.subscriptions-tabs {
+	display: flex;
+	justify-content: center;
+	gap: 12px;
+	margin-bottom: 24px;
+	flex-wrap: wrap;
+}
+
+.subscriptions-tab {
+	padding: 12px 24px;
+	background: rgba(16, 185, 129, 0.1);
+	border: 1px solid rgba(16, 185, 129, 0.3);
+	border-radius: 8px;
+	color: #10b981;
+	font-family: "Outfit", sans-serif;
+	font-weight: 600;
+	font-size: 0.95rem;
+	cursor: pointer;
+	transition: all 0.2s ease;
+}
+
+.subscriptions-tab:hover {
+	background: rgba(16, 185, 129, 0.2);
+	transform: translateY(-2px);
+}
+
+.subscriptions-tab.active {
+	background: #10b981;
+	color: white;
+	border-color: #10b981;
+}
+
+/* Category Info */
+.subscriptions-category-info {
+	text-align: center;
+	margin-bottom: 32px;
+}
+
+.subscriptions-category-description {
+	font-size: 1rem;
+	color: rgba(255, 255, 255, 0.7);
+	font-family: "Outfit", sans-serif;
+	line-height: 1.5;
+	max-width: 700px;
+	margin: 0 auto;
+}
+
+/* Pricing Tiers */
+.subscriptions-tiers {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+	gap: 24px;
+	margin-bottom: 48px;
+}
+
+.subscriptions-tier-card {
+	background: rgba(255, 255, 255, 0.03);
+	border: 1px solid rgba(255, 255, 255, 0.1);
+	border-radius: 16px;
+	padding: 24px;
+	transition: all 0.3s ease;
+	display: flex;
+	flex-direction: column;
+}
+
+.subscriptions-tier-card:hover {
+	background: rgba(16, 185, 129, 0.08);
+	border-color: rgba(16, 185, 129, 0.3);
+	transform: translateY(-4px);
+}
+
+.subscriptions-tier-card:nth-child(2) {
+	border-color: rgba(16, 185, 129, 0.4);
+	background: rgba(16, 185, 129, 0.05);
+}
+
+.subscriptions-tier-card:nth-child(3) {
+	border-color: rgba(245, 158, 11, 0.4);
+	background: rgba(245, 158, 11, 0.05);
+}
+
+.subscriptions-tier-card:nth-child(3):hover {
+	background: rgba(245, 158, 11, 0.1);
+	border-color: rgba(245, 158, 11, 0.5);
+}
+
+.subscriptions-tier-header {
+	text-align: center;
+	margin-bottom: 20px;
+	padding-bottom: 20px;
+	border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.subscriptions-tier-name {
+	font-size: 1.2rem;
+	font-family: "Outfit", sans-serif;
+	font-weight: 700;
+	color: #10b981;
+	margin: 0 0 12px 0;
+}
+
+.subscriptions-tier-card:nth-child(3) .subscriptions-tier-name {
+	color: #f59e0b;
+}
+
+.subscriptions-tier-price {
+	display: flex;
+	align-items: baseline;
+	justify-content: center;
+	gap: 4px;
+}
+
+.subscriptions-price-amount {
+	font-size: 2rem;
+	font-family: "Outfit", sans-serif;
+	font-weight: 800;
+	color: white;
+}
+
+.subscriptions-price-period {
+	font-size: 0.9rem;
+	color: rgba(255, 255, 255, 0.5);
+	font-family: "Outfit", sans-serif;
+}
+
+/* Annual pricing (smaller, below monthly) */
+.subscriptions-tier-price-annual {
+	display: flex;
+	align-items: baseline;
+	justify-content: center;
+	gap: 4px;
+	margin-top: 8px;
+}
+
+.subscriptions-price-annual-amount {
+	font-size: 1.1rem;
+	font-family: "Outfit", sans-serif;
+	font-weight: 600;
+	color: rgba(255, 255, 255, 0.7);
+}
+
+.subscriptions-price-annual-period {
+	font-size: 0.8rem;
+	color: rgba(255, 255, 255, 0.4);
+	font-family: "Outfit", sans-serif;
+}
+
+.subscriptions-price-annual-discount {
+	font-size: 0.7rem;
+	color: #10b981;
+	font-family: "Outfit", sans-serif;
+	font-weight: 600;
+	background: rgba(16, 185, 129, 0.15);
+	padding: 2px 6px;
+	border-radius: 4px;
+	margin-left: 6px;
+}
+
+.subscriptions-tier-card:nth-child(3) .subscriptions-price-annual-discount {
+	color: #f59e0b;
+	background: rgba(245, 158, 11, 0.15);
+}
+
+.subscriptions-tier-benefits {
+	flex: 1;
+}
+
+.subscriptions-tier-benefits ul {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.subscriptions-tier-benefits li {
+	position: relative;
+	padding-left: 24px;
+	margin-bottom: 12px;
+	font-size: 0.95rem;
+	color: rgba(255, 255, 255, 0.8);
+	font-family: "Outfit", sans-serif;
+	line-height: 1.4;
+}
+
+.subscriptions-tier-benefits li::before {
+	content: "";
+	position: absolute;
+	left: 0;
+	top: 6px;
+	width: 12px;
+	height: 12px;
+	background: #10b981;
+	border-radius: 50%;
+	opacity: 0.8;
+}
+
+.subscriptions-tier-card:nth-child(3) .subscriptions-tier-benefits li::before {
+	background: #f59e0b;
+}
+
+.subscriptions-tier-note {
+	margin-top: 16px;
+	padding-top: 16px;
+	border-top: 1px solid rgba(255, 255, 255, 0.1);
+	font-size: 0.85rem;
+	color: rgba(255, 255, 255, 0.5);
+	font-family: "Outfit", sans-serif;
+	font-style: italic;
+	text-align: center;
+}
+
+/* Pricing Summary Table */
+.subscriptions-summary {
+	margin-bottom: 48px;
+}
+
+.subscriptions-table-wrapper {
+	overflow-x: auto;
+}
+
+.subscriptions-table {
+	width: 100%;
+	border-collapse: collapse;
+	background: rgba(255, 255, 255, 0.02);
+	border-radius: 12px;
+	overflow: hidden;
+}
+
+.subscriptions-table th,
+.subscriptions-table td {
+	padding: 16px 20px;
+	text-align: center;
+	font-family: "Outfit", sans-serif;
+}
+
+.subscriptions-table th {
+	background: rgba(16, 185, 129, 0.1);
+	color: #10b981;
+	font-weight: 600;
+	font-size: 0.9rem;
+	text-transform: uppercase;
+	letter-spacing: 0.5px;
+}
+
+.subscriptions-table th:first-child {
+	text-align: left;
+}
+
+.subscriptions-table td {
+	border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+	color: rgba(255, 255, 255, 0.8);
+	font-size: 0.95rem;
+}
+
+.subscriptions-table-type {
+	text-align: left !important;
+	font-weight: 600;
+	color: white !important;
+}
+
+.subscriptions-table tr:last-child td {
+	border-bottom: none;
+}
+
+.subscriptions-table tr:hover td {
+	background: rgba(16, 185, 129, 0.05);
+}
+
+.subscriptions-table-annual {
+	font-size: 0.8rem;
+	color: rgba(255, 255, 255, 0.5);
+	margin-top: 4px;
+}
+
+/* Table price display with early adopter */
+.subscriptions-table-monthly {
+	color: rgba(255, 255, 255, 0.8);
+	font-size: 0.95rem;
+	font-weight: 600;
+	margin-bottom: 6px;
+}
+
+.subscriptions-table-early-adopter-list {
+	display: flex;
+	flex-direction: column;
+	gap: 3px;
+	margin-bottom: 6px;
+}
+
+.subscriptions-table-early-adopter-item {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 6px;
+	font-size: 0.8rem;
+}
+
+.subscriptions-table-ea-price {
+	color: #fbbf24;
+	font-weight: 500;
+}
+
+.subscriptions-table-ea-discount {
+	color: #10b981;
+	font-size: 0.7rem;
+	font-weight: 600;
+	background: rgba(16, 185, 129, 0.15);
+	padding: 1px 4px;
+	border-radius: 3px;
+}
+
+/* Early Adopter Banner */
+.subscriptions-early-adopter {
+	background: linear-gradient(
+		135deg,
+		rgba(245, 158, 11, 0.15),
+		rgba(251, 191, 36, 0.1)
+	);
+	border: 2px solid rgba(245, 158, 11, 0.4);
+	border-radius: 12px;
+	padding: 20px 24px;
+	margin-bottom: 24px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 16px;
+	text-align: center;
+}
+
+.subscriptions-early-adopter-badge {
+	background: #f59e0b;
+	color: #000;
+	font-family: "Outfit", sans-serif;
+	font-weight: 700;
+	font-size: 0.8rem;
+	text-transform: uppercase;
+	letter-spacing: 0.5px;
+	padding: 8px 16px;
+	border-radius: 6px;
+	white-space: nowrap;
+}
+
+.subscriptions-early-adopter-content {
+	flex: 1;
+}
+
+.subscriptions-early-adopter-title {
+	font-family: "Outfit", sans-serif;
+	font-weight: 700;
+	font-size: 1.1rem;
+	color: #fbbf24;
+	margin: 0 0 12px 0;
+}
+
+.subscriptions-early-adopter-tiers {
+	display: flex;
+	gap: 12px;
+	flex-wrap: wrap;
+	justify-content: center;
+}
+
+.subscriptions-early-adopter-tier {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	background: rgba(255, 255, 255, 0.05);
+	border: 1px solid rgba(255, 255, 255, 0.1);
+	border-radius: 8px;
+	padding: 10px 16px;
+	min-width: 100px;
+}
+
+.subscriptions-early-adopter-tier.active {
+	background: rgba(16, 185, 129, 0.15);
+	border-color: #10b981;
+}
+
+.subscriptions-early-adopter-tier.past {
+	opacity: 0.4;
+}
+
+.subscriptions-early-adopter-tier-discount {
+	font-family: "Outfit", sans-serif;
+	font-weight: 700;
+	font-size: 1.1rem;
+	color: #fbbf24;
+}
+
+.subscriptions-early-adopter-tier.active .subscriptions-early-adopter-tier-discount {
+	color: #10b981;
+}
+
+.subscriptions-early-adopter-tier-month {
+	font-family: "Outfit", sans-serif;
+	font-size: 0.75rem;
+	color: rgba(255, 255, 255, 0.6);
+	margin-top: 2px;
+}
+
+.subscriptions-early-adopter-status {
+	font-family: "Outfit", sans-serif;
+	font-size: 0.9rem;
+	color: rgba(255, 255, 255, 0.7);
+	margin: 12px 0 0 0;
+}
+
+.subscriptions-early-adopter-active {
+	color: #10b981;
+	font-weight: 600;
+}
+
+/* How to Subscribe Section */
+.subscriptions-how-to {
+	background: linear-gradient(
+		135deg,
+		rgba(16, 185, 129, 0.08),
+		rgba(5, 150, 105, 0.05)
+	);
+	border: 1px solid rgba(16, 185, 129, 0.3);
+	border-radius: 16px;
+	padding: 40px;
+	margin-bottom: 12px;
+}
+
+.subscriptions-steps {
+	display: flex;
+	flex-direction: column;
+	gap: 24px;
+	margin: 32px 0;
+	max-width: 600px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.subscriptions-step {
+	display: flex;
+	align-items: flex-start;
+	gap: 20px;
+}
+
+.subscriptions-step-number {
+	flex-shrink: 0;
+	width: 40px;
+	height: 40px;
+	background: #10b981;
+	color: white;
+	font-family: "Outfit", sans-serif;
+	font-weight: 700;
+	font-size: 1.2rem;
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.subscriptions-step-content h4 {
+	font-family: "Outfit", sans-serif;
+	font-weight: 600;
+	font-size: 1.1rem;
+	color: white;
+	margin: 0 0 6px 0;
+}
+
+.subscriptions-step-content p {
+	font-family: "Outfit", sans-serif;
+	font-size: 0.95rem;
+	color: rgba(255, 255, 255, 0.7);
+	line-height: 1.5;
+	margin: 0;
+}
+
+.subscriptions-step-content strong {
+	color: #10b981;
+}
+
+.subscriptions-cta-buttons {
+	display: flex;
+	justify-content: center;
+	gap: 16px;
+	flex-wrap: wrap;
+}
+
+/* DAO Governance Section */
+.subscriptions-governance {
+	background: linear-gradient(
+		135deg,
+		rgba(139, 92, 246, 0.1),
+		rgba(16, 185, 129, 0.1)
+	);
+	border: 1px solid rgba(139, 92, 246, 0.3);
+	border-radius: 16px;
+	padding: 40px;
+	margin-bottom: 48px;
+}
+
+.subscriptions-governance > p {
+	font-size: 1.1rem;
+	color: rgba(255, 255, 255, 0.8);
+	font-family: "Outfit", sans-serif;
+	line-height: 1.6;
+	text-align: center;
+	max-width: 800px;
+	margin: 0 auto 32px;
+}
+
+.subscriptions-roadmap-features {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+	gap: 24px;
+}
+
+.subscriptions-roadmap-item {
+	background: rgba(255, 255, 255, 0.03);
+	border-radius: 12px;
+	padding: 20px;
+	text-align: center;
+}
+
+.subscriptions-roadmap-item h4 {
+	font-size: 1.1rem;
+	font-family: "Outfit", sans-serif;
+	font-weight: 600;
+	color: #8b5cf6;
+	margin: 0 0 12px 0;
+}
+
+.subscriptions-roadmap-item p {
+	font-size: 0.9rem;
+	color: rgba(255, 255, 255, 0.7);
+	font-family: "Outfit", sans-serif;
+	line-height: 1.5;
+	margin: 0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+	.subscriptions-tabs {
+		flex-direction: column;
+		align-items: stretch;
+	}
+
+	.subscriptions-tab {
+		text-align: center;
+	}
+
+	.subscriptions-tiers {
+		grid-template-columns: 1fr;
+	}
+
+	.subscriptions-governance {
+		padding: 24px;
+	}
+
+	.subscriptions-table th,
+	.subscriptions-table td {
+		padding: 12px 8px;
+		font-size: 0.85rem;
+	}
+}
