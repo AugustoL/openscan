@@ -2,6 +2,9 @@ import type { Chain } from "wagmi/chains";
 import { arbitrum, base, hardhat, mainnet, optimism, polygon, sepolia } from "wagmi/chains";
 import jsonConfig from "./config.json";
 
+// Contract addresses
+export const OPENSCAN_PAYMENT_ADDRESS = "0xd5bd7a2d6e13d351e157e2a0396dac810d6af390";
+
 export interface Network {
   chainId: number;
   name: string;

@@ -90,8 +90,7 @@ export function decodeFunctionCall(data: string, abi: any[]): DecodedInput | nul
         matchedFunction = fn;
         break;
       }
-    } catch {
-    }
+    } catch {}
   }
 
   if (!matchedFunction) {
@@ -180,8 +179,7 @@ export function decodeEventWithAbi(
         matchedEvent = evt;
         break;
       }
-    } catch {
-    }
+    } catch {}
   }
 
   if (!matchedEvent) {

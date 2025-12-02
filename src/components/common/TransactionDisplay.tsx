@@ -19,8 +19,8 @@ import {
 } from "../../utils/eventDecoder";
 import {
   type DecodedInput,
-  decodeFunctionCall,
   decodeEventWithAbi,
+  decodeFunctionCall,
 } from "../../utils/inputDecoder";
 import LongString from "./LongString";
 import { RPCIndicator } from "./RPCIndicator";
