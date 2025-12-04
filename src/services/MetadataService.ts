@@ -254,6 +254,9 @@ export async function fetchSupporters(): Promise<Supporter[]> {
 async function processSupporters(data: SupportersResponse): Promise<Supporter[]> {
   // Get networks data for logo and color information
   let networksMap: Map<number, NetworkMetadata> = new Map();
+  let appsMap: Map<string, AppMetadata> = new Map();
+  let orgsMap: Map<string, OrganizationMetadata> = new Map();
+
   try {
     const { networks } = await fetchNetworks();
     networksMap = new Map(networks.map((n) => [n.chainId, n]));
@@ -261,10 +264,53 @@ async function processSupporters(data: SupportersResponse): Promise<Supporter[]>
     // Continue without network data
   }
 
+  try {
+    const { apps } = await fetchApps();
+    appsMap = new Map(apps.map((a) => [a.id.toLowerCase(), a]));
+  } catch {
+    // Continue without apps data
+  }
+
+  try {
+    const { organizations } = await fetchOrganizations();
+    orgsMap = new Map(organizations.map((o) => [o.id.toLowerCase(), o]));
+  } catch {
+    // Continue without organizations data
+  }
+
   const supporters: Supporter[] = data.supporters
     .filter((s) => isSupporterActive(s.expiresAt))
     .map((s) => {
-      const network = s.chainId ? networksMap.get(s.chainId) : undefined;
+      let logo: string | undefined;
+      let color: string | undefined;
+
+      // Get logo and color based on supporter type
+      switch (s.type) {
+        case "network": {
+          const network = s.chainId ? networksMap.get(s.chainId) : undefined;
+          logo = network?.logo ? getAssetUrl(network.logo) : undefined;
+          color = network?.color;
+          break;
+        }
+        case "app": {
+          const app = appsMap.get(s.id.toLowerCase());
+          logo = app?.logo ? getAssetUrl(app.logo) : undefined;
+          break;
+        }
+        case "organization": {
+          const org = orgsMap.get(s.id.toLowerCase());
+          logo = org?.logo ? getAssetUrl(org.logo) : undefined;
+          break;
+        }
+        case "token": {
+          // Token logos are at assets/tokens/{chainId}/{address}.png
+          if (s.chainId) {
+            logo = getAssetUrl(`assets/tokens/${s.chainId}/${s.id.toLowerCase()}.png`);
+          }
+          break;
+        }
+      }
+
       return {
         id: s.id,
         type: s.type,
@@ -275,8 +321,8 @@ async function processSupporters(data: SupportersResponse): Promise<Supporter[]>
         currentTier: s.currentTier,
         tierName: getSubscriptionTierName(s.currentTier),
         expiresAt: s.expiresAt,
-        logo: network?.logo ? getNetworkLogoUrl(network.logo) : undefined,
-        color: network?.color,
+        logo,
+        color,
       };
     })
     // Sort by tier (higher tier first), then by name
@@ -305,7 +351,7 @@ export function clearSupportersCache(): void {
 /**
  * Profile type
  */
-export type ProfileType = "network" | "app" | "organization";
+export type ProfileType = "network" | "app" | "organization" | "token";
 
 /**
  * Common link structure
@@ -366,6 +412,30 @@ export interface OrganizationsResponse {
 }
 
 /**
+ * Token metadata from tokens/{chainId}/{address}.json
+ */
+export interface TokenMetadata {
+  address: string;
+  chainId: number;
+  name: string;
+  symbol: string;
+  decimals: number;
+  type?: "ERC20" | "ERC721" | "ERC1155";
+  totalSupply?: number;
+  subscription?: NetworkSubscription;
+  verified?: boolean;
+  logo?: string;
+  profile?: string;
+  project?: {
+    name: string;
+    description?: string;
+  };
+  links?: ProfileLink[];
+  networks?: Array<{ chainId: number; address: string }>;
+  tags?: string[];
+}
+
+/**
  * Unified profile data structure
  */
 export interface ProfileData {
@@ -390,6 +460,13 @@ export interface ProfileData {
   tags?: string[];
   // Organization-specific fields
   orgType?: string;
+  // Token-specific fields
+  tokenAddress?: string;
+  symbol?: string;
+  decimals?: number;
+  tokenType?: "ERC20" | "ERC721" | "ERC1155";
+  projectName?: string;
+  otherNetworks?: Array<{ chainId: number; address: string }>;
 }
 
 // Cache for apps and organizations
@@ -495,6 +572,26 @@ export function getAssetUrl(assetPath: string): string {
 }
 
 /**
+ * Fetch token metadata from tokens/{chainId}/{address}.json
+ */
+export async function fetchToken(chainId: number, address: string): Promise<TokenMetadata | null> {
+  try {
+    const response = await fetch(
+      `${METADATA_BASE_URL}/tokens/${chainId}/${address.toLowerCase()}.json`,
+    );
+
+    if (!response.ok) {
+      return null;
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Error fetching token:", error);
+    return null;
+  }
+}
+
+/**
  * Fetch a profile by type and ID
  */
 export async function fetchProfile(
@@ -577,6 +674,45 @@ export async function fetchProfile(
           };
           if (org.profile) {
             profileData.profileMarkdown = (await fetchProfileMarkdown(org.profile)) ?? undefined;
+          }
+        }
+        break;
+      }
+
+      case "token": {
+        // profileId format: chainId/address (e.g., "1/0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48")
+        const parts = profileId.split("/");
+        const chainIdStr = parts[0];
+        const tokenAddress = parts[1];
+        const chainId = chainIdStr ? Number.parseInt(chainIdStr, 10) : undefined;
+        if (chainId && tokenAddress) {
+          const token = await fetchToken(chainId, tokenAddress);
+          if (token) {
+            profileData = {
+              type: "token",
+              id: token.address,
+              name: token.name,
+              description: token.project?.description,
+              subscription: token.subscription,
+              logo: token.logo,
+              logoUrl: token.logo
+                ? getAssetUrl(token.logo)
+                : getAssetUrl(`assets/tokens/${chainId}/${token.address.toLowerCase()}.png`),
+              links: token.links,
+              chainId: token.chainId,
+              verified: token.verified,
+              tags: token.tags,
+              tokenAddress: token.address,
+              symbol: token.symbol,
+              decimals: token.decimals,
+              tokenType: token.type,
+              projectName: token.project?.name,
+              otherNetworks: token.networks,
+            };
+            if (token.profile) {
+              profileData.profileMarkdown =
+                (await fetchProfileMarkdown(token.profile)) ?? undefined;
+            }
           }
         }
         break;

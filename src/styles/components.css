@@ -3046,7 +3046,7 @@
 }
 
 .profile-meta-value {
-	color: var(--text-color, #1f2937);
+	color: var(--text-color, #b3b4b5);
 	font-family: "JetBrains Mono", monospace;
 	font-weight: 500;
 }
