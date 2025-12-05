@@ -325,28 +325,11 @@ const AddressDisplay: React.FC<AddressDisplayProps> = React.memo(
 
     return (
       <div className="block-display-card">
-        <div
-          className="block-display-header"
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
-        >
+        <div className="block-display-header address-header">
           <div>
             <span className="block-label">Address</span>
             {(ensName || reverseResult?.ensName) && (
-              <span
-                style={{
-                  marginLeft: "12px",
-                  marginRight: "8px",
-                  fontSize: "1rem",
-                  fontWeight: "600",
-                  color: "#10b981",
-                }}
-              >
-                {ensName || reverseResult?.ensName}
-              </span>
+              <span className="address-ens-name">{ensName || reverseResult?.ensName}</span>
             )}
             <span className="tx-mono header-subtitle">{addressHash}</span>
           </div>
@@ -659,14 +642,7 @@ const AddressDisplay: React.FC<AddressDisplayProps> = React.memo(
                   {/* Contract ABI */}
                   {contractData.abi && contractData.abi.length > 0 && (
                     <div className="tx-row-vertical">
-                      <div
-                        style={{
-                          display: "flex",
-                          justifyContent: "space-between",
-                          alignItems: "center",
-                          marginBottom: "8px",
-                        }}
-                      >
+                      <div className="contract-functions-header">
                         <span className="tx-label">Functions</span>
                         <ConnectButton.Custom>
                           {({
@@ -691,11 +667,7 @@ const AddressDisplay: React.FC<AddressDisplayProps> = React.memo(
                               <div
                                 {...(!ready && {
                                   "aria-hidden": true,
-                                  style: {
-                                    opacity: 0,
-                                    pointerEvents: "none",
-                                    userSelect: "none",
-                                  },
+                                  className: "wallet-hidden",
                                 })}
                               >
                                 {(() => {
@@ -704,25 +676,7 @@ const AddressDisplay: React.FC<AddressDisplayProps> = React.memo(
                                       <button
                                         onClick={openConnectModal}
                                         type="button"
-                                        style={{
-                                          padding: "8px 16px",
-                                          background: "rgba(16, 185, 129, 0.15)",
-                                          color: "#10b981",
-                                          border: "1px solid rgba(16, 185, 129, 0.3)",
-                                          borderRadius: "6px",
-                                          fontSize: "0.85rem",
-                                          fontWeight: "600",
-                                          cursor: "pointer",
-                                          transition: "all 0.2s",
-                                        }}
-                                        onMouseEnter={(e) => {
-                                          e.currentTarget.style.background =
-                                            "rgba(16, 185, 129, 0.25)";
-                                        }}
-                                        onMouseLeave={(e) => {
-                                          e.currentTarget.style.background =
-                                            "rgba(16, 185, 129, 0.15)";
-                                        }}
+                                        className="btn-connect-wallet"
                                       >
                                         Connect Wallet
                                       </button>
@@ -734,16 +688,7 @@ const AddressDisplay: React.FC<AddressDisplayProps> = React.memo(
                                       <button
                                         onClick={openChainModal}
                                         type="button"
-                                        style={{
-                                          padding: "8px 16px",
-                                          background: "rgba(239, 68, 68, 0.15)",
-                                          color: "#ef4444",
-                                          border: "1px solid rgba(239, 68, 68, 0.3)",
-                                          borderRadius: "6px",
-                                          fontSize: "0.85rem",
-                                          fontWeight: "600",
-                                          cursor: "pointer",
-                                        }}
+                                        className="btn-wrong-network"
                                       >
                                         Wrong Network
                                       </button>
@@ -751,38 +696,17 @@ const AddressDisplay: React.FC<AddressDisplayProps> = React.memo(
                                   }
 
                                   return (
-                                    <div
-                                      style={{
-                                        display: "flex",
-                                        gap: "8px",
-                                        alignItems: "center",
-                                      }}
-                                    >
+                                    <div className="wallet-connected-container">
                                       <button
                                         onClick={openChainModal}
                                         type="button"
-                                        style={{
-                                          padding: "6px 12px",
-                                          background: "rgba(59, 130, 246, 0.15)",
-                                          color: "#3b82f6",
-                                          border: "1px solid rgba(59, 130, 246, 0.3)",
-                                          borderRadius: "6px",
-                                          fontSize: "0.8rem",
-                                          display: "flex",
-                                          alignItems: "center",
-                                          gap: "6px",
-                                          cursor: "pointer",
-                                        }}
+                                        className="btn-chain-selector"
                                       >
                                         {chain.hasIcon && chain.iconUrl && (
                                           <img
                                             alt={chain.name ?? "Chain icon"}
                                             src={chain.iconUrl}
-                                            style={{
-                                              width: 16,
-                                              height: 16,
-                                              borderRadius: "50%",
-                                            }}
+                                            className="chain-icon"
                                           />
                                         )}
                                         {chain.name}
@@ -790,16 +714,7 @@ const AddressDisplay: React.FC<AddressDisplayProps> = React.memo(
                                       <button
                                         onClick={openAccountModal}
                                         type="button"
-                                        style={{
-                                          padding: "6px 12px",
-                                          background: "rgba(16, 185, 129, 0.15)",
-                                          color: "#10b981",
-                                          border: "1px solid rgba(16, 185, 129, 0.3)",
-                                          borderRadius: "6px",
-                                          fontSize: "0.8rem",
-                                          cursor: "pointer",
-                                          fontFamily: "monospace",
-                                        }}
+                                        className="btn-account"
                                       >
                                         {account.displayName}
                                       </button>
@@ -811,7 +726,7 @@ const AddressDisplay: React.FC<AddressDisplayProps> = React.memo(
                           }}
                         </ConnectButton.Custom>
                       </div>
-                      <div style={{ marginTop: "8px" }}>
+                      <div className="contract-functions-content">
                         {/* Read Functions (view/pure) */}
                         {(() => {
                           const readFunctions = contractData.abi.filter(
@@ -822,24 +737,11 @@ const AddressDisplay: React.FC<AddressDisplayProps> = React.memo(
                           );
                           return (
                             readFunctions.length > 0 && (
-                              <div style={{ marginBottom: "12px" }}>
-                                <div
-                                  style={{
-                                    fontSize: "0.85rem",
-                                    color: "#10b981",
-                                    marginBottom: "6px",
-                                    fontWeight: "600",
-                                  }}
-                                >
+                              <div className="functions-section">
+                                <div className="functions-section-title functions-section-title-read">
                                   Read Functions ({readFunctions.length})
                                 </div>
-                                <div
-                                  style={{
-                                    display: "flex",
-                                    flexWrap: "wrap",
-                                    gap: "8px",
-                                  }}
-                                >
+                                <div className="functions-list">
                                   {readFunctions.map((func: FunctionABI) => (
                                     <button
                                       type="button"
@@ -850,35 +752,7 @@ const AddressDisplay: React.FC<AddressDisplayProps> = React.memo(
                                         setFunctionInputs({});
                                         setReadFunctionResult(null);
                                       }}
-                                      style={{
-                                        padding: "4px 10px",
-                                        background:
-                                          selectedReadFunction?.name === func.name
-                                            ? "rgba(59, 130, 246, 0.3)"
-                                            : "rgba(59, 130, 246, 0.15)",
-                                        color: "#3b82f6",
-                                        border:
-                                          selectedReadFunction?.name === func.name
-                                            ? "1px solid rgba(59, 130, 246, 0.5)"
-                                            : "1px solid transparent",
-                                        borderRadius: "6px",
-                                        fontSize: "0.8rem",
-                                        fontFamily: "monospace",
-                                        cursor: "pointer",
-                                        transition: "all 0.2s",
-                                      }}
-                                      onMouseEnter={(e) => {
-                                        if (selectedReadFunction?.name !== func.name) {
-                                          e.currentTarget.style.background =
-                                            "rgba(59, 130, 246, 0.25)";
-                                        }
-                                      }}
-                                      onMouseLeave={(e) => {
-                                        if (selectedReadFunction?.name !== func.name) {
-                                          e.currentTarget.style.background =
-                                            "rgba(59, 130, 246, 0.15)";
-                                        }
-                                      }}
+                                      className={`btn-function btn-function-read ${selectedReadFunction?.name === func.name ? "selected" : ""}`}
                                     >
                                       {func.name}
                                     </button>
@@ -900,24 +774,11 @@ const AddressDisplay: React.FC<AddressDisplayProps> = React.memo(
                           );
                           return (
                             writeFunctions.length > 0 && (
-                              <div style={{ marginBottom: "12px" }}>
-                                <div
-                                  style={{
-                                    fontSize: "0.85rem",
-                                    color: "#f59e0b",
-                                    marginBottom: "6px",
-                                    fontWeight: "600",
-                                  }}
-                                >
+                              <div className="functions-section">
+                                <div className="functions-section-title functions-section-title-write">
                                   Write Functions ({writeFunctions.length})
                                 </div>
-                                <div
-                                  style={{
-                                    display: "flex",
-                                    flexWrap: "wrap",
-                                    gap: "8px",
-                                  }}
-                                >
+                                <div className="functions-list">
                                   {writeFunctions.map((func: FunctionABI) => (
                                     <button
                                       type="button"
@@ -928,35 +789,7 @@ const AddressDisplay: React.FC<AddressDisplayProps> = React.memo(
                                         setFunctionInputs({});
                                         setReadFunctionResult(null);
                                       }}
-                                      style={{
-                                        padding: "4px 10px",
-                                        background:
-                                          selectedWriteFunction?.name === func.name
-                                            ? "rgba(245, 158, 11, 0.3)"
-                                            : "rgba(245, 158, 11, 0.15)",
-                                        color: "#f59e0b",
-                                        border:
-                                          selectedWriteFunction?.name === func.name
-                                            ? "1px solid rgba(245, 158, 11, 0.5)"
-                                            : "1px solid transparent",
-                                        borderRadius: "6px",
-                                        fontSize: "0.8rem",
-                                        fontFamily: "monospace",
-                                        cursor: "pointer",
-                                        transition: "all 0.2s",
-                                      }}
-                                      onMouseEnter={(e) => {
-                                        if (selectedWriteFunction?.name !== func.name) {
-                                          e.currentTarget.style.background =
-                                            "rgba(245, 158, 11, 0.25)";
-                                        }
-                                      }}
-                                      onMouseLeave={(e) => {
-                                        if (selectedWriteFunction?.name !== func.name) {
-                                          e.currentTarget.style.background =
-                                            "rgba(245, 158, 11, 0.15)";
-                                        }
-                                      }}
+                                      className={`btn-function btn-function-write ${selectedWriteFunction?.name === func.name ? "selected" : ""}`}
                                     >
                                       {func.name}
                                     </button>
@@ -970,53 +803,24 @@ const AddressDisplay: React.FC<AddressDisplayProps> = React.memo(
                         {/* Events */}
                         {contractData.abi.filter((item: ABI) => item.type === "event").length >
                           0 && (
-                          <div style={{ marginBottom: "12px" }}>
-                            <div
-                              style={{
-                                fontSize: "0.85rem",
-                                color: "#10b981",
-                                marginBottom: "6px",
-                                fontWeight: "600",
-                              }}
-                            >
+                          <div className="functions-section">
+                            <div className="functions-section-title functions-section-title-events">
                               Events (
                               {contractData.abi.filter((item: ABI) => item.type === "event").length}
                               )
                             </div>
-                            <div
-                              style={{
-                                display: "flex",
-                                flexWrap: "wrap",
-                                gap: "8px",
-                              }}
-                            >
+                            <div className="functions-list">
                               {contractData.abi
                                 .filter((item: ABI): item is EventABI => item.type === "event")
                                 .slice(0, 10)
                                 .map((event: EventABI) => (
-                                  <span
-                                    key={event.name}
-                                    style={{
-                                      padding: "4px 10px",
-                                      background: "rgba(139, 92, 246, 0.15)",
-                                      color: "#8b5cf6",
-                                      borderRadius: "6px",
-                                      fontSize: "0.8rem",
-                                      fontFamily: "monospace",
-                                    }}
-                                  >
+                                  <span key={event.name} className="event-badge">
                                     {event.name}
                                   </span>
                                 ))}
                               {contractData.abi.filter((item: ABI) => item.type === "event")
                                 .length > 10 && (
-                                <span
-                                  style={{
-                                    color: "rgba(255, 255, 255, 0.5)",
-                                    fontSize: "0.85rem",
-                                    alignSelf: "center",
-                                  }}
-                                >
+                                <span className="events-more">
                                   +
                                   {contractData.abi.filter((item: ABI) => item.type === "event")
                                     .length - 10}{" "}
@@ -1029,48 +833,21 @@ const AddressDisplay: React.FC<AddressDisplayProps> = React.memo(
 
                         {/* Read Function Form */}
                         {selectedReadFunction && (
-                          <div
-                            style={{
-                              marginTop: "16px",
-                              padding: "16px",
-                              background: "rgba(59, 130, 246, 0.05)",
-                              border: "1px solid rgba(59, 130, 246, 0.2)",
-                              borderRadius: "8px",
-                            }}
-                          >
-                            <div
-                              style={{
-                                fontSize: "0.9rem",
-                                color: "#3b82f6",
-                                marginBottom: "12px",
-                                fontWeight: "600",
-                                fontFamily: "monospace",
-                              }}
-                            >
+                          <div className="function-form function-form-read">
+                            <div className="function-form-title function-form-title-read">
                               {selectedReadFunction.name}
                             </div>
 
                             {selectedReadFunction.inputs &&
                             selectedReadFunction.inputs.length > 0 ? (
-                              <div style={{ marginBottom: "12px" }}>
+                              <div className="function-inputs">
                                 {selectedReadFunction.inputs.map(
                                   (input: ABIParameter, idx: number) => (
                                     <label
                                       key={`${input.name || idx}-${input.type}`}
-                                      style={{
-                                        display: "block",
-                                        marginBottom: "10px",
-                                      }}
+                                      className="function-input-label"
                                     >
-                                      <span
-                                        style={{
-                                          display: "block",
-                                          fontSize: "0.8rem",
-                                          color: "rgba(255, 255, 255, 0.7)",
-                                          marginBottom: "4px",
-                                          fontFamily: "monospace",
-                                        }}
-                                      >
+                                      <span className="function-input-name">
                                         {input.name || `param${idx}`} ({input.type})
                                       </span>
                                       <input
@@ -1083,63 +860,22 @@ const AddressDisplay: React.FC<AddressDisplayProps> = React.memo(
                                           })
                                         }
                                         placeholder={`Enter ${input.type}`}
-                                        style={{
-                                          width: "100%",
-                                          padding: "8px 12px",
-                                          background: "rgba(0, 0, 0, 0.3)",
-                                          border: "1px solid rgba(59, 130, 246, 0.3)",
-                                          borderRadius: "6px",
-                                          color: "#fff",
-                                          fontSize: "0.85rem",
-                                          fontFamily: "monospace",
-                                        }}
+                                        className="function-input function-input-read"
                                       />
                                     </label>
                                   ),
                                 )}
                               </div>
                             ) : (
-                              <div
-                                style={{
-                                  fontSize: "0.8rem",
-                                  color: "#10b981",
-                                  marginBottom: "12px",
-                                  fontStyle: "italic",
-                                }}
-                              >
-                                No parameters required
-                              </div>
+                              <div className="function-no-params">No parameters required</div>
                             )}
 
                             {/* Read Result */}
                             {readFunctionResult !== null && (
                               <div
-                                style={{
-                                  marginBottom: "12px",
-                                  padding: "10px",
-                                  borderRadius: "6px",
-                                  fontSize: "0.85rem",
-                                  background: readFunctionResult?.startsWith("Error")
-                                    ? "rgba(239, 68, 68, 0.1)"
-                                    : "rgba(16, 185, 129, 0.1)",
-                                  border: `1px solid ${
-                                    readFunctionResult?.startsWith("Error")
-                                      ? "rgba(239, 68, 68, 0.3)"
-                                      : "rgba(16, 185, 129, 0.3)"
-                                  }`,
-                                  color: readFunctionResult?.startsWith("Error")
-                                    ? "#ef4444"
-                                    : "#10b981",
-                                  wordBreak: "break-all",
-                                  fontFamily: "monospace",
-                                }}
+                                className={`function-result ${readFunctionResult?.startsWith("Error") ? "function-result-error" : "function-result-success"}`}
                               >
-                                <div
-                                  style={{
-                                    fontWeight: "600",
-                                    marginBottom: "4px",
-                                  }}
-                                >
+                                <div className="function-result-title">
                                   {readFunctionResult?.startsWith("Error")
                                     ? "❌ Error"
                                     : "✅ Result"}
@@ -1148,36 +884,12 @@ const AddressDisplay: React.FC<AddressDisplayProps> = React.memo(
                               </div>
                             )}
 
-                            <div style={{ display: "flex", gap: "8px" }}>
+                            <div className="function-actions">
                               <button
                                 type="button"
                                 onClick={handleReadFunction}
                                 disabled={isReadingFunction}
-                                style={{
-                                  flex: 1,
-                                  padding: "10px 16px",
-                                  background: isReadingFunction
-                                    ? "rgba(59, 130, 246, 0.1)"
-                                    : "rgba(59, 130, 246, 0.2)",
-                                  color: isReadingFunction ? "rgba(59, 130, 246, 0.5)" : "#3b82f6",
-                                  border: "1px solid rgba(59, 130, 246, 0.4)",
-                                  borderRadius: "6px",
-                                  fontSize: "0.85rem",
-                                  fontWeight: "600",
-                                  cursor: isReadingFunction ? "not-allowed" : "pointer",
-                                  transition: "all 0.2s",
-                                  opacity: isReadingFunction ? 0.6 : 1,
-                                }}
-                                onMouseEnter={(e) => {
-                                  if (!isReadingFunction) {
-                                    e.currentTarget.style.background = "rgba(59, 130, 246, 0.3)";
-                                  }
-                                }}
-                                onMouseLeave={(e) => {
-                                  if (!isReadingFunction) {
-                                    e.currentTarget.style.background = "rgba(59, 130, 246, 0.2)";
-                                  }
-                                }}
+                                className="btn-function-action btn-query"
                               >
                                 {isReadingFunction ? "Reading..." : "Query"}
                               </button>
@@ -1187,23 +899,7 @@ const AddressDisplay: React.FC<AddressDisplayProps> = React.memo(
                                   setSelectedReadFunction(null);
                                   setReadFunctionResult(null);
                                 }}
-                                style={{
-                                  padding: "10px 16px",
-                                  background: "rgba(239, 68, 68, 0.2)",
-                                  color: "#ef4444",
-                                  border: "1px solid rgba(239, 68, 68, 0.4)",
-                                  borderRadius: "6px",
-                                  fontSize: "0.85rem",
-                                  fontWeight: "600",
-                                  cursor: "pointer",
-                                  transition: "all 0.2s",
-                                }}
-                                onMouseEnter={(e) => {
-                                  e.currentTarget.style.background = "rgba(239, 68, 68, 0.3)";
-                                }}
-                                onMouseLeave={(e) => {
-                                  e.currentTarget.style.background = "rgba(239, 68, 68, 0.2)";
-                                }}
+                                className="btn-cancel"
                               >
                                 Cancel
                               </button>
@@ -1213,65 +909,24 @@ const AddressDisplay: React.FC<AddressDisplayProps> = React.memo(
 
                         {/* Write Function Form */}
                         {selectedWriteFunction && (
-                          <div
-                            style={{
-                              marginTop: "16px",
-                              padding: "16px",
-                              background: "rgba(245, 158, 11, 0.05)",
-                              border: "1px solid rgba(245, 158, 11, 0.2)",
-                              borderRadius: "8px",
-                            }}
-                          >
-                            <div
-                              style={{
-                                fontSize: "0.9rem",
-                                color: "#f59e0b",
-                                marginBottom: "12px",
-                                fontWeight: "600",
-                                fontFamily: "monospace",
-                              }}
-                            >
+                          <div className="function-form function-form-write">
+                            <div className="function-form-title function-form-title-write">
                               {selectedWriteFunction.name}
                               {selectedWriteFunction.stateMutability === "payable" && (
-                                <span
-                                  style={{
-                                    marginLeft: "8px",
-                                    fontSize: "0.75rem",
-                                    padding: "2px 6px",
-                                    background: "rgba(16, 185, 129, 0.15)",
-                                    color: "#10b981",
-                                    borderRadius: "4px",
-                                  }}
-                                >
-                                  payable
-                                </span>
+                                <span className="payable-badge">payable</span>
                               )}
                             </div>
 
                             {selectedWriteFunction.inputs &&
                             selectedWriteFunction.inputs.length > 0 ? (
-                              <div style={{ marginBottom: "12px" }}>
+                              <div className="function-inputs">
                                 {selectedWriteFunction.inputs.map(
                                   (input: ABIParameter, idx: number) => (
                                     <label
                                       key={`${input.name || idx}-${input.type}`}
-                                      style={{
-                                        display: "block",
-                                        fontSize: "0.8rem",
-                                        color: "rgba(0, 118, 4, 0.7)",
-                                        marginBottom: "4px",
-                                        fontFamily: "monospace",
-                                      }}
+                                      className="function-input-label"
                                     >
-                                      <span
-                                        style={{
-                                          display: "block",
-                                          fontSize: "0.8rem",
-                                          color: "rgba(255, 255, 255, 0.7)",
-                                          marginBottom: "4px",
-                                          fontFamily: "monospace",
-                                        }}
-                                      >
+                                      <span className="function-input-name">
                                         {input.name || `param${idx}`} ({input.type})
                                       </span>
                                       <input
@@ -1284,52 +939,19 @@ const AddressDisplay: React.FC<AddressDisplayProps> = React.memo(
                                           })
                                         }
                                         placeholder={`Enter ${input.type}`}
-                                        style={{
-                                          width: "100%",
-                                          padding: "8px 12px",
-                                          background: "rgba(0, 0, 0, 0.3)",
-                                          border: "1px solid rgba(245, 158, 11, 0.3)",
-                                          borderRadius: "6px",
-                                          color: "#fff",
-                                          fontSize: "0.85rem",
-                                          fontFamily: "monospace",
-                                        }}
+                                        className="function-input function-input-write"
                                       />
                                     </label>
                                   ),
                                 )}
                               </div>
                             ) : (
-                              <div
-                                style={{
-                                  fontSize: "0.8rem",
-                                  color: "#10b981",
-                                  marginBottom: "12px",
-                                  fontStyle: "italic",
-                                }}
-                              >
-                                No parameters required
-                              </div>
+                              <div className="function-no-params">No parameters required</div>
                             )}
 
                             {selectedWriteFunction.stateMutability === "payable" && (
-                              <label
-                                style={{
-                                  display: "block",
-                                  marginBottom: "12px",
-                                }}
-                              >
-                                <span
-                                  style={{
-                                    display: "block",
-                                    fontSize: "0.8rem",
-                                    color: "rgba(0, 118, 4, 0.7)",
-                                    marginBottom: "4px",
-                                    fontFamily: "monospace",
-                                  }}
-                                >
-                                  Value (ETH)
-                                </span>
+                              <label className="function-input-label">
+                                <span className="function-input-name">Value (ETH)</span>
                                 <input
                                   type="text"
                                   // biome-ignore lint/complexity/useLiteralKeys: _value is a special key for ETH value
@@ -1341,16 +963,7 @@ const AddressDisplay: React.FC<AddressDisplayProps> = React.memo(
                                     })
                                   }
                                   placeholder="0.0"
-                                  style={{
-                                    width: "100%",
-                                    padding: "8px 12px",
-                                    background: "rgba(0, 0, 0, 0.3)",
-                                    border: "1px solid rgba(16, 185, 129, 0.3)",
-                                    borderRadius: "6px",
-                                    color: "#fff",
-                                    fontSize: "0.85rem",
-                                    fontFamily: "monospace",
-                                  }}
+                                  className="function-input function-input-value"
                                 />
                               </label>
                             )}
@@ -1358,25 +971,7 @@ const AddressDisplay: React.FC<AddressDisplayProps> = React.memo(
                             {/* Transaction Status */}
                             {(isPending || isConfirming || isConfirmed || isError) && (
                               <div
-                                style={{
-                                  marginBottom: "12px",
-                                  padding: "10px",
-                                  borderRadius: "6px",
-                                  fontSize: "0.85rem",
-                                  background: isError
-                                    ? "rgba(239, 68, 68, 0.1)"
-                                    : isConfirmed
-                                      ? "rgba(16, 185, 129, 0.1)"
-                                      : "rgba(59, 130, 246, 0.1)",
-                                  border: `1px solid ${
-                                    isError
-                                      ? "rgba(239, 68, 68, 0.3)"
-                                      : isConfirmed
-                                        ? "rgba(16, 185, 129, 0.3)"
-                                        : "rgba(59, 130, 246, 0.3)"
-                                  }`,
-                                  color: isError ? "#ef4444" : isConfirmed ? "#10b981" : "#3b82f6",
-                                }}
+                                className={`tx-status-box ${isError ? "tx-status-error" : isConfirmed ? "tx-status-success" : "tx-status-pending"}`}
                               >
                                 {isPending && "⏳ Waiting for wallet confirmation..."}
                                 {isConfirming && "⏳ Waiting for transaction confirmation..."}
@@ -1384,20 +979,8 @@ const AddressDisplay: React.FC<AddressDisplayProps> = React.memo(
                                   <div>
                                     ✅ Transaction confirmed!
                                     {hash && (
-                                      <div
-                                        style={{
-                                          marginTop: "4px",
-                                          fontFamily: "monospace",
-                                          fontSize: "0.75rem",
-                                        }}
-                                      >
-                                        <Link
-                                          to={`/${networkId}/tx/${hash}`}
-                                          style={{
-                                            color: "#10b981",
-                                            textDecoration: "underline",
-                                          }}
-                                        >
+                                      <div className="tx-hash-link">
+                                        <Link to={`/${networkId}/tx/${hash}`}>
                                           View transaction
                                         </Link>
                                       </div>
@@ -1410,40 +993,12 @@ const AddressDisplay: React.FC<AddressDisplayProps> = React.memo(
                               </div>
                             )}
 
-                            <div style={{ display: "flex", gap: "8px" }}>
+                            <div className="function-actions">
                               <button
                                 type="button"
                                 onClick={handleWriteFunction}
                                 disabled={isPending || isConfirming}
-                                style={{
-                                  flex: 1,
-                                  padding: "10px 16px",
-                                  background:
-                                    isPending || isConfirming
-                                      ? "rgba(245, 158, 11, 0.1)"
-                                      : "rgba(245, 158, 11, 0.2)",
-                                  color:
-                                    isPending || isConfirming
-                                      ? "rgba(245, 158, 11, 0.5)"
-                                      : "#f59e0b",
-                                  border: "1px solid rgba(245, 158, 11, 0.4)",
-                                  borderRadius: "6px",
-                                  fontSize: "0.85rem",
-                                  fontWeight: "600",
-                                  cursor: isPending || isConfirming ? "not-allowed" : "pointer",
-                                  transition: "all 0.2s",
-                                  opacity: isPending || isConfirming ? 0.6 : 1,
-                                }}
-                                onMouseEnter={(e) => {
-                                  if (!isPending && !isConfirming) {
-                                    e.currentTarget.style.background = "rgba(245, 158, 11, 0.3)";
-                                  }
-                                }}
-                                onMouseLeave={(e) => {
-                                  if (!isPending && !isConfirming) {
-                                    e.currentTarget.style.background = "rgba(245, 158, 11, 0.2)";
-                                  }
-                                }}
+                                className="btn-function-action btn-write-action"
                               >
                                 {isPending
                                   ? "Confirming in Wallet..."
@@ -1454,23 +1009,7 @@ const AddressDisplay: React.FC<AddressDisplayProps> = React.memo(
                               <button
                                 type="button"
                                 onClick={() => setSelectedWriteFunction(null)}
-                                style={{
-                                  padding: "10px 16px",
-                                  background: "rgba(239, 68, 68, 0.2)",
-                                  color: "#ef4444",
-                                  border: "1px solid rgba(239, 68, 68, 0.4)",
-                                  borderRadius: "6px",
-                                  fontSize: "0.85rem",
-                                  fontWeight: "600",
-                                  cursor: "pointer",
-                                  transition: "all 0.2s",
-                                }}
-                                onMouseEnter={(e) => {
-                                  e.currentTarget.style.background = "rgba(239, 68, 68, 0.3)";
-                                }}
-                                onMouseLeave={(e) => {
-                                  e.currentTarget.style.background = "rgba(239, 68, 68, 0.2)";
-                                }}
+                                className="btn-cancel"
                               >
                                 Cancel
                               </button>
@@ -1488,14 +1027,7 @@ const AddressDisplay: React.FC<AddressDisplayProps> = React.memo(
                         href={`https://repo.sourcify.dev/contracts/full_match/${networkId}/${addressHash}/`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        style={{
-                          color: "#10b981",
-                          textDecoration: "none",
-                          fontWeight: "600",
-                          display: "inline-flex",
-                          alignItems: "center",
-                          gap: "6px",
-                        }}
+                        className="sourcify-link"
                       >
                         View Full Contract on Sourcify ↗
                       </a>
@@ -1508,40 +1040,27 @@ const AddressDisplay: React.FC<AddressDisplayProps> = React.memo(
 
           {/* Last Transactions Section */}
           <div className="tx-details">
-            <div
-              className="tx-section"
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-              }}
-            >
+            <div className="tx-section tx-history-header">
               <span className="tx-section-title">Last Transactions</span>
               {transactionsResult && (
                 <span
-                  style={{
-                    fontSize: "0.85rem",
-                    color: transactionsResult.isComplete ? "#10b981" : "#f59e0b",
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "6px",
-                  }}
+                  className={`tx-history-status ${transactionsResult.source === "trace_filter" ? "tx-history-status-complete" : transactionsResult.source === "logs" ? "tx-history-status-partial" : "tx-history-status-none"}`}
                 >
                   {transactionsResult.source === "trace_filter" && (
                     <>
-                      <span style={{ color: "#10b981" }}>●</span>
+                      <span className="tx-history-dot">●</span>
                       Complete history ({transactionDetails.length} transactions)
                     </>
                   )}
                   {transactionsResult.source === "logs" && (
                     <>
-                      <span style={{ color: "#f59e0b" }}>●</span>
+                      <span className="tx-history-dot">●</span>
                       Partial (logs only) - {transactionDetails.length} transactions
                     </>
                   )}
                   {transactionsResult.source === "none" && (
                     <>
-                      <span style={{ color: "#ef4444" }}>●</span>
+                      <span className="tx-history-dot">●</span>
                       No data available
                     </>
                   )}
@@ -1552,21 +1071,9 @@ const AddressDisplay: React.FC<AddressDisplayProps> = React.memo(
             {/* Warning message for partial data */}
             {transactionsResult?.message && (
               <div
-                style={{
-                  padding: "12px 16px",
-                  background:
-                    transactionsResult.source === "none"
-                      ? "rgba(239, 68, 68, 0.1)"
-                      : "rgba(245, 158, 11, 0.1)",
-                  borderBottom: "1px solid rgba(0, 0, 0, 0.1)",
-                  fontSize: "0.85rem",
-                  color: transactionsResult.source === "none" ? "#ef4444" : "#f59e0b",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "8px",
-                }}
+                className={`tx-history-message ${transactionsResult.source === "none" ? "tx-history-message-error" : "tx-history-message-warning"}`}
               >
-                <span style={{ fontSize: "1rem" }}>
+                <span className="tx-history-message-icon">
                   {transactionsResult.source === "none" ? "⚠️" : "ℹ️"}
                 </span>
                 {transactionsResult.message}
@@ -1649,15 +1156,7 @@ const AddressDisplay: React.FC<AddressDisplayProps> = React.memo(
                           {tx.to ? (
                             <Link
                               to={`/${networkId}/address/${tx.to}`}
-                              style={{
-                                color:
-                                  tx.to?.toLowerCase() === addressHash.toLowerCase()
-                                    ? "#f59e0b"
-                                    : "#10b981",
-                                textDecoration: "none",
-                                fontFamily: "monospace",
-                                fontSize: "0.9rem",
-                              }}
+                              className={`tx-table-to-link ${tx.to?.toLowerCase() === addressHash.toLowerCase() ? "tx-table-to-link-self" : "tx-table-to-link-other"}`}
                             >
                               {tx.to?.toLowerCase() === addressHash.toLowerCase()
                                 ? "This Address"

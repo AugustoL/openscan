@@ -3301,3 +3301,491 @@
 	}
 }
 
+/* ============================================
+   Address Display Styles
+   ============================================ */
+
+/* Address Header */
+.address-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.address-header-left {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 8px;
+}
+
+.address-ens-name {
+	margin-left: 12px;
+	margin-right: 8px;
+	font-size: 1rem;
+	font-weight: 600;
+	color: #10b981;
+}
+
+/* Contract Functions Section */
+.contract-functions-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 8px;
+}
+
+.contract-functions-content {
+	margin-top: 8px;
+}
+
+.functions-section {
+	margin-bottom: 12px;
+}
+
+.functions-section-title {
+	font-size: 0.85rem;
+	font-weight: 600;
+	margin-bottom: 6px;
+}
+
+.functions-section-title-read {
+	color: #10b981;
+}
+
+.functions-section-title-write {
+	color: #f59e0b;
+}
+
+.functions-section-title-events {
+	color: #10b981;
+}
+
+.functions-list {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+}
+
+/* Wallet Connect Buttons */
+.wallet-hidden {
+	opacity: 0;
+	pointer-events: none;
+	user-select: none;
+}
+
+.btn-connect-wallet {
+	padding: 8px 16px;
+	background: rgba(16, 185, 129, 0.15);
+	color: #10b981;
+	border: 1px solid rgba(16, 185, 129, 0.3);
+	border-radius: 6px;
+	font-size: 0.85rem;
+	font-weight: 600;
+	cursor: pointer;
+	transition: all 0.2s;
+}
+
+.btn-connect-wallet:hover {
+	background: rgba(16, 185, 129, 0.25);
+}
+
+.btn-wrong-network {
+	padding: 8px 16px;
+	background: rgba(239, 68, 68, 0.15);
+	color: #ef4444;
+	border: 1px solid rgba(239, 68, 68, 0.3);
+	border-radius: 6px;
+	font-size: 0.85rem;
+	font-weight: 600;
+	cursor: pointer;
+}
+
+.wallet-connected-container {
+	display: flex;
+	gap: 8px;
+	align-items: center;
+}
+
+.btn-chain-selector {
+	padding: 6px 12px;
+	background: rgba(59, 130, 246, 0.15);
+	color: #3b82f6;
+	border: 1px solid rgba(59, 130, 246, 0.3);
+	border-radius: 6px;
+	font-size: 0.8rem;
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	cursor: pointer;
+}
+
+.btn-account {
+	padding: 6px 12px;
+	background: rgba(16, 185, 129, 0.15);
+	color: #10b981;
+	border: 1px solid rgba(16, 185, 129, 0.3);
+	border-radius: 6px;
+	font-size: 0.8rem;
+	cursor: pointer;
+	font-family: monospace;
+}
+
+.chain-icon {
+	width: 16px;
+	height: 16px;
+	border-radius: 50%;
+}
+
+/* Function Buttons */
+.btn-function {
+	padding: 4px 10px;
+	border-radius: 6px;
+	font-size: 0.8rem;
+	font-family: monospace;
+	cursor: pointer;
+	transition: all 0.2s;
+	border: 1px solid transparent;
+}
+
+.btn-function-read {
+	background: rgba(59, 130, 246, 0.15);
+	color: #3b82f6;
+}
+
+.btn-function-read:hover {
+	background: rgba(59, 130, 246, 0.25);
+}
+
+.btn-function-read.selected {
+	background: rgba(59, 130, 246, 0.3);
+	border-color: rgba(59, 130, 246, 0.5);
+}
+
+.btn-function-write {
+	background: rgba(245, 158, 11, 0.15);
+	color: #f59e0b;
+}
+
+.btn-function-write:hover {
+	background: rgba(245, 158, 11, 0.25);
+}
+
+.btn-function-write.selected {
+	background: rgba(245, 158, 11, 0.3);
+	border-color: rgba(245, 158, 11, 0.5);
+}
+
+/* Event Badge */
+.event-badge {
+	padding: 4px 10px;
+	background: rgba(139, 92, 246, 0.15);
+	color: #8b5cf6;
+	border-radius: 6px;
+	font-size: 0.8rem;
+	font-family: monospace;
+}
+
+.events-more {
+	color: rgba(255, 255, 255, 0.5);
+	font-size: 0.85rem;
+	align-self: center;
+}
+
+/* Function Forms */
+.function-form {
+	margin-top: 16px;
+	padding: 16px;
+	border-radius: 8px;
+}
+
+.function-form-read {
+	background: rgba(59, 130, 246, 0.05);
+	border: 1px solid rgba(59, 130, 246, 0.2);
+}
+
+.function-form-write {
+	background: rgba(245, 158, 11, 0.05);
+	border: 1px solid rgba(245, 158, 11, 0.2);
+}
+
+.function-form-title {
+	font-size: 0.9rem;
+	margin-bottom: 12px;
+	font-weight: 600;
+	font-family: monospace;
+}
+
+.function-form-title-read {
+	color: #3b82f6;
+}
+
+.function-form-title-write {
+	color: #f59e0b;
+}
+
+.function-inputs {
+	margin-bottom: 12px;
+}
+
+.function-input-label {
+	display: block;
+	margin-bottom: 10px;
+}
+
+.function-input-name {
+	display: block;
+	font-size: 0.8rem;
+	color: rgba(255, 255, 255, 0.7);
+	margin-bottom: 4px;
+	font-family: monospace;
+}
+
+.function-input {
+	width: 100%;
+	padding: 8px 12px;
+	background: rgba(0, 0, 0, 0.3);
+	border-radius: 6px;
+	color: #fff;
+	font-size: 0.85rem;
+	font-family: monospace;
+}
+
+.function-input-read {
+	border: 1px solid rgba(59, 130, 246, 0.3);
+}
+
+.function-input-write {
+	border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+.function-input-value {
+	border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.function-no-params {
+	font-size: 0.8rem;
+	color: #10b981;
+	margin-bottom: 12px;
+	font-style: italic;
+}
+
+/* Payable Badge */
+.payable-badge {
+	margin-left: 8px;
+	font-size: 0.75rem;
+	padding: 2px 6px;
+	background: rgba(16, 185, 129, 0.15);
+	color: #10b981;
+	border-radius: 4px;
+}
+
+/* Function Result */
+.function-result {
+	margin-bottom: 12px;
+	padding: 10px;
+	border-radius: 6px;
+	font-size: 0.85rem;
+	word-break: break-all;
+	font-family: monospace;
+}
+
+.function-result-success {
+	background: rgba(16, 185, 129, 0.1);
+	border: 1px solid rgba(16, 185, 129, 0.3);
+	color: #10b981;
+}
+
+.function-result-error {
+	background: rgba(239, 68, 68, 0.1);
+	border: 1px solid rgba(239, 68, 68, 0.3);
+	color: #ef4444;
+}
+
+.function-result-title {
+	font-weight: 600;
+	margin-bottom: 4px;
+}
+
+/* Function Action Buttons */
+.function-actions {
+	display: flex;
+	gap: 8px;
+}
+
+.btn-function-action {
+	padding: 10px 16px;
+	border-radius: 6px;
+	font-size: 0.85rem;
+	font-weight: 600;
+	cursor: pointer;
+	transition: all 0.2s;
+}
+
+.btn-query {
+	flex: 1;
+	background: rgba(59, 130, 246, 0.2);
+	color: #3b82f6;
+	border: 1px solid rgba(59, 130, 246, 0.4);
+}
+
+.btn-query:hover:not(:disabled) {
+	background: rgba(59, 130, 246, 0.3);
+}
+
+.btn-query:disabled {
+	background: rgba(59, 130, 246, 0.1);
+	color: rgba(59, 130, 246, 0.5);
+	cursor: not-allowed;
+	opacity: 0.6;
+}
+
+.btn-write-action {
+	flex: 1;
+	background: rgba(245, 158, 11, 0.2);
+	color: #f59e0b;
+	border: 1px solid rgba(245, 158, 11, 0.4);
+}
+
+.btn-write-action:hover:not(:disabled) {
+	background: rgba(245, 158, 11, 0.3);
+}
+
+.btn-write-action:disabled {
+	background: rgba(245, 158, 11, 0.1);
+	color: rgba(245, 158, 11, 0.5);
+	cursor: not-allowed;
+	opacity: 0.6;
+}
+
+.btn-cancel {
+	padding: 10px 16px;
+	background: rgba(239, 68, 68, 0.2);
+	color: #ef4444;
+	border: 1px solid rgba(239, 68, 68, 0.4);
+	border-radius: 6px;
+	font-size: 0.85rem;
+	font-weight: 600;
+	cursor: pointer;
+	transition: all 0.2s;
+}
+
+.btn-cancel:hover {
+	background: rgba(239, 68, 68, 0.3);
+}
+
+/* Transaction Status */
+.tx-status-box {
+	margin-bottom: 12px;
+	padding: 10px;
+	border-radius: 6px;
+	font-size: 0.85rem;
+}
+
+.tx-status-pending {
+	background: rgba(59, 130, 246, 0.1);
+	border: 1px solid rgba(59, 130, 246, 0.3);
+	color: #3b82f6;
+}
+
+.tx-status-success {
+	background: rgba(16, 185, 129, 0.1);
+	border: 1px solid rgba(16, 185, 129, 0.3);
+	color: #10b981;
+}
+
+.tx-status-error {
+	background: rgba(239, 68, 68, 0.1);
+	border: 1px solid rgba(239, 68, 68, 0.3);
+	color: #ef4444;
+}
+
+.tx-hash-link {
+	margin-top: 4px;
+	font-family: monospace;
+	font-size: 0.75rem;
+}
+
+.tx-hash-link a {
+	color: #10b981;
+	text-decoration: underline;
+}
+
+/* Sourcify Link */
+.sourcify-link {
+	color: #10b981;
+	text-decoration: none;
+	font-weight: 600;
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+}
+
+/* Transaction History Section */
+.tx-history-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.tx-history-status {
+	font-size: 0.85rem;
+	display: flex;
+	align-items: center;
+	gap: 6px;
+}
+
+.tx-history-status-complete {
+	color: #10b981;
+}
+
+.tx-history-status-partial {
+	color: #f59e0b;
+}
+
+.tx-history-status-none {
+	color: #ef4444;
+}
+
+.tx-history-dot {
+	font-size: 0.5rem;
+}
+
+.tx-history-message {
+	padding: 12px 16px;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+	font-size: 0.85rem;
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.tx-history-message-warning {
+	background: rgba(245, 158, 11, 0.1);
+	color: #f59e0b;
+}
+
+.tx-history-message-error {
+	background: rgba(239, 68, 68, 0.1);
+	color: #ef4444;
+}
+
+.tx-history-message-icon {
+	font-size: 1rem;
+}
+
+/* Transaction Table To Link */
+.tx-table-to-link {
+	text-decoration: none;
+	font-family: monospace;
+	font-size: 0.9rem;
+}
+
+.tx-table-to-link-self {
+	color: #f59e0b;
+}
+
+.tx-table-to-link-other {
+	color: #10b981;
+}
+
