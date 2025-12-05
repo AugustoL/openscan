@@ -1,8 +1,10 @@
 import type React from "react";
 import { useContext, useEffect, useMemo, useState } from "react";
+import { Link } from "react-router-dom";
 import { AppContext } from "../../../../context";
 import { useSourcify } from "../../../../hooks/useSourcify";
 import { fetchToken, getAssetUrl, type TokenMetadata } from "../../../../services/MetadataService";
+import { decodeAbiString } from "../../../../utils/hexUtils";
 import type {
   Address,
   AddressTransactionsResult,
@@ -12,8 +14,8 @@ import type {
   RPCMetadata,
   Transaction,
 } from "../../../../types";
-import ENSRecordsDisplay from "../ENSRecordsDisplay";
-import { AddressHeader, ContractDetails, ContractStorage, TransactionHistory } from "../shared";
+import ENSRecordsDetails from "../shared/ENSRecordsDisplay";
+import { AddressHeader, ContractDetails, TransactionHistory } from "../shared";
 
 interface ERC721DisplayProps {
   address: Address;
@@ -58,6 +60,7 @@ const ERC721Display: React.FC<ERC721DisplayProps> = ({
     symbol?: string;
     totalSupply?: string;
   } | null>(null);
+  const [tokenIdInput, setTokenIdInput] = useState("");
 
   // Fetch Sourcify data
   const {
@@ -113,26 +116,11 @@ const ERC721Display: React.FC<ERC721DisplayProps> = ({
       // Decode results
       const decoded: typeof onChainData = {};
 
-      const decodeString = (hex: string): string => {
-        try {
-          const data = hex.slice(2);
-          if (data.length >= 128) {
-            const lengthHex = data.slice(64, 128);
-            const length = parseInt(lengthHex, 16);
-            const strHex = data.slice(128, 128 + length * 2);
-            return Buffer.from(strHex, "hex").toString("utf8");
-          }
-          return "";
-        } catch {
-          return "";
-        }
-      };
-
       if (results.name) {
-        decoded.name = decodeString(results.name);
+        decoded.name = decodeAbiString(results.name);
       }
       if (results.symbol) {
-        decoded.symbol = decodeString(results.symbol);
+        decoded.symbol = decodeAbiString(results.symbol);
       }
       if (results.totalSupply) {
         decoded.totalSupply = BigInt(results.totalSupply).toString();
@@ -299,9 +287,38 @@ const ERC721Display: React.FC<ERC721DisplayProps> = ({
           </div>
         </div>
 
+        {/* Token ID Lookup */}
+        <div className="tx-details">
+          <div className="tx-section">
+            <span className="tx-section-title">View NFT</span>
+          </div>
+          <div className="erc721-token-lookup">
+            <div className="erc721-token-lookup-row">
+              <input
+                type="text"
+                placeholder="Enter Token ID"
+                value={tokenIdInput}
+                onChange={(e) => setTokenIdInput(e.target.value)}
+                className="erc721-token-input"
+              />
+              <Link
+                to={tokenIdInput ? `/${networkId}/address/${addressHash}/${tokenIdInput}` : "#"}
+                className={`erc721-view-button ${!tokenIdInput ? "disabled" : ""}`}
+                onClick={(e) => {
+                  if (!tokenIdInput) {
+                    e.preventDefault();
+                  }
+                }}
+              >
+                View NFT
+              </Link>
+            </div>
+          </div>
+        </div>
+
         {/* ENS Records Section */}
         {(ensName || reverseResult?.ensName || ensLoading) && (
-          <ENSRecordsDisplay
+          <ENSRecordsDetails
             ensName={ensName || null}
             reverseResult={reverseResult}
             records={ensRecords}

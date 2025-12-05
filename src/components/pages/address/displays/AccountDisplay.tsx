@@ -8,7 +8,7 @@ import type {
   RPCMetadata,
   Transaction,
 } from "../../../../types";
-import ENSRecordsDisplay from "../ENSRecordsDisplay";
+import ENSRecordsDetails from "../shared/ENSRecordsDisplay";
 import { AddressHeader, BalanceSection, TransactionHistory } from "../shared";
 
 interface AccountDisplayProps {
@@ -64,7 +64,7 @@ const AccountDisplay: React.FC<AccountDisplayProps> = ({
 
         {/* ENS Records Section */}
         {(ensName || reverseResult?.ensName || ensLoading) && (
-          <ENSRecordsDisplay
+          <ENSRecordsDetails
             ensName={ensName || null}
             reverseResult={reverseResult}
             records={ensRecords}

@@ -11,7 +11,7 @@ import type {
   RPCMetadata,
   Transaction,
 } from "../../../../types";
-import ENSRecordsDisplay from "../ENSRecordsDisplay";
+import ENSRecordsDetails from "../shared/ENSRecordsDisplay";
 import { AddressHeader, ContractDetails, ContractStorage, TransactionHistory } from "../shared";
 
 interface ContractDisplayProps {
@@ -187,7 +187,7 @@ const ContractDisplay: React.FC<ContractDisplayProps> = ({
 
         {/* ENS Records Section */}
         {(ensName || reverseResult?.ensName || ensLoading) && (
-          <ENSRecordsDisplay
+          <ENSRecordsDetails
             ensName={ensName || null}
             reverseResult={reverseResult}
             records={ensRecords}

@@ -1,5 +1,14 @@
 /* Reusable Component Styles */
 
+/* Utility Classes */
+.hidden {
+	display: none;
+}
+
+.word-break-all {
+	word-break: break-all;
+}
+
 /* Transaction Details - Row-based layout (Etherscan style) */
 .tx-details {
 	display: flex;
@@ -3872,5 +3881,542 @@
 .token-standard-erc1155 {
 	background: rgba(236, 72, 153, 0.1);
 	color: #ec4899;
+}
+
+/* ERC1155 Token Detail Page */
+.erc1155-header {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+}
+
+.erc1155-header-title {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	gap: 8px;
+}
+
+.erc1155-token-name {
+	font-size: 1.25rem;
+	font-weight: 600;
+	color: var(--text-color, #1f2937);
+}
+
+.erc1155-detail-content {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+	padding: 16px;
+}
+
+.erc1155-main-section {
+	display: flex;
+	gap: 24px;
+	flex-wrap: wrap;
+}
+
+.erc1155-image-container {
+	flex-shrink: 0;
+	width: 300px;
+	max-width: 100%;
+}
+
+.erc1155-token-image {
+	width: 100%;
+	height: auto;
+	border-radius: 12px;
+	object-fit: cover;
+	background: rgba(0, 0, 0, 0.1);
+}
+
+.erc1155-main-section .tx-details {
+	flex: 1;
+	min-width: 300px;
+}
+
+/* Attributes Grid */
+.erc1155-attributes-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+	gap: 12px;
+	padding: 16px;
+}
+
+.erc1155-attribute-card {
+	display: flex;
+	flex-direction: column;
+	padding: 12px;
+	background: rgba(236, 72, 153, 0.05);
+	border: 1px solid rgba(236, 72, 153, 0.2);
+	border-radius: 8px;
+	text-align: center;
+}
+
+.erc1155-attribute-type {
+	font-size: 0.75rem;
+	font-weight: 600;
+	color: #ec4899;
+	text-transform: uppercase;
+	letter-spacing: 0.5px;
+	margin-bottom: 4px;
+}
+
+.erc1155-attribute-value {
+	font-size: 0.9rem;
+	font-weight: 500;
+	color: var(--text-color, #1f2937);
+	word-break: break-word;
+}
+
+/* Balance Lookup */
+.erc1155-balance-lookup {
+	padding: 16px;
+}
+
+.erc1155-balance-input-row {
+	display: flex;
+	gap: 12px;
+	flex-wrap: wrap;
+}
+
+.erc1155-balance-input {
+	flex: 1;
+	min-width: 250px;
+	padding: 10px 14px;
+	border: 1px solid rgba(0, 0, 0, 0.1);
+	border-radius: 6px;
+	font-size: 0.9rem;
+	font-family: monospace;
+	background: var(--bg-color, #fff);
+	color: var(--text-color, #1f2937);
+}
+
+.erc1155-balance-input:focus {
+	outline: none;
+	border-color: #ec4899;
+	box-shadow: 0 0 0 2px rgba(236, 72, 153, 0.1);
+}
+
+.erc1155-balance-button {
+	padding: 10px 20px;
+	background: #ec4899;
+	color: white;
+	border: none;
+	border-radius: 6px;
+	font-size: 0.9rem;
+	font-weight: 500;
+	cursor: pointer;
+	transition: background 0.2s;
+}
+
+.erc1155-balance-button:hover {
+	background: #db2777;
+}
+
+.erc1155-balance-button:disabled {
+	background: #9ca3af;
+	cursor: not-allowed;
+}
+
+.erc1155-balance-error {
+	margin-top: 12px;
+	padding: 8px 12px;
+	background: rgba(239, 68, 68, 0.1);
+	color: #ef4444;
+	border-radius: 6px;
+	font-size: 0.85rem;
+}
+
+.erc1155-balance-result {
+	margin-top: 12px;
+	padding: 12px 16px;
+	background: rgba(16, 185, 129, 0.1);
+	border-radius: 6px;
+	display: flex;
+	align-items: center;
+	gap: 12px;
+}
+
+.erc1155-balance-label {
+	font-size: 0.9rem;
+	color: var(--text-secondary, #6b7280);
+}
+
+.erc1155-balance-value {
+	font-size: 1.1rem;
+	font-weight: 600;
+	color: #10b981;
+	font-family: monospace;
+}
+
+/* Token ID Input for ERC1155 Contract Page */
+.erc1155-token-lookup {
+	padding: 16px;
+}
+
+.erc1155-token-lookup-row {
+	display: flex;
+	gap: 12px;
+	flex-wrap: wrap;
+}
+
+.erc1155-token-input {
+	flex: 1;
+	min-width: 150px;
+	max-width: 300px;
+	padding: 10px 14px;
+	border: 1px solid rgba(0, 0, 0, 0.1);
+	border-radius: 6px;
+	font-size: 0.9rem;
+	font-family: monospace;
+	background: var(--bg-color, #fff);
+	color: var(--text-color, #1f2937);
+}
+
+.erc1155-token-input:focus {
+	outline: none;
+	border-color: #ec4899;
+	box-shadow: 0 0 0 2px rgba(236, 72, 153, 0.1);
+}
+
+.erc1155-view-button {
+	padding: 10px 20px;
+	background: #ec4899;
+	color: white;
+	border: none;
+	border-radius: 6px;
+	font-size: 0.9rem;
+	font-weight: 500;
+	cursor: pointer;
+	transition: background 0.2s;
+	text-decoration: none;
+	display: inline-flex;
+	align-items: center;
+}
+
+.erc1155-view-button:hover {
+	background: #db2777;
+}
+
+.erc1155-view-button.disabled {
+	background: #9ca3af;
+	cursor: not-allowed;
+	pointer-events: none;
+}
+
+/* ERC721 Token Detail Page */
+.erc721-header {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+}
+
+.erc721-header-title {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	gap: 8px;
+}
+
+.erc721-token-name {
+	font-size: 1.25rem;
+	font-weight: 600;
+	color: var(--text-color, #1f2937);
+}
+
+.erc721-detail-content {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+	padding: 16px;
+}
+
+.erc721-main-section {
+	display: flex;
+	gap: 24px;
+	flex-wrap: wrap;
+}
+
+.erc721-image-container {
+	flex-shrink: 0;
+	width: 300px;
+	max-width: 100%;
+}
+
+.erc721-token-image {
+	width: 100%;
+	height: auto;
+	border-radius: 12px;
+	object-fit: cover;
+	background: rgba(0, 0, 0, 0.1);
+}
+
+.erc721-main-section .tx-details {
+	flex: 1;
+	min-width: 300px;
+}
+
+/* ERC721 Attributes Grid */
+.erc721-attributes-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+	gap: 12px;
+	padding: 16px;
+}
+
+.erc721-attribute-card {
+	display: flex;
+	flex-direction: column;
+	padding: 12px;
+	background: rgba(139, 92, 246, 0.05);
+	border: 1px solid rgba(139, 92, 246, 0.2);
+	border-radius: 8px;
+	text-align: center;
+}
+
+.erc721-attribute-type {
+	font-size: 0.75rem;
+	font-weight: 600;
+	color: #8b5cf6;
+	text-transform: uppercase;
+	letter-spacing: 0.5px;
+	margin-bottom: 4px;
+}
+
+.erc721-attribute-value {
+	font-size: 0.9rem;
+	font-weight: 500;
+	color: var(--text-color, #1f2937);
+	word-break: break-word;
+}
+
+/* ERC721 Token ID Input for Contract Page */
+.erc721-token-lookup {
+	padding: 16px;
+}
+
+.erc721-token-lookup-row {
+	display: flex;
+	gap: 12px;
+	flex-wrap: wrap;
+}
+
+.erc721-token-input {
+	flex: 1;
+	min-width: 150px;
+	max-width: 300px;
+	padding: 10px 14px;
+	border: 1px solid rgba(0, 0, 0, 0.1);
+	border-radius: 6px;
+	font-size: 0.9rem;
+	font-family: monospace;
+	background: var(--bg-color, #fff);
+	color: var(--text-color, #1f2937);
+}
+
+.erc721-token-input:focus {
+	outline: none;
+	border-color: #8b5cf6;
+	box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.1);
+}
+
+.erc721-view-button {
+	padding: 10px 20px;
+	background: #8b5cf6;
+	color: white;
+	border: none;
+	border-radius: 6px;
+	font-size: 0.9rem;
+	font-weight: 500;
+	cursor: pointer;
+	transition: background 0.2s;
+	text-decoration: none;
+	display: inline-flex;
+	align-items: center;
+}
+
+.erc721-view-button:hover {
+	background: #7c3aed;
+}
+
+.erc721-view-button.disabled {
+	background: #9ca3af;
+	cursor: not-allowed;
+	pointer-events: none;
+}
+
+/* NFT Transfer History Table */
+.nft-transfers-table-container {
+	overflow-x: auto;
+	padding: 0 16px 16px;
+}
+
+.nft-transfers-table {
+	width: 100%;
+	border-collapse: collapse;
+	font-size: 0.875rem;
+}
+
+.nft-transfers-table th {
+	text-align: left;
+	padding: 12px 8px;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+	font-weight: 600;
+	color: var(--text-secondary, #6b7280);
+	white-space: nowrap;
+}
+
+.nft-transfers-table td {
+	padding: 12px 8px;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+	vertical-align: middle;
+}
+
+.nft-transfers-table tbody tr:hover {
+	background: rgba(0, 0, 0, 0.02);
+}
+
+.nft-transfers-loading {
+	padding: 24px 16px;
+	text-align: center;
+}
+
+.nft-transfers-empty {
+	padding: 24px 16px;
+	text-align: center;
+	color: var(--text-secondary, #6b7280);
+	font-style: italic;
+}
+
+.nft-transfers-more {
+	padding: 12px 16px;
+	text-align: center;
+	color: var(--text-secondary, #6b7280);
+	font-size: 0.85rem;
+	border-top: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+/* NFT Action Badges */
+.nft-action-badge {
+	display: inline-block;
+	padding: 4px 8px;
+	border-radius: 4px;
+	font-size: 0.75rem;
+	font-weight: 600;
+	text-transform: uppercase;
+}
+
+.nft-action-transfer {
+	background: rgba(59, 130, 246, 0.1);
+	color: #3b82f6;
+}
+
+.nft-action-mint {
+	background: rgba(16, 185, 129, 0.1);
+	color: #10b981;
+}
+
+.nft-action-burn {
+	background: rgba(239, 68, 68, 0.1);
+	color: #ef4444;
+}
+
+/* Null Address styling */
+.null-address {
+	color: var(--text-secondary, #6b7280);
+	font-style: italic;
+}
+
+/* Section count badge */
+.tx-section-count {
+	margin-left: 8px;
+	padding: 2px 8px;
+	background: rgba(0, 0, 0, 0.05);
+	border-radius: 12px;
+	font-size: 0.75rem;
+	font-weight: 500;
+	color: var(--text-secondary, #6b7280);
+}
+
+/* NFT Collection Link */
+.nft-collection-link {
+	display: inline-block;
+	font-size: 1.1rem;
+	font-weight: 600;
+	color: var(--primary-color, #3b82f6);
+	text-decoration: none;
+}
+
+.nft-collection-link:hover {
+	text-decoration: underline;
+}
+
+.nft-collection-symbol {
+	margin-left: 6px;
+	font-weight: 400;
+	color: var(--text-secondary, #6b7280);
+}
+
+/* NFT Description */
+.nft-description {
+	padding: 12px 16px;
+	line-height: 1.6;
+	color: var(--text-primary, #1f2937);
+	white-space: pre-wrap;
+}
+
+/* NFT Links Section */
+.nft-links {
+	padding: 12px 16px;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 12px;
+}
+
+.nft-link-button {
+	display: inline-flex;
+	align-items: center;
+	padding: 8px 16px;
+	background: rgba(59, 130, 246, 0.1);
+	color: #3b82f6;
+	border-radius: 6px;
+	text-decoration: none;
+	font-size: 0.9rem;
+	font-weight: 500;
+	transition: background 0.2s ease;
+}
+
+.nft-link-button:hover {
+	background: rgba(59, 130, 246, 0.2);
+}
+
+/* NFT Token URI Section */
+.nft-token-uri {
+	padding: 12px 16px;
+	display: flex;
+	flex-direction: row;
+	align-items: flex-start;
+	gap: 12px;
+}
+
+.nft-token-uri-code {
+	flex: 1;
+	padding: 12px;
+	background: rgba(0, 0, 0, 0.03);
+	border-radius: 6px;
+	font-family: "SF Mono", "Monaco", "Inconsolata", "Roboto Mono", monospace;
+	font-size: 0.85rem;
+	line-height: 1.5;
+	word-break: break-all;
+	white-space: pre-wrap;
+	color: var(--text-primary, #1f2937);
+	overflow-x: auto;
+	max-height: 200px;
+	overflow-y: auto;
+}
+
+.nft-token-uri-link {
+	flex-shrink: 0;
 }
 

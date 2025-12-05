@@ -1,8 +1,10 @@
 import type React from "react";
 import { useContext, useEffect, useMemo, useState } from "react";
+import { Link } from "react-router-dom";
 import { AppContext } from "../../../../context";
 import { useSourcify } from "../../../../hooks/useSourcify";
 import { fetchToken, getAssetUrl, type TokenMetadata } from "../../../../services/MetadataService";
+import { decodeAbiString } from "../../../../utils/hexUtils";
 import type {
   Address,
   AddressTransactionsResult,
@@ -12,8 +14,8 @@ import type {
   RPCMetadata,
   Transaction,
 } from "../../../../types";
-import ENSRecordsDisplay from "../ENSRecordsDisplay";
-import { AddressHeader, ContractDetails, ContractStorage, TransactionHistory } from "../shared";
+import ENSRecordsDetails from "../shared/ENSRecordsDisplay";
+import { AddressHeader, ContractDetails, TransactionHistory } from "../shared";
 
 interface ERC1155DisplayProps {
   address: Address;
@@ -55,7 +57,10 @@ const ERC1155Display: React.FC<ERC1155DisplayProps> = ({
   const [tokenMetadata, setTokenMetadata] = useState<TokenMetadata | null>(null);
   const [onChainData, setOnChainData] = useState<{
     uri?: string;
+    name?: string;
+    symbol?: string;
   } | null>(null);
+  const [tokenIdInput, setTokenIdInput] = useState("");
 
   // Fetch Sourcify data
   const {
@@ -79,6 +84,38 @@ const ERC1155Display: React.FC<ERC1155DisplayProps> = ({
       const rpcUrl = Array.isArray(rpcUrlsForChain) ? rpcUrlsForChain[0] : rpcUrlsForChain;
       if (!rpcUrl) return;
 
+      const results: { uri?: string; name?: string; symbol?: string } = {};
+
+      // Fetch name and symbol
+      const calls = [
+        { selector: "0x06fdde03", key: "name" }, // name()
+        { selector: "0x95d89b41", key: "symbol" }, // symbol()
+      ];
+
+      for (const call of calls) {
+        try {
+          const response = await fetch(rpcUrl, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              jsonrpc: "2.0",
+              method: "eth_call",
+              params: [{ to: addressHash, data: call.selector }, "latest"],
+              id: 1,
+            }),
+          });
+          const data = await response.json();
+          if (!data.error && data.result && data.result !== "0x") {
+            const decoded = decodeAbiString(data.result);
+            if (decoded) {
+              results[call.key as "name" | "symbol"] = decoded;
+            }
+          }
+        } catch {
+          // Continue
+        }
+      }
+
       // Try to get URI for token ID 0 as a sample
       // uri(uint256) with tokenId = 0
       const uriSelector =
@@ -97,18 +134,17 @@ const ERC1155Display: React.FC<ERC1155DisplayProps> = ({
         });
         const data = await response.json();
         if (!data.error && data.result && data.result !== "0x") {
-          // Decode string
-          const hex = data.result.slice(2);
-          if (hex.length >= 128) {
-            const lengthHex = hex.slice(64, 128);
-            const length = parseInt(lengthHex, 16);
-            const strHex = hex.slice(128, 128 + length * 2);
-            const uri = Buffer.from(strHex, "hex").toString("utf8");
-            setOnChainData({ uri });
+          const uri = decodeAbiString(data.result);
+          if (uri) {
+            results.uri = uri;
           }
         }
       } catch {
         // Continue
+      }
+
+      if (Object.keys(results).length > 0) {
+        setOnChainData(results);
       }
     };
 
@@ -157,8 +193,8 @@ const ERC1155Display: React.FC<ERC1155DisplayProps> = ({
   const hasVerifiedContract = isVerified || parsedLocalData;
 
   // Combine token data
-  const collectionName = tokenMetadata?.name || contractData?.name;
-  const collectionSymbol = tokenMetadata?.symbol;
+  const collectionName = tokenMetadata?.name || onChainData?.name || contractData?.name;
+  const collectionSymbol = tokenMetadata?.symbol || onChainData?.symbol;
   const collectionLogo = tokenMetadata?.logo
     ? getAssetUrl(tokenMetadata.logo)
     : getAssetUrl(`assets/tokens/${networkId}/${addressHash.toLowerCase()}.png`);
@@ -217,7 +253,7 @@ const ERC1155Display: React.FC<ERC1155DisplayProps> = ({
             <div className="tx-row">
               <span className="tx-label">Metadata URI:</span>
               <span className="tx-value">
-                <span className="tx-mono" style={{ wordBreak: "break-all" }}>
+                <span className="tx-mono word-break-all">
                   {onChainData.uri.length > 60
                     ? `${onChainData.uri.slice(0, 60)}...`
                     : onChainData.uri}
@@ -275,9 +311,38 @@ const ERC1155Display: React.FC<ERC1155DisplayProps> = ({
           </div>
         </div>
 
+        {/* Token ID Lookup */}
+        <div className="tx-details">
+          <div className="tx-section">
+            <span className="tx-section-title">View Token</span>
+          </div>
+          <div className="erc1155-token-lookup">
+            <div className="erc1155-token-lookup-row">
+              <input
+                type="text"
+                placeholder="Enter Token ID"
+                value={tokenIdInput}
+                onChange={(e) => setTokenIdInput(e.target.value)}
+                className="erc1155-token-input"
+              />
+              <Link
+                to={tokenIdInput ? `/${networkId}/address/${addressHash}/${tokenIdInput}` : "#"}
+                className={`erc1155-view-button ${!tokenIdInput ? "disabled" : ""}`}
+                onClick={(e) => {
+                  if (!tokenIdInput) {
+                    e.preventDefault();
+                  }
+                }}
+              >
+                View Token
+              </Link>
+            </div>
+          </div>
+        </div>
+
         {/* ENS Records Section */}
         {(ensName || reverseResult?.ensName || ensLoading) && (
-          <ENSRecordsDisplay
+          <ENSRecordsDetails
             ensName={ensName || null}
             reverseResult={reverseResult}
             records={ensRecords}

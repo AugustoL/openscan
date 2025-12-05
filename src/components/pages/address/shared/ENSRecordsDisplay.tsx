@@ -1,6 +1,6 @@
 import type React from "react";
 import { useState } from "react";
-import type { DecodedContenthash, ENSRecords, ENSReverseResult } from "../../../types";
+import type { DecodedContenthash, ENSRecords, ENSReverseResult } from "../../../../types";
 
 interface ENSRecordsDisplayProps {
   ensName: string | null;

@@ -12,8 +12,8 @@ import type {
   RPCMetadata,
   Transaction,
 } from "../../../../types";
-import ENSRecordsDisplay from "../ENSRecordsDisplay";
-import { AddressHeader, ContractDetails, ContractStorage, TransactionHistory } from "../shared";
+import ENSRecordsDetails from "../shared/ENSRecordsDisplay";
+import { AddressHeader, ContractDetails, TransactionHistory } from "../shared";
 
 interface ERC20DisplayProps {
   address: Address;
@@ -325,7 +325,7 @@ const ERC20Display: React.FC<ERC20DisplayProps> = ({
 
         {/* ENS Records Section */}
         {(ensName || reverseResult?.ensName || ensLoading) && (
-          <ENSRecordsDisplay
+          <ENSRecordsDetails
             ensName={ensName || null}
             reverseResult={reverseResult}
             records={ensRecords}
